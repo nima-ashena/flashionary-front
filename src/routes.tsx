@@ -1,0 +1,108 @@
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+import { getUserApi } from './api/auth.service';
+// import VocabDict from './pages/vocabs/VocabDict-old';
+import VocabDict from './pages/vocabs/vocabDict';
+import Home from './pages/Home';
+import AddSentence from './pages/sentences/addSentence';
+import Sentences from './pages/sentences/ Sentences';
+import EditSentence from './pages/sentences/editSentence';
+import SentenceReview from './pages/sentences/SentenceReview';
+import Story from './pages/sentences/story/Stories';
+import ShowStory from './pages/sentences/story/ShowStory';
+import EditStory from './pages/sentences/story/EditStory';
+import Header from './components/Header';
+import AddVocab from './pages/vocabs/addVocab';
+import EditVocab from './pages/vocabs/editVocab';
+import Vocabs from './pages/vocabs/Vocabs';
+import SignIn from './pages/auth/SignIn';
+import Test from './pages/test/Test';
+import Setting from './pages/auth/Setting';
+
+const RoutesHandle = () => {
+   useEffect(() => {}, []);
+
+   return (
+      <>
+         <Header />
+         <PublicRoute>
+            <Routes>
+               <Route path="/sign-in" element={<SignIn />} />
+            </Routes>
+         </PublicRoute>
+         <PrivateRoute>
+            <Routes>
+               <Route path="/" element={<Home />} />
+               <Route path="/vocabs/add" element={<AddVocab />} />
+               <Route path="vocabs" element={<Vocabs />} />
+               <Route path="/vocabs/edit/:vocabId" element={<EditVocab />} />
+               <Route path="/vocabs/dict" element={<VocabDict />} />
+               <Route path="/sentences/add" element={<AddSentence />} />
+               <Route path="/sentences" element={<Sentences />} />
+               <Route
+                  path="/sentences/edit/:sentenceId"
+                  element={<EditSentence />}
+               />
+               <Route
+                  path="/sentences/review/:storyId"
+                  element={<SentenceReview />}
+               />
+               <Route path="/sentences/stories" element={<Story />} />
+               <Route
+                  path="/sentences/stories/show/:storyId"
+                  element={<ShowStory />}
+               />
+               <Route
+                  path="/sentences/stories/edit/:storyId"
+                  element={<EditStory />}
+               />
+               <Route path="/user/setting" element={<Setting />} />
+               <Route path="/test" element={<Test />} />
+            </Routes>
+         </PrivateRoute>
+      </>
+   );
+};
+
+const PrivateRoute = (props: any) => {
+   const navigate = useNavigate();
+
+   useEffect(() => {
+      if (!localStorage.getItem('AuthToken')) {
+         navigate('/sign-in');
+      } else {
+         getUserApi((isOk: boolean, result) => {
+            if (isOk) {
+               // navigate('/');
+            } else {
+               navigate('/sign-in');
+            }
+         });
+      }
+   }, []);
+
+   return <>{props.children}</>;
+};
+const PublicRoute = (props: any) => {
+   const navigate = useNavigate();
+
+   useEffect(() => {
+      if (!localStorage.getItem('AuthToken')) {
+         navigate('/sign-in');
+      } else {
+         // console.log('Auth Token');
+         getUserApi((isOk: boolean) => {
+            if (isOk) {
+               // navigate('/');
+            } else {
+               navigate('/sign-in');
+            }
+         });
+      }
+   }, []);
+
+   return <>{props.children}</>;
+};
+
+export default RoutesHandle;
