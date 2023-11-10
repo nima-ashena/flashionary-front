@@ -294,7 +294,7 @@ const VocabDict = () => {
                )}
                {!hardMode && (
                   <>
-                     <ProgressBar now={accurate} />
+                     <ProgressBar now={accurate} label={p} />
                      <p className="" style={{ fontSize: 28 }}>
                         {p}
                      </p>
@@ -402,7 +402,7 @@ const VocabDict = () => {
          {/* Modal */}
          <Modal show={showModal} onHide={handleModalClose}>
             <Modal.Header closeButton>
-               <Modal.Title>Review done. Do you want do it again?</Modal.Title>
+               <Modal.Title>Review done. Do you want to do it again?</Modal.Title>
             </Modal.Header>
             <Modal.Footer>
                <Button variant="secondary" onClick={handleModalClose}>

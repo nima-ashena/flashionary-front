@@ -82,7 +82,6 @@ const AddVocab = () => {
                   className="form-select"
                   aria-label="Default select example"
                   onChange={e => {
-                     console.log(e.target.value);
                      setVocabData({ ...vocabData, type: e.target.value });
                   }}
                >
