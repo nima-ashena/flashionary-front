@@ -85,9 +85,9 @@ const Header = () => {
                <Link to={'/vocabs'} onClick={closeSidebar}>
                   Vocabs
                </Link>
-               {/* <Link to={'/vocabs/vocab-groups'} onClick={closeSidebar}>
+               <Link to={'/vocabs/vocab-groups'} onClick={closeSidebar}>
                   Vocab Groups <span style={{color: 'red'}}>Not Ready</span>
-               </Link> */}
+               </Link>
                <Link to={'/vocabs/dict'} onClick={closeSidebar}>
                   Dict Review
                </Link>

@@ -2,8 +2,9 @@ import { FC, useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { cloneVocabApi, deleteVocabApi } from '../../api/vocab.service';
-import { IVocab } from '../../interface/vocab.interface';
+import { cloneVocabApi, deleteVocabApi } from '../../../api/vocab.service';
+import { IVocab } from '../../../interface/vocab.interface';
+import VocabViewModal from './VocabView';
 
 // const Vocab = ({ vocab }: { vocab: IVocab }, renderValue: boolean) => {
 const Vocab = (props: any) => {
@@ -25,6 +26,7 @@ const Vocab = (props: any) => {
 
    const [showDeleteModal, setShowDeleteModal] = useState(false);
    const [showCloneModal, setShowCloneModal] = useState(false);
+   const [showModal, setShowModal] = useState(false);
 
    const deleteVocabClick = () => {
       setShowDeleteModal(false);
@@ -97,6 +99,14 @@ const Vocab = (props: any) => {
                      {vocab.meaning ? vocab.meaning : 'x'}
                   </p>
                   <div>
+                     <Link
+                        to={``}
+                        className="btn my-1"
+                        style={{ color: 'green' }}
+                        onClick={() => {setShowModal(true)}}
+                     >
+                        <i className="bi bi-eye" />
+                     </Link>
                      {!isThisUserOwnVocab && (
                         <Link
                            to={``}
@@ -182,6 +192,12 @@ const Vocab = (props: any) => {
                            </Button>
                         </Modal.Footer>
                      </Modal>
+
+                     <VocabViewModal
+                        vocabId={vocab._id}
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                     />
                   </div>
                </div>
             </div>

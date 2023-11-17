@@ -9,16 +9,16 @@ export interface IAddSentence {
 }
 
 export interface ISentence {
-   _id: string;
+   _id?: string;
    context: string;
    meaning?: string;
-   audio: string;
-   note: string;
+   audio?: string;
+   note?: string;
    is_disable?: Boolean;
    true_guess_count?: Number;
    story?: string;
    vocab?: string;
    completed?: Boolean;
-   type: string;
+   type?: string;
    user?: string;
 }

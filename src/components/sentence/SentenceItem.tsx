@@ -53,10 +53,7 @@ const SentenceItem = (props: any) => {
          <ListGroup.Item
             as="li"
             className=""
-            // className="d-flex justify-content-between align-items-start"
          >
-            {/* <div className="ms-2 me-auto col-12 col-md-3"> */}
-
             <div className="row">
                <div className="col-12 col-md-8 col-lg-9">
                   <div className="fw-bold mb-2">{item.context}</div>
@@ -77,9 +74,7 @@ const SentenceItem = (props: any) => {
 
                <div
                   className="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-start"
-                  // style={{ backgroundColor: 'pink' }}
                >
-                  {/* <div className="col-12 col-md-4 d-flex justify-content-center align-items-center"> */}
                   <button
                      type="button"
                      className="btn btn-secondary m-1"

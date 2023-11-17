@@ -7,7 +7,7 @@ import { getStoriesApi } from '../../api/story.service';
 import PaginationN, {
    generatePaginationItems,
 } from '../../components/pagination/Pagination';
-import Sentence from '../../components/sentence/Sentence';
+import Sentence from './components/Sentence';
 import { IPaginationItem } from '../../interface/common.interface';
 import { ISentence } from '../../interface/sentence.interface';
 import { IStory } from '../../interface/story.interface';

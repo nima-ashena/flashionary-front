@@ -5,8 +5,9 @@ import { toast } from 'react-toastify';
 import {
    cloneSentenceApi,
    deleteSentenceApi,
-} from '../../api/sentence.service';
-import { ISentence } from '../../interface/sentence.interface';
+} from '../../../api/sentence.service';
+import { ISentence } from '../../../interface/sentence.interface';
+import SentenceViewModal from './SentenceView';
 
 // const Sentence = ({ sentence }: { sentence: ISentence }, renderValue: boolean) => {
 const Sentence = (props: any) => {
@@ -21,6 +22,7 @@ const Sentence = (props: any) => {
 
    const [showDeleteModal, setShowDeleteModal] = useState(false);
    const [showCloneModal, setShowCloneModal] = useState(false);
+   const [showModal, setShowModal] = useState(false);
 
    useEffect(() => {
       if (userId !== sentence.user) {
@@ -99,6 +101,16 @@ const Sentence = (props: any) => {
                      {sentence.meaning ? sentence.meaning : 'x'}
                   </p>
                   <div>
+                     <Link
+                        to={``}
+                        className="btn my-1"
+                        style={{ color: 'green' }}
+                        onClick={() => {
+                           setShowModal(true);
+                        }}
+                     >
+                        <i className="bi bi-eye" />
+                     </Link>
                      {!isThisUserOwnVocab && (
                         <Link
                            to={``}
@@ -184,6 +196,11 @@ const Sentence = (props: any) => {
                            </Button>
                         </Modal.Footer>
                      </Modal>
+                     <SentenceViewModal
+                        sentenceId={sentence._id}
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                     />
                   </div>
                </div>
             </div>
