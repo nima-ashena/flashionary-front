@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { addVocabApi } from '../../api/vocab.service';
 import { IAddVocab } from '../../interface/vocab.interface';
+import { compoundTypes } from '../../utils/constants';
 
 const AddVocab = () => {
    const primaryData: IAddVocab = {
@@ -49,15 +50,15 @@ const AddVocab = () => {
    return (
       <div className="container">
          <form
-            className="pt-3 col-sm-8 col-md-6 col-lg-4"
+            className="pt-3 col-12 col-md-8 col-lg-6"
             onSubmit={event => {
                addVocabClick(event);
             }}
          >
             <div className="mb-3">
                <label className="form-label">Title (*required)</label>
-               <input
-                  type="text"
+               <textarea
+                  rows={1}
                   className="form-control"
                   onChange={e => {
                      setVocabData({ ...vocabData, title: e.target.value });
@@ -94,15 +95,18 @@ const AddVocab = () => {
                </select>
             </div>
             <div className="mb-3">
-               <label className="form-label">Example</label>
-               <textarea
-                  className="form-control"
+               <label className="form-label">Compound Type</label>
+               <select
+                  className="form-select"
+                  aria-label="Default select example"
                   onChange={e => {
-                     setVocabData({ ...vocabData, example: e.target.value });
+                     setVocabData({ ...vocabData, compoundType: e.target.value });
                   }}
-                  value={vocabData.example}
-                  rows={3}
-               ></textarea>
+               >
+                  {compoundTypes.map(item => (
+                     <option value={item}>{item}</option>
+                  ))}
+               </select>
             </div>
             <div className="mb-3">
                <label className="form-label">Definition</label>
@@ -140,17 +144,6 @@ const AddVocab = () => {
                />
                <label className="form-check-label">Dictionary Api</label>
             </div>
-            {/* <div className="form-check mb-1">
-               <input
-                  className="form-check-input"
-                  type="checkbox"
-                  onChange={e => {
-                     setVocabData({ ...vocabData, audioApi: e.target.checked });
-                  }}
-                  checked={vocabData.audioApi}
-               />
-               <label className="form-check-label">Audio Api</label>
-            </div> */}
             <div className="form-check mb-3">
                <input
                   className="form-check-input"

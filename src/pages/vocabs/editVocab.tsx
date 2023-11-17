@@ -14,6 +14,7 @@ import {
 import { editVocabApi } from '../../api/vocab.service';
 import { ISentence } from '../../interface/sentence.interface';
 import SentenceItem from '../../components/sentence/SentenceItem';
+import { compoundTypes } from '../../utils/constants';
 
 // ! when edit vocab done, audio doesn't reload
 const EditVocab = () => {
@@ -95,6 +96,8 @@ const EditVocab = () => {
       if (vocab.phonetics) formData.append('phonetics', vocab.phonetics);
       if (vocab.definition) formData.append('definition', vocab.definition);
       if (vocab.example) formData.append('example', vocab.example);
+      if (vocab.type) formData.append('type', vocab.type);
+      if (vocab.compoundType) formData.append('compoundType', vocab.compoundType);
       if (vocab.true_guess_count)
          formData.append('true_guess_count', String(vocab.true_guess_count));
       if (vocab.completed) formData.append('completed', 'true');
@@ -241,7 +244,6 @@ const EditVocab = () => {
                         aria-label="Default select example"
                         value={vocab.type}
                         onChange={e => {
-                           console.log(e.target.value);
                            setVocab({ ...vocab, type: e.target.value });
                         }}
                      >
@@ -250,6 +252,21 @@ const EditVocab = () => {
                         <option value="adjective">Adjective</option>
                         <option value="adverb">Adverb</option>
                         <option value="nounVerb">Noun, Verb</option>
+                     </select>
+                  </div>
+                  <div className="mb-3">
+                     <label className="form-label">Compound Type</label>
+                     <select
+                        className="form-select"
+                        aria-label="Default select example"
+                        value={vocab.compoundType}
+                        onChange={e => {
+                           setVocab({ ...vocab, compoundType: e.target.value });
+                        }}
+                     >
+                        {compoundTypes.map(item => (
+                           <option value={item}>{item}</option>
+                        ))}
                      </select>
                   </div>
                   <div className="mb-3 col-lg-6">

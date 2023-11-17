@@ -3,6 +3,7 @@ export interface IAddVocab {
    title: string;
    meaning: string;
    type: string;
+   compoundType?: string;
    example: string;
    definition: string;
    phonetics: string;
@@ -20,6 +21,7 @@ export interface IVocab {
    audio?: string | any;
    audioFile?: File;
    type?: string;
+   compoundType?: string;
    definition?: string;
    example?: string;
    sentences?: any[];

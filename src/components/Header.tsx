@@ -1,3 +1,4 @@
+
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -83,6 +84,9 @@ const Header = () => {
                </Link>
                <Link to={'/vocabs'} onClick={closeSidebar}>
                   Vocabs
+               </Link>
+               <Link to={'/vocabs/vocab-groups'} onClick={closeSidebar}>
+                  Vocab Groups
                </Link>
                <Link to={'/vocabs/dict'} onClick={closeSidebar}>
                   Dict Review
