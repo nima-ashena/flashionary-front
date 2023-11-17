@@ -85,9 +85,9 @@ const Header = () => {
                <Link to={'/vocabs'} onClick={closeSidebar}>
                   Vocabs
                </Link>
-               <Link to={'/vocabs/vocab-groups'} onClick={closeSidebar}>
-                  Vocab Groups
-               </Link>
+               {/* <Link to={'/vocabs/vocab-groups'} onClick={closeSidebar}>
+                  Vocab Groups <span style={{color: 'red'}}>Not Ready</span>
+               </Link> */}
                <Link to={'/vocabs/dict'} onClick={closeSidebar}>
                   Dict Review
                </Link>
@@ -106,7 +106,7 @@ const Header = () => {
                </Link>
             </Offcanvas.Body>
             <Offcanvas.Header className="bg-dark text-light">
-               Version 1.3.1 (Nima)
+               Version 1.4.1 (Nima)
             </Offcanvas.Header>
          </Offcanvas>
       </>

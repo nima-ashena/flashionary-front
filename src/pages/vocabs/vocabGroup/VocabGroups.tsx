@@ -66,7 +66,7 @@ const VocabGroups = () => {
                }}
             >
                Add VocabGroup
-               <i className="bi bi-arrow-down"></i>
+               <i className="bi bi-plus"></i>
             </button>
             <Modal
                show={addModal}

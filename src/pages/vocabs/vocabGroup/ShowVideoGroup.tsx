@@ -23,14 +23,17 @@ import Back from '../../../components/Back';
 const ShowVocabGroup = () => {
    const { vocabGroupId } = useParams();
 
-   const [vocabGroup, setVocabGroup] = useState<IVocabGroup>({ _id: '', title: '' });
+   const [vocabGroup, setVocabGroup] = useState<IVocabGroup>({
+      _id: '',
+      title: '',
+   });
    const [translateApi, setTranslateApi] = useState<boolean>(true);
-   const [vocab, setVocab] = useState<string>(''); // context
-   const [meaning, setMeaning] = useState<string>('');
+   const [vocab, setVocab] = useState<IVocab>({ title: '' }); // context
    const [vocabs, setVocabs] = useState<IVocab[]>([]);
    const [reverse, setReverse] = useState<boolean>(true);
    const [vocabsLoading, setVocabsLoading] = useState(true);
    const [render, setRender] = useState(false);
+   const [addVocabModal, setAddVocabModal] = useState(false);
 
    const navigate = useNavigate();
 
@@ -51,12 +54,17 @@ const ShowVocabGroup = () => {
       e.preventDefault();
       const id = toast.loading('Adding Vocab...');
       addVocabToVocabGroupApi(
-         { vocabGroupId, context: vocab, meaning, translateApi },
+         {
+            vocabGroupId,
+            title: vocab.title,
+            meaning: vocab.meaning,
+            translateApi,
+         },
          (isOk, result) => {
             if (isOk) {
                setRender(!render);
-               setVocab('');
-               setMeaning('');
+               setAddVocabModal(false)
+               setVocab({ title: '', meaning: '' });
                toast.update(id, {
                   render: 'vocab added successfully',
                   type: 'success',
@@ -77,8 +85,8 @@ const ShowVocabGroup = () => {
 
    return (
       <div className="container">
-         <Back />
-         <form className="pt-3 col-12 col-md-10 col-lg-6">
+         {/* <Back /> */}
+         <div className="col-12 col-md-8 col-lg-4">
             <div className="mb-3">
                <label className="form-label">VocabGroup Title</label>
                <input
@@ -91,58 +99,15 @@ const ShowVocabGroup = () => {
                   disabled
                />
             </div>
-            <hr />
-            <div className="mb-3">
-               <label className="form-label">Context (*required)</label>
-               <textarea
-                  className="form-control"
-                  onChange={e => {
-                     setVocab(e.target.value);
-                  }}
-                  value={vocab}
-                  rows={3}
-               />
-            </div>
-            <div className="mb-3">
-               <label className="form-label">Meaning</label>
-               <textarea
-                  className="form-control"
-                  onChange={e => {
-                     setMeaning(e.target.value);
-                  }}
-                  value={meaning}
-                  rows={2}
-               />
-            </div>
-            <div className="form-check mb-3">
-               <input
-                  className="form-check-input"
-                  type="checkbox"
-                  onChange={e => {
-                     setTranslateApi(e.target.checked);
-                  }}
-                  checked={translateApi}
-               />
-               <label className="form-check-label">Translate Api</label>
-            </div>
             <button
-               type="submit"
-               className="btn btn-primary btn-lg w-100 add-btn mb-2"
-               onClick={addVocabClick}
+               className="btn btn-secondary w-100"
+               onClick={() => {
+                  setAddVocabModal(true);
+               }}
             >
                Add Vocab
             </button>
-            <Form.Check
-               className="mb-2"
-               type="switch"
-               checked={reverse}
-               onChange={e => {
-                  setReverse(e.target.checked);
-                  setVocabs(vocabs.reverse());
-               }}
-               label="Reverse"
-            />
-         </form>
+         </div>
          <div className="row mb-3">
             <div className="col-12 col-lg-8">
                {vocabsLoading && (
@@ -173,6 +138,66 @@ const ShowVocabGroup = () => {
                </ListGroup>
             </div>
          </div>
+
+         {/* Clone Modal */}
+         <Modal
+            show={addVocabModal}
+            onHide={() => {
+               setAddVocabModal(false);
+            }}
+         >
+            <Modal.Header closeButton>
+               <Modal.Title>Adding: {vocab.title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+               <div>
+                  <form className="pt-3">
+                     <div className="mb-3">
+                        <label className="form-label">Title (*required)</label>
+                        <textarea
+                           className="form-control"
+                           onChange={e => {
+                              setVocab({ ...vocab, title: e.target.value });
+                           }}
+                           value={vocab.title}
+                           rows={1}
+                        />
+                     </div>
+                     <div className="mb-3">
+                        <label className="form-label">Meaning</label>
+                        <textarea
+                           className="form-control"
+                           onChange={e => {
+                              setVocab({ ...vocab, meaning: e.target.value });
+                           }}
+                           value={vocab.meaning}
+                           rows={1}
+                        />
+                     </div>
+                     <div className="form-check mb-3">
+                        <input
+                           className="form-check-input"
+                           type="checkbox"
+                           onChange={e => {
+                              setTranslateApi(e.target.checked);
+                           }}
+                           checked={translateApi}
+                        />
+                        <label className="form-check-label">
+                           Translate Api
+                        </label>
+                     </div>
+                     <button
+                        type="submit"
+                        className="btn btn-primary btn-lg w-100 add-btn mb-2"
+                        onClick={addVocabClick}
+                     >
+                        Add Vocab
+                     </button>
+                  </form>
+               </div>
+            </Modal.Body>
+         </Modal>
       </div>
    );
 };

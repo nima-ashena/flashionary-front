@@ -14,7 +14,7 @@ export interface IAddVocab {
 }
 
 export interface IVocab {
-   _id: string;
+   _id?: string;
    title: string;
    meaning?: string;
    phonetics?: string;
