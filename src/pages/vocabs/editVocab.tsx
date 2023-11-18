@@ -13,7 +13,7 @@ import {
 } from '../../api/vocab.service';
 import { editVocabApi } from '../../api/vocab.service';
 import { ISentence } from '../../interface/sentence.interface';
-import SentenceItem from '../../components/sentence/SentenceItem';
+import SentenceItem from '../sentences/story/components/SentenceItem';
 import { compoundTypes } from '../../utils/constants';
 
 // ! when edit vocab done, audio doesn't reload
@@ -97,7 +97,8 @@ const EditVocab = () => {
       if (vocab.definition) formData.append('definition', vocab.definition);
       if (vocab.example) formData.append('example', vocab.example);
       if (vocab.type) formData.append('type', vocab.type);
-      if (vocab.compoundType) formData.append('compoundType', vocab.compoundType);
+      if (vocab.compoundType)
+         formData.append('compoundType', vocab.compoundType);
       if (vocab.true_guess_count)
          formData.append('true_guess_count', String(vocab.true_guess_count));
       if (vocab.completed) formData.append('completed', 'true');

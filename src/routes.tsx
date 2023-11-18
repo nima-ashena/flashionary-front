@@ -63,13 +63,13 @@ const RoutesHandle = () => {
                   path="/sentences/review/:storyId"
                   element={<SentenceReview />}
                />
-               <Route path="/vocabs/vocab-groups" element={<VocabGroups />} />
+               <Route path="/vocabs/groups" element={<VocabGroups />} />
                <Route
-                  path="/vocabs/vocab-groups/show/:vocabGroupId"
+                  path="/vocabs/groups/show/:vocabGroupId"
                   element={<ShowVocabGroup />}
                />
                <Route
-                  path="/vocabs/vocab-groups/edit/:VocabGroupId"
+                  path="/vocabs/vocab/edit/:VocabGroupId"
                   element={<EditVocab />}
                />
                <Route path="/user/setting" element={<Setting />} />

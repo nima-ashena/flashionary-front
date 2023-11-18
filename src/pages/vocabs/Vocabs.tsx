@@ -60,6 +60,7 @@ const Vocabs = () => {
             { name: 'limit', value: limit },
             { name: 'page', value: paginationPage },
             { name: 'query', value: query },
+            { name: 'vocabGroup', value: 'free' },
             { name: 'user', value: users[userC]._id },
          ],
       );

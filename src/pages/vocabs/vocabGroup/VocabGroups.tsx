@@ -5,7 +5,7 @@ import {
    addVocabGroupApi,
    getVocabGroupsApi,
 } from '../../../api/vocabGroup.service';
-import VocabGroup from '../../../components/VocabGroup/VocabGroup';
+import VocabGroup from './components/VocabGroup';
 import { IVocabGroup } from '../../../interface/vocabGroup.interface';
 import { GroupTypes } from '../../../utils/constants';
 

@@ -2,10 +2,9 @@ import { FC, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { deleteVocabGroupApi } from '../../api/vocabGroup.service';
-import { IVocabGroup } from '../../interface/vocabGroup.interface';
+import { deleteVocabGroupApi } from '../../../../api/vocabGroup.service';
+import { IVocabGroup } from '../../../../interface/vocabGroup.interface';
 
-// const VocabGroup = ({ vocabGroup }: { vocabGroup: IVocabGroup }, renderValue: boolean) => {
 const VocabGroup = (props: any) => {
    const vocabGroup: IVocabGroup = props.vocabGroup;
    const render: boolean = props.render;
@@ -51,11 +50,14 @@ const VocabGroup = (props: any) => {
                <div className="card-body text-center">
                   <p className="card-title mb-3">{vocabGroup.title}</p>
                   <div>
-                     <Link to={`/vocabs/vocab-groups/show/${vocabGroup._id}`} className="btn my-1">
+                     <Link
+                        to={`/vocabs/groups/show/${vocabGroup._id}`}
+                        className="btn my-1"
+                     >
                         <i className="bi bi-eye" style={{ color: '#198754' }} />
                      </Link>
                      <Link
-                        to={`/vocabs/vocab-groups/edit/${vocabGroup._id}`}
+                        to={`/vocabs/groups/edit/${vocabGroup._id}`}
                         className="btn my-1"
                         style={{ color: '#fff' }}
                      >
@@ -79,7 +81,10 @@ const VocabGroup = (props: any) => {
                            <Button variant="secondary" onClick={handleClose}>
                               Close
                            </Button>
-                           <Button variant="danger" onClick={deleteVocabGroupClick}>
+                           <Button
+                              variant="danger"
+                              onClick={deleteVocabGroupClick}
+                           >
                               Yes
                            </Button>
                         </Modal.Footer>

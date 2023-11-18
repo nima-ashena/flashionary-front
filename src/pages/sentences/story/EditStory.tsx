@@ -18,7 +18,7 @@ import {
 } from '../../../api/story.service';
 import { ISentence } from '../../../interface/sentence.interface';
 import { IStory } from '../../../interface/story.interface';
-import SentenceItem from '../../../components/sentence/SentenceItem';
+import SentenceItem from './components/SentenceItem';
 import Back from '../../../components/Back';
 
 const EditStory = () => {

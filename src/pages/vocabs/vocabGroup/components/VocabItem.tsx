@@ -1,14 +1,14 @@
 import { useRef, useState } from 'react';
 import { Button, ListGroup, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { deleteSentenceOfStoryApi } from '../../api/story.service';
-import { deleteSentenceOfVocabApi } from '../../api/vocab.service';
+import { deleteVocabOfVocabGroupApi } from '../../../../api/vocabGroup.service';
 import { useNavigate } from 'react-router-dom';
+import { IVocab } from '../../../../interface/vocab.interface';
 
-const SentenceItem = (props: any) => {
-   const item = props.item;
+const VocabItem = (props: any) => {
+   const item: IVocab = props.item;
    const type = props.type;
-   const storyId = props.storyId;
+   const vocabGroupId = props.vocabGroupId;
    const vocabId = props.vocabId;
    const render = props.render;
    const setRender = props.setRender;
@@ -20,43 +20,26 @@ const SentenceItem = (props: any) => {
 
    const trashClick = () => {
       setShow(false);
-      if (type === 'story') {
-         deleteSentenceOfStoryApi(
-            { storyId, sentenceId: item._id },
-            (isOk, result) => {
-               if (isOk) {
-                  setRender(!render);
-                  toast.success(result.message);
-               } else {
-                  console.log(result);
-                  toast.error(result.response.data.message);
-               }
-            },
-         );
-      } else if (type === 'vocab') {
-         deleteSentenceOfVocabApi(
-            { vocabId, sentenceId: item._id },
-            (isOk, result) => {
-               if (isOk) {
-                  setRender(!render);
-                  toast.success(result.message);
-               } else {
-                  toast.error(result.response.data.message);
-               }
-            },
-         );
-      }
+      deleteVocabOfVocabGroupApi(
+         { vocabGroupId, vocabId: item._id },
+         (isOk, result) => {
+            if (isOk) {
+               setRender(!render);
+               toast.success(result.message);
+            } else {
+               console.log(result);
+               toast.error(result.response.data.message);
+            }
+         },
+      );
    };
 
    return (
       <>
-         <ListGroup.Item
-            as="li"
-            className=""
-         >
+         <ListGroup.Item as="li" className="">
             <div className="row">
                <div className="col-12 col-md-8 col-lg-9">
-                  <div className="fw-bold mb-2">{item.context}</div>
+                  <div className="fw-bold mb-2">{item.title}</div>
                   <div
                      className="fw-bold mb-2"
                      style={{ direction: 'rtl', textAlign: 'right' }}
@@ -72,14 +55,12 @@ const SentenceItem = (props: any) => {
                   ></audio>
                </div>
 
-               <div
-                  className="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-start"
-               >
+               <div className="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-start">
                   <button
                      type="button"
                      className="btn btn-secondary m-1"
                      onClick={() => {
-                        navigate(`/sentences/edit/${item._id}`);
+                        navigate(`/vocabs/edit/${item._id}`);
                      }}
                   >
                      <i className="bi bi-pen" />
@@ -110,9 +91,9 @@ const SentenceItem = (props: any) => {
             }}
          >
             <Modal.Header closeButton>
-               <Modal.Title>Delete Sentence: ?</Modal.Title>
+               <Modal.Title>Delete Vocab: ?</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{item.context}</Modal.Body>
+            <Modal.Body>{item.title}</Modal.Body>
             <Modal.Footer>
                <Button
                   variant="secondary"
@@ -131,4 +112,4 @@ const SentenceItem = (props: any) => {
    );
 };
 
-export default SentenceItem;
+export default VocabItem;

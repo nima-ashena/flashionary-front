@@ -99,7 +99,7 @@ export const deleteVocabGroupApi = (vocabGroupId: any, callBack: ApiFunction) =>
 // Add Vocab to VocabGroup
 export const addVocabToVocabGroupApi = (data: any, callBack: ApiFunction) => {
    axios
-      .post(`${BASEURL}/vocab-groups/add-vocab`, data, {
+      .post(`${BASEURL}/vocab-groups/vocabs`, data, {
          headers: {
             Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,
          },
@@ -128,22 +128,4 @@ export const deleteVocabOfVocabGroupApi = (data: any, callBack: ApiFunction) => 
       });
 };
 
-// sync vocabGroup audio
-export const syncVocabGroupAudioApi = (vocabGroupId: any, callBack: ApiFunction) => {
-   axios
-      .post(
-         `${BASEURL}/Stories/sync-vocabGroup-audio/${vocabGroupId}`,
-         {},
-         {
-            headers: {
-               Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,
-            },
-         },
-      )
-      .then(result => {
-         callBack(true, result.data);
-      })
-      .catch(err => {
-         callBack(false, err);
-      });
-};
+

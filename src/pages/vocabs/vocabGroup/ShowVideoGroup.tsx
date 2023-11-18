@@ -19,6 +19,7 @@ import { IVocab } from '../../../interface/vocab.interface';
 import { IVocabGroup } from '../../../interface/vocabGroup.interface';
 // import VocabItem from '../../../components/vocab/VocabItem';
 import Back from '../../../components/Back';
+import VocabItem from './components/VocabItem';
 
 const ShowVocabGroup = () => {
    const { vocabGroupId } = useParams();
@@ -52,7 +53,6 @@ const ShowVocabGroup = () => {
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       e.preventDefault();
-      const id = toast.loading('Adding Vocab...');
       addVocabToVocabGroupApi(
          {
             vocabGroupId,
@@ -65,19 +65,8 @@ const ShowVocabGroup = () => {
                setRender(!render);
                setAddVocabModal(false)
                setVocab({ title: '', meaning: '' });
-               toast.update(id, {
-                  render: 'vocab added successfully',
-                  type: 'success',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
             } else {
-               toast.update(id, {
-                  render: result.response.data.message,
-                  type: 'error',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
+               toast.error(result.response.data.message)
             }
          },
       );
@@ -86,7 +75,7 @@ const ShowVocabGroup = () => {
    return (
       <div className="container">
          {/* <Back /> */}
-         <div className="col-12 col-md-8 col-lg-4">
+         <div className="col-12 col-md-8 col-lg-4 mt-3">
             <div className="mb-3">
                <label className="form-label">VocabGroup Title</label>
                <input
@@ -96,6 +85,18 @@ const ShowVocabGroup = () => {
                   //    setVocabGroup({ ...vocabGroup, title: e.target.value });
                   // }}
                   value={vocabGroup.title}
+                  disabled
+               />
+            </div>
+            <div className="mb-3">
+               <label className="form-label">Type</label>
+               <input
+                  type="text"
+                  className="form-control"
+                  // onChange={e => {
+                  //    setVocabGroup({ ...vocabGroup, title: e.target.value });
+                  // }}
+                  value={vocabGroup.groupKind}
                   disabled
                />
             </div>
@@ -109,7 +110,7 @@ const ShowVocabGroup = () => {
             </button>
          </div>
          <div className="row mb-3">
-            <div className="col-12 col-lg-8">
+            <div className="col-12 col-lg-8 mt-3">
                {vocabsLoading && (
                   <Button className="w-100 py-3" variant="secondary" disabled>
                      <Spinner
@@ -125,15 +126,7 @@ const ShowVocabGroup = () => {
                )}
                <ListGroup as="ol">
                   {vocabs.map(item => (
-                     <>{item.title}</>
-                     // <VocabItem
-                     //    vocabGroupId={vocabGroupId}
-                     //    type={'vocabGroup'}
-                     //    item={item}
-                     //    key={item._id}
-                     //    render={render}
-                     //    setRender={setRender}
-                     // />
+                     <VocabItem item={item} />
                   ))}
                </ListGroup>
             </div>

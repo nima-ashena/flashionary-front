@@ -18,14 +18,17 @@ import {
 } from '../../../api/vocabGroup.service';
 import { ISentence } from '../../../interface/sentence.interface';
 import { IVocabGroup } from '../../../interface/vocabGroup.interface';
-import SentenceItem from '../../../components/sentence/SentenceItem';
+import SentenceItem from '../../sentences/story/components/SentenceItem';
 import Back from '../../../components/Back';
 
 const EditVocabGroup = () => {
    const { vocabGroupId } = useParams();
    const navigate = useNavigate();
 
-   const [vocabGroup, setVocabGroup] = useState<IVocabGroup>({ _id: '', title: '' });
+   const [vocabGroup, setVocabGroup] = useState<IVocabGroup>({
+      _id: '',
+      title: '',
+   });
    const [sentence, setSentence] = useState<string>('');
    const [sentences, setSentences] = useState<ISentence[]>([]);
    const [render, setRender] = useState(false);
