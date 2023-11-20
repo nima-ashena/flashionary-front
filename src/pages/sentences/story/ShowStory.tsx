@@ -51,7 +51,13 @@ const ShowStory = () => {
       e.preventDefault();
       const id = toast.loading('Adding Sentence...');
       addSentenceToStoryApi(
-         { storyId, context: sentence, meaning, translateApi },
+         {
+            storyId,
+            context: sentence,
+            meaning,
+            translateApi,
+            TTSEngine: localStorage.getItem('defaultTTSEngine'),
+         },
          (isOk, result) => {
             if (isOk) {
                setRender(!render);

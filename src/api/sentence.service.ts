@@ -118,13 +118,13 @@ export const plusTrueSentenceApi = (sentenceId: any, callBack: ApiFunction) => {
 
 // sync sentence audio
 export const syncSentenceAudioApi = (
-   sentenceId: any,
+   data: any,
    callBack: ApiFunction,
 ) => {
    axios
       .post(
-         `${BASEURL}/sentences/sync-sentence-audio/${sentenceId}`,
-         {},
+         `${BASEURL}/sentences/sync-sentence-audio`,
+         data,
          {
             headers: {
                Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,

@@ -140,27 +140,28 @@ const EditSentence = () => {
    ) => {
       e.preventDefault();
       const t = toast.loading('Syncing Audio Sentence...');
-      syncSentenceAudioApi(sentenceId, (isOk: boolean, result) => {
-         if (isOk) {
-            console.log(result);
-
-            setSentence(result);
-            toast.update(t, {
-               render: 'sentence audio sync done successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         } else {
-            console.log(result.message);
-            toast.update(t, {
-               render: result.message,
-               type: 'error',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         }
-      });
+      syncSentenceAudioApi(
+         { _id: sentenceId, TTSEngine: localStorage.getItem('defaultTTSEngine') },
+         (isOk: boolean, result) => {
+            if (isOk) {
+               setSentence(result);
+               toast.update(t, {
+                  render: 'sentence audio sync done successfully',
+                  type: 'success',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            } else {
+               console.log(result.message);
+               toast.update(t, {
+                  render: result.message,
+                  type: 'error',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            }
+         },
+      );
    };
 
    return (
