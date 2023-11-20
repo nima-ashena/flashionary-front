@@ -158,8 +158,8 @@ const ShowStory = () => {
                label="Reverse"
             />
          </form>
-         <div className="row mb-3">
-            <div className="col-12 col-lg-8">
+         <div className="row">
+            <div className="col-12 col-lg-8 mb-3">
                {sentencesLoading && (
                   <Button className="w-100 py-3" variant="secondary" disabled>
                      <Spinner

@@ -112,7 +112,7 @@ const EditVocab = () => {
             // audiRef
             setRender(!render)
             toast.update(t, {
-               render: 'Vocab edited successfully, Please reload the page',
+               render: 'Vocab edited successfully',
                type: 'success',
                isLoading: false,
                autoClose: 2000,
@@ -188,7 +188,7 @@ const EditVocab = () => {
                console.log(result);
                setVocab(result);
                toast.update(t, {
-                  render: 'vocab audio sync done successfully',
+                  render: 'vocab audio sync done successfully, Please reload the page',
                   type: 'success',
                   isLoading: false,
                   autoClose: 2000,
