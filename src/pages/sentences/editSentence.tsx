@@ -72,7 +72,7 @@ const EditSentence = () => {
             console.log(result.sentence);
             setSentence(result.sentence);
             toast.update(t, {
-               render: 'sentence edited successfully',
+               render: 'sentence edited successfully, Please reload the page',
                type: 'success',
                isLoading: false,
                autoClose: 2000,

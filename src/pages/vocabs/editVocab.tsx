@@ -108,10 +108,11 @@ const EditVocab = () => {
       }
       editVocabApi(vocabId, formData, (isOk: boolean, result) => {
          if (isOk) {
-            console.log(result.vocab);
             setVocab(result.vocab);
+            // audiRef
+            setRender(!render)
             toast.update(t, {
-               render: 'vocab edited successfully',
+               render: 'Vocab edited successfully, Please reload the page',
                type: 'success',
                isLoading: false,
                autoClose: 2000,

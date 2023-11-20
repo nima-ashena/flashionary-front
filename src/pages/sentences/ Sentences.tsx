@@ -18,7 +18,7 @@ import { UserContext } from '../../context/common';
 const Sentences = () => {
    const [loading, setLoading] = useState(true);
 
-   const limit = 12;
+   const limit = 30;
    const [sentences, setSentences] = useState<ISentence[]>([]);
    const [render, setRender] = useState<boolean>(false);
    const {

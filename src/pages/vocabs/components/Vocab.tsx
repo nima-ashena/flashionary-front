@@ -102,7 +102,7 @@ const Vocab = (props: any) => {
                      <Link
                         to={``}
                         className="btn my-1"
-                        style={{ color: 'green' }}
+                        style={{ color: 'green', backgroundColor: 'yellow' }}
                         onClick={() => {setShowModal(true)}}
                      >
                         <i className="bi bi-eye" />
