@@ -67,9 +67,20 @@ const AddVocab = () => {
                />
             </div>
             <div className="mb-3">
+               <label className="form-label">Definition</label>
+               <textarea
+                  className="form-control"
+                  onChange={e => {
+                     setVocabData({ ...vocabData, definition: e.target.value });
+                  }}
+                  value={vocabData.definition}
+                  rows={3}
+               ></textarea>
+            </div>
+            <div className="mb-3">
                <label className="form-label">Meaning (Persian)</label>
-               <input
-                  type="text"
+               <textarea
+                  rows={1}
                   className="form-control"
                   onChange={e => {
                      setVocabData({ ...vocabData, meaning: e.target.value });
@@ -107,17 +118,6 @@ const AddVocab = () => {
                      <option value={item}>{item}</option>
                   ))}
                </select>
-            </div>
-            <div className="mb-3">
-               <label className="form-label">Definition</label>
-               <textarea
-                  className="form-control"
-                  onChange={e => {
-                     setVocabData({ ...vocabData, definition: e.target.value });
-                  }}
-                  value={vocabData.definition}
-                  rows={3}
-               ></textarea>
             </div>
             <div className="mb-3">
                <label className="form-label">Phonetics</label>

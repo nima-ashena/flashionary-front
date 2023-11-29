@@ -45,11 +45,15 @@ const VocabViewModal = props => {
             <form className="w-100">
                <div className="mb-3">
                   <label className="form-label">Title</label>
+                  
+               </div>
+               <div className="mb-3">
+                  <label className="form-label">Definition</label>
                   <div
                      className="alert text-dark"
                      style={{ backgroundColor: '#E9ECEF' }}
                   >
-                     {vocab.title}
+                     {vocab.definition}
                   </div>
                </div>
                <div className="mb-3">
@@ -92,18 +96,7 @@ const VocabViewModal = props => {
                      />
                   </div>
                </div>
-               <div className="mb-3">
-                  <label className="form-label">Definition</label>
-                  <textarea
-                     className="form-control"
-                     onChange={e => {
-                        setVocab({ ...vocab, definition: e.target.value });
-                     }}
-                     value={vocab.definition}
-                     disabled
-                     rows={3}
-                  ></textarea>
-               </div>
+               
                <audio
                   className="mb-2 w-100"
                   controls
