@@ -14,11 +14,11 @@ import {
    addSentenceToStoryApi,
    deleteSentenceOfStoryApi,
    getStoryApi,
-} from '../../../api/story.service';
-import { ISentence } from '../../../interface/sentence.interface';
-import { IStory } from '../../../interface/story.interface';
+} from '../../api/story.service';
+import { ISentence } from '../../interface/sentence.interface';
+import { IStory } from '../../interface/story.interface';
 import SentenceItem from './components/SentenceItem';
-import Back from '../../../components/Back';
+import Back from '../../components/Back';
 
 const ShowStory = () => {
    const { storyId } = useParams();

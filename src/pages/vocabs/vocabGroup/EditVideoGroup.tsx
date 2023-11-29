@@ -18,7 +18,7 @@ import {
 } from '../../../api/vocabGroup.service';
 import { ISentence } from '../../../interface/sentence.interface';
 import { IVocabGroup } from '../../../interface/vocabGroup.interface';
-import SentenceItem from '../../sentences/story/components/SentenceItem';
+import SentenceItem from '../../story/components/SentenceItem';
 import Back from '../../../components/Back';
 
 const EditVocabGroup = () => {

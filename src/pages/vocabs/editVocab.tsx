@@ -13,7 +13,7 @@ import {
 } from '../../api/vocab.service';
 import { editVocabApi } from '../../api/vocab.service';
 import { ISentence } from '../../interface/sentence.interface';
-import SentenceItem from '../sentences/story/components/SentenceItem';
+import SentenceItem from '../story/components/SentenceItem';
 import { compoundTypes } from '../../utils/constants';
 
 // ! when edit vocab done, audio doesn't reload
@@ -110,7 +110,7 @@ const EditVocab = () => {
          if (isOk) {
             setVocab(result.vocab);
             // audiRef
-            setRender(!render)
+            setRender(!render);
             toast.update(t, {
                render: 'Vocab edited successfully',
                type: 'success',
@@ -188,7 +188,8 @@ const EditVocab = () => {
                console.log(result);
                setVocab(result);
                toast.update(t, {
-                  render: 'vocab audio sync done successfully, Please reload the page',
+                  render:
+                     'vocab audio sync done successfully, Please reload the page',
                   type: 'success',
                   isLoading: false,
                   autoClose: 2000,

@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import { Button, ListGroup, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { deleteSentenceOfStoryApi } from '../../../../api/story.service';
-import { deleteSentenceOfVocabApi } from '../../../../api/vocab.service';
+import { deleteSentenceOfStoryApi } from '../../../api/story.service';
+import { deleteSentenceOfVocabApi } from '../../../api/vocab.service';
 import { useNavigate } from 'react-router-dom';
 
 const SentenceItem = (props: any) => {
