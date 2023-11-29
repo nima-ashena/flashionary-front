@@ -29,7 +29,7 @@ const VocabViewModal = props => {
       >
          <Modal.Header closeButton>
             <Modal.Title>
-               Vocab View {' '}
+               Vocab View{' '}
                <button
                   type="button"
                   className="btn btn-success m-1"
@@ -45,27 +45,24 @@ const VocabViewModal = props => {
             <form className="w-100">
                <div className="mb-3">
                   <label className="form-label">Title</label>
-                  <input
-                     type="text"
-                     className="form-control"
-                     onChange={e => {
-                        setVocab({ ...vocab, title: e.target.value });
-                     }}
-                     value={vocab.title}
-                     disabled
-                  />
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {vocab.title}
+                  </div>
                </div>
                <div className="mb-3">
                   <label className="form-label">Meaning (Persian)</label>
-                  <input
-                     type="text"
-                     className="form-control"
-                     value={vocab.meaning}
-                     disabled
-                  />
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
+                  >
+                     {vocab.meaning}
+                  </div>
                </div>
                <div className="row">
-                  <div className="mb-3 col-lg-6">
+                  <div className="mb-3 col-6">
                      <label className="form-label">Type</label>
                      <input
                         type="text"
@@ -74,7 +71,7 @@ const VocabViewModal = props => {
                         disabled
                      />
                   </div>
-                  <div className="mb-3 col-lg-6">
+                  <div className="mb-3 col-6">
                      <label className="form-label">Compound Type</label>
                      <input
                         type="text"
@@ -85,22 +82,13 @@ const VocabViewModal = props => {
                   </div>
                </div>
                <div className="row">
-                  <div className="mb-3 col-lg-6">
+                  <div className="mb-3 col-12">
                      <label className="form-label">Phonetics</label>
                      <input
                         type="text"
                         className="form-control"
                         disabled
                         value={vocab.phonetics}
-                     />
-                  </div>
-                  <div className="mb-3 col-lg-6">
-                     <label className="form-label">True Guess Count</label>
-                     <input
-                        type="number"
-                        className="form-control"
-                        disabled
-                        value={vocab.true_guess_count}
                      />
                   </div>
                </div>

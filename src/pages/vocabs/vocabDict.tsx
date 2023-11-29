@@ -328,6 +328,9 @@ const VocabDict = () => {
                </div>
                <p style={{ fontSize: 22 }}>
                   {vocabs[counterState] && vocabs[counterState].title}
+                  <span className="badge bg-primary mx-2">
+                     {String(vocabs[counterState].true_guess_count + 1)}
+                  </span>
                </p>
                <p style={{ fontSize: 22 }}>
                   {vocabs[counterState] && vocabs[counterState].meaning}
@@ -402,7 +405,9 @@ const VocabDict = () => {
          {/* Modal */}
          <Modal show={showModal} onHide={handleModalClose}>
             <Modal.Header closeButton>
-               <Modal.Title>Review done. Do you want to do it again?</Modal.Title>
+               <Modal.Title>
+                  Review done. Do you want to do it again?
+               </Modal.Title>
             </Modal.Header>
             <Modal.Footer>
                <Button variant="secondary" onClick={handleModalClose}>

@@ -485,9 +485,6 @@ const SentenceReview = () => {
                      {left}
                   </span>
                </div>
-               <p style={{ fontSize: 22 }}>
-                  {sentences[counterState] && sentences[counterState]?.note}
-               </p>
                <div className="d-flex flex-wrap">
                   {sentenceItems.map(item => (
                      <SentenceItem
@@ -555,10 +552,10 @@ const SentenceReview = () => {
                   {sentences[counterState] && sentences[counterState].context}
                </p>
                <p style={{ fontSize: 22 }}>
-                  {sentences[counterState] && sentences[counterState].meaning}
+                  {sentences[counterState] && sentences[counterState].note}
                </p>
                <p style={{ fontSize: 22 }}>
-                  {sentences[counterState] && sentences[counterState].note}
+                  {sentences[counterState] && sentences[counterState].meaning}
                </p>
                <audio
                   className="mb-2 w-100 rounded-2"

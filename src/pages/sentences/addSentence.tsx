@@ -82,19 +82,6 @@ const AddSentence = () => {
                />
             </div>
             <div className="mb-3">
-               <label className="form-label">Meaning (Persian)</label>
-               <textarea
-                  className="form-control"
-                  onChange={e => {
-                     setSentence({
-                        ...sentence,
-                        meaning: e.target.value,
-                     });
-                  }}
-                  value={sentence.meaning}
-               />
-            </div>
-            <div className="mb-3">
                <label className="form-label">Note</label>
                <textarea
                   className="form-control"
@@ -104,9 +91,26 @@ const AddSentence = () => {
                         note: e.target.value,
                      });
                   }}
+                  rows={3}
                   value={sentence.note}
                />
             </div>
+            <div className="mb-3">
+               <label className="form-label">Meaning (Persian)</label>
+               <textarea
+                  className="form-control"
+                  style={{ direction: 'rtl' }}
+                  onChange={e => {
+                     setSentence({
+                        ...sentence,
+                        meaning: e.target.value,
+                     });
+                  }}
+                  rows={2}
+                  value={sentence.meaning}
+               />
+            </div>
+            
 
             <div className="form-check mb-3">
                <input

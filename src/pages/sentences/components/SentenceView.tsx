@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ISentence } from '../../../interface/sentence.interface';
 import { getSentenceApi } from '../../../api/sentence.service';
 import { toast } from 'react-toastify';
-import { Modal } from 'react-bootstrap';
+import { Alert, Modal } from 'react-bootstrap';
 
 const SentenceViewModal = props => {
    const { sentenceId, showModal, setShowModal } = props;
@@ -29,7 +29,7 @@ const SentenceViewModal = props => {
       >
          <Modal.Header closeButton>
             <Modal.Title>
-               Sentence View {' '}
+               Sentence View{' '}
                <button
                   type="button"
                   className="btn btn-success m-1"
@@ -44,23 +44,31 @@ const SentenceViewModal = props => {
          <Modal.Body>
             <form className="w-100">
                <div className="mb-3">
-                  <label className="form-label">Title</label>
-                  <textarea
-                     className="form-control"
-                     onChange={e => {
-                        setSentence({ ...sentence, context: e.target.value });
-                     }}
-                     value={sentence.context}
-                     disabled
-                  />
+                  <label className="form-label">Context</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {sentence.context}
+                  </div>
+               </div>
+               <div className="mb-3">
+                  <label className="form-label">Note</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {sentence.note}
+                  </div>
                </div>
                <div className="mb-3">
                   <label className="form-label">Meaning (Persian)</label>
-                  <textarea
-                     className="form-control"
-                     value={sentence.meaning}
-                     disabled
-                  />
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
+                  >
+                     {sentence.meaning}
+                  </div>
                </div>
                <div className="row">
                   <div className="mb-3 col-lg-6">
@@ -70,17 +78,6 @@ const SentenceViewModal = props => {
                         className="form-control"
                         value={sentence.type}
                         disabled
-                     />
-                  </div>
-               </div>
-               <div className="row">
-                  <div className="mb-3 col-lg-6">
-                     <label className="form-label">True Guess Count</label>
-                     <input
-                        type="number"
-                        className="form-control"
-                        disabled
-                        value={String(sentence.true_guess_count)}
                      />
                   </div>
                </div>

@@ -15,7 +15,7 @@ import { getUsersApi } from '../../api/auth.service';
 const Vocabs = () => {
    const [loading, setLoading] = useState(true);
 
-   const limit = 30;
+   const limit = 32;
    const [vocabs, setVocabs] = useState<IVocab[]>([]);
    const [render, setRender] = useState<boolean>(false);
    const {

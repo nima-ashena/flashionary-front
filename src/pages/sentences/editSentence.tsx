@@ -60,10 +60,10 @@ const EditSentence = () => {
 
       const t = toast.loading('Editing Sentence...');
       const formData = new FormData();
-      if (sentence.context) formData.append('context', sentence.context);
-      if (sentence.meaning) formData.append('meaning', sentence.meaning);
-      if (sentence.note) formData.append('note', sentence.note);
-      if (sentence.type) formData.append('type', sentence.type);
+      formData.append('context', sentence.context);
+      formData.append('meaning', sentence.meaning);
+      formData.append('note', sentence.note);
+      formData.append('type', sentence.type);
       if (file) {
          formData.append('audioFile', file, file.name);
       }
@@ -141,12 +141,16 @@ const EditSentence = () => {
       e.preventDefault();
       const t = toast.loading('Syncing Audio Sentence...');
       syncSentenceAudioApi(
-         { _id: sentenceId, TTSEngine: localStorage.getItem('defaultTTSEngine') },
+         {
+            _id: sentenceId,
+            TTSEngine: localStorage.getItem('defaultTTSEngine'),
+         },
          (isOk: boolean, result) => {
             if (isOk) {
                setSentence(result);
                toast.update(t, {
-                  render: 'sentence audio sync done successfully, Please reload the page',
+                  render:
+                     'sentence audio sync done successfully, Please reload the page',
                   type: 'success',
                   isLoading: false,
                   autoClose: 2000,
@@ -181,18 +185,33 @@ const EditSentence = () => {
                         setSentence({ ...sentence, context: e.target.value });
                      }}
                      value={sentence.context}
-                     rows={2}
+                     rows={3}
+                  />
+               </div>
+               <div className="mb-3">
+                  <label className="form-label">Note</label>
+                  <textarea
+                     className="form-control"
+                     onChange={e => {
+                        setSentence({
+                           ...sentence,
+                           note: e.target.value,
+                        });
+                     }}
+                     value={sentence.note}
+                     rows={3}
                   />
                </div>
                <div className="mb-3">
                   <label className="form-label">Meaning (Persian)</label>
                   <textarea
                      className="form-control"
+                     style={{ direction: 'rtl' }}
                      onChange={e => {
                         setSentence({ ...sentence, meaning: e.target.value });
                      }}
                      value={sentence.meaning}
-                     rows={2}
+                     rows={4}
                   />
                </div>
                <div className="mb-3">
@@ -220,20 +239,6 @@ const EditSentence = () => {
                         </Dropdown.Menu>
                      </Dropdown>
                   </label>
-               </div>
-               <div className="mb-3">
-                  <label className="form-label">Note</label>
-                  <textarea
-                     className="form-control"
-                     onChange={e => {
-                        setSentence({
-                           ...sentence,
-                           note: e.target.value,
-                        });
-                     }}
-                     value={sentence.note}
-                     rows={2}
-                  />
                </div>
 
                <audio
