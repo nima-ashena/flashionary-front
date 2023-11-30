@@ -58,22 +58,17 @@ const Sentence = (props: any) => {
    const cloneSentenceClick = () => {
       setShowCloneModal(false);
       cloneSentenceApi({ sentenceId: sentence._id }, (isOk, result) => {
-         const t = toast.loading('Cloning Sentence...');
+         // const t = toast.loading('Cloning Sentence...');
          if (isOk) {
             setRender(!render);
-            toast.update(t, {
-               render: 'Sentence cloned successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
+            // toast.update(t, {
+            //    render: 'Sentence cloned successfully',
+            //    type: 'success',
+            //    isLoading: false,
+            //    autoClose: 2000,
+            // });
          } else {
-            toast.update(t, {
-               render: result.response.data.message,
-               type: 'error',
-               isLoading: false,
-               autoClose: 1500,
-            });
+            toast.error(result.response.data.message)
          }
       });
    };

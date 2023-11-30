@@ -21,6 +21,7 @@ import Test from './pages/test/Test';
 import Setting from './pages/auth/Setting';
 import VocabGroups from './pages/vocabs/vocabGroup/VocabGroups';
 import ShowVocabGroup from './pages/vocabs/vocabGroup/ShowVideoGroup';
+import StorySentenceReview from './pages/story/StorySentenceReview';
 
 const RoutesHandle = () => {
    useEffect(() => {}, []);
@@ -60,8 +61,8 @@ const RoutesHandle = () => {
                   element={<EditStory />}
                />
                <Route
-                  path="/sentences/review/:storyId"
-                  element={<SentenceReview />}
+                  path="/stories/review/:storyId"
+                  element={<StorySentenceReview />}
                />
                <Route path="/vocabs/groups" element={<VocabGroups />} />
                <Route

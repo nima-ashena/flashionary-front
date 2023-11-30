@@ -11,4 +11,6 @@ export interface IStory {
    category?: string;
    counterState?: number;
    translateApi?: boolean;
+   flags?: any[];
+   toughs?: any[];
 }

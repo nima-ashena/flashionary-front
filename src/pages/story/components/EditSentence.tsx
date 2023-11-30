@@ -9,7 +9,7 @@ import {
 import { toast } from 'react-toastify';
 import { editStroyAfter } from '../EditStory';
 
-const EditSentence = props => {
+const EditSentenceModal = props => {
    const {
       render,
       setRender,
@@ -34,7 +34,6 @@ const EditSentence = props => {
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
-
       if (sentence.context === '') return toast.warn('Please fill context');
 
       const t = toast.loading('Editing Sentence...');
@@ -224,4 +223,4 @@ const EditSentence = props => {
    );
 };
 
-export default EditSentence;
+export default EditSentenceModal;

@@ -9,6 +9,7 @@ export const GroupTypes = [
    'Dictation',
    'Pronunciation',
    'Confusing',
+   'Other',
 ];
 
 export const compoundTypes = ['Single', 'Closed', 'Hyphenated', 'Open'];

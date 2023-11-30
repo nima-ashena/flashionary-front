@@ -85,7 +85,9 @@ const ShowStory = () => {
             <button
                type="submit"
                className="btn btn-success btn-lg w-100 add-btn mb-2"
-               onClick={() => {setReviewModal(true)}}
+               onClick={() => {
+                  navigate(`/stories/review/${storyId}`);
+               }}
             >
                Review This Story
             </button>

@@ -6,7 +6,7 @@ import { deleteSentenceOfVocabApi } from '../../../api/vocab.service';
 import { useNavigate } from 'react-router-dom';
 import Sentence from '../../sentences/components/Sentence';
 import { ISentence } from '../../../interface/sentence.interface';
-import EditSentence from './EditSentence';
+import EditSentenceModal from './EditSentence';
 
 const SentenceItem = (props: any) => {
    const sentence: ISentence = props.sentence;
@@ -19,9 +19,6 @@ const SentenceItem = (props: any) => {
 
    const [showDeleteModal, setShowDeleteModal] = useState(false);
    const [showEditModal, setShowEditModal] = useState(false);
-
-
-   const navigate = useNavigate();
 
    const trashClick = () => {
       setShowDeleteModal(false);
@@ -125,7 +122,7 @@ const SentenceItem = (props: any) => {
                </div>
             </div>
          </ListGroup.Item>
-         <EditSentence
+         <EditSentenceModal
             storyId={storyId}
             render={render}
             setRender={setRender}

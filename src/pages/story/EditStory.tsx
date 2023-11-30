@@ -28,6 +28,7 @@ const EditStory = () => {
    const { storyId } = useParams();
 
    const [story, setStory] = useState<IStory>({ _id: '', title: '' });
+   const [editedStory, setEditedStory] = useState<IStory>({ _id: '', title: '' });
    const [translateApi, setTranslateApi] = useState<boolean>(true);
    const [sentence, setSentence] = useState<IAddSentence>({ context: '' });
    const [sentences, setSentences] = useState<ISentence[]>([]);
@@ -37,14 +38,13 @@ const EditStory = () => {
    const [replacementMode, setReplacementMode] = useState(false);
    const [editStoryModal, setEditStoryModal] = useState(false);
 
-   const navigate = useNavigate();
-
    useEffect(() => {
       setSentencesLoading(true);
       getStoryApi(storyId, (isOk, result) => {
          if (isOk) {
             setStory(result.story);
-            setSentences(result.story.sentences);
+            setEditedStory(result.story);
+            setSentences(result.story.sentences.reverse());
             setSentencesLoading(false);
          } else toast.error(result.message);
       });
@@ -96,6 +96,7 @@ const EditStory = () => {
       });
       editStoryApi(storyId, { sentences, flags, toughs }, (isOk, result) => {
          if (isOk) {
+            setReplacementMode(false)
             setRender(!render);
          } else {
             toast.error(result.message);
@@ -107,8 +108,7 @@ const EditStory = () => {
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       e.preventDefault();
-      editStoryApi(storyId, story, (isOk, result) => {
-         console.log(result.story);
+      editStoryApi(storyId, editedStory, (isOk, result) => {
          if (isOk) {
             setStory(result.story);
             setEditStoryModal(false)
@@ -250,6 +250,8 @@ const EditStory = () => {
                         type="switch"
                         checked={replacementMode}
                         onChange={e => {
+                           let t:  any = sentences
+                           setSentence(t.reverse())
                            setReplacementMode(e.target.checked);
                         }}
                         label="ReplacementMode"
@@ -315,9 +317,9 @@ const EditStory = () => {
                         type="text"
                         className="form-control"
                         onChange={e => {
-                           setStory({ ...story, title: e.target.value });
+                           setEditedStory({ ...editedStory, title: e.target.value });
                         }}
-                        value={story.title}
+                        value={editedStory.title}
                      />
                   </div>
                   <div className="mb-3">
@@ -325,20 +327,21 @@ const EditStory = () => {
                      <textarea
                         rows={3}
                         className="form-control"
-                        value={story.note}
+                        value={editedStory.note}
                         onChange={e => {
-                           setStory({ ...story, note: e.target.value });
+                           setEditedStory({ ...editedStory, note: e.target.value });
                         }}
                      />
                   </div>
                   <div className="mb-3">
-                     <label className="form-label">Compound Type</label>
+                     <label className="form-label">Category</label>
                      <select
                         className="form-select"
                         aria-label="Default select example"
+                        value={editedStory.category}
                         onChange={e => {
-                           setStory({
-                              ...story,
+                           setEditedStory({
+                              ...editedStory,
                               category: e.target.value,
                            });
                         }}
