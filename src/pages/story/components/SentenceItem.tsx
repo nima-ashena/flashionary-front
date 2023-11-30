@@ -126,6 +126,7 @@ const SentenceItem = (props: any) => {
             </div>
          </ListGroup.Item>
          <EditSentence
+            storyId={storyId}
             render={render}
             setRender={setRender}
             sentenceId={sentence._id}

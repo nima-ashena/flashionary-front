@@ -33,6 +33,8 @@ const ShowStory = () => {
    const [reverse, setReverse] = useState<boolean>(false);
    const [sentencesLoading, setSentencesLoading] = useState(true);
 
+   const [reviewModal, setReviewModal] = useState(false)
+
    useEffect(() => {
       setSentencesLoading(true);
       getStoryApi(storyId, (isOk, result) => {
@@ -73,46 +75,20 @@ const ShowStory = () => {
    return (
       <div className="container">
          <Back />
-         <h1>در دست احداث</h1>
          <form className="pt-3 col-12 col-md-10 col-lg-6">
             <div className="mb-3">
-               <label className="form-label">Story Title</label>
-               <input
-                  type="text"
-                  className="form-control"
-                  onChange={e => {
-                     setStory({ ...story, title: e.target.value });
-                  }}
-                  value={story.title}
-               />
+               <div className="alert alert-info">{story.title}</div>
+               {story.note && (
+                  <div className="alert alert-secondary">{story.note}</div>
+               )}
             </div>
-            <hr />
             <button
                type="submit"
-               className="btn btn-secondary btn-lg w-100 add-btn mb-2"
-               onClick={editStoryClick}
+               className="btn btn-success btn-lg w-100 add-btn mb-2"
+               onClick={() => {setReviewModal(true)}}
             >
-               Edit
+               Review This Story
             </button>
-            <button
-               type="button"
-               className="btn btn-danger btn-lg w-100 add-btn mb-3"
-               onClick={() => {
-                  setShow(true);
-               }}
-            >
-               Delete story
-            </button>
-            <Form.Check
-               className="mb-2"
-               type="switch"
-               checked={reverse}
-               onChange={e => {
-                  setReverse(e.target.checked);
-                  setSentences(sentences.reverse());
-               }}
-               label="Reverse"
-            />
          </form>
          <Modal
             show={show}
@@ -138,7 +114,7 @@ const ShowStory = () => {
                </Button>
             </Modal.Footer>
          </Modal>
-         <div className="col-12 col-lg-8">
+         <div className="col-12 col-lg-8 mb-3">
             {sentencesLoading && (
                <Button className="w-100 py-3" variant="secondary" disabled>
                   <Spinner
@@ -152,6 +128,18 @@ const ShowStory = () => {
                   Loading...
                </Button>
             )}
+            <ListGroup as="ol">
+               {sentences.map(item => (
+                  <SentenceItem
+                     storyId={storyId}
+                     type={'story'}
+                     sentence={item}
+                     key={item._id}
+                     render={render}
+                     setRender={setRender}
+                  />
+               ))}
+            </ListGroup>
          </div>
       </div>
    );

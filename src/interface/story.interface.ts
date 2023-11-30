@@ -3,10 +3,12 @@ export interface IAddStory {
 }
 
 export interface IStory {
-   _id: string;
+   _id?: string;
    title: string;
    sentences?: any[];
    cat?: string;
+   note?: string;
+   category?: string;
    counterState?: number;
    translateApi?: boolean;
 }

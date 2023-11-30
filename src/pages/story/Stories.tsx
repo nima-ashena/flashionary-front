@@ -4,9 +4,11 @@ import { toast } from 'react-toastify';
 import { addStoryApi, getStoriesApi } from '../../api/story.service';
 import Story from './Story';
 import { IStory } from '../../interface/story.interface';
+import { storyTypes } from '../../utils/constants';
 
 const Stories = () => {
-   const [storyTitle, setStoryTitle] = useState<string>('');
+   const [story, setStory] = useState<IStory>({ title: '' });
+
    const [showAdd, setShowAdd] = useState(false);
 
    const [stories, setStories] = useState<IStory[]>([]);
@@ -23,10 +25,10 @@ const Stories = () => {
    }, [render]);
 
    const addStoryClick = () => {
-      if (storyTitle === '') return toast.warn('Please fill title');
+      if (story.title === '') return toast.warn('Please fill title');
 
       const id = toast.loading('Adding Story...');
-      addStoryApi({ title: storyTitle }, (isOk, result) => {
+      addStoryApi(story, (isOk, result) => {
          if (isOk) {
             toast.update(id, {
                render: 'story added successfully',
@@ -34,7 +36,7 @@ const Stories = () => {
                isLoading: false,
                autoClose: 2000,
             });
-            setStoryTitle('');
+            setStory({ title: '', note: '' });
             setShowAdd(false);
             setRender(!render);
          } else {
@@ -78,11 +80,39 @@ const Stories = () => {
                            type="text"
                            className="form-control"
                            aria-describedby="emailHelp"
-                           value={storyTitle}
+                           value={story.title}
                            onChange={e => {
-                              setStoryTitle(e.target.value);
+                              setStory({ ...story, title: e.target.value });
                            }}
                         />
+                     </div>
+                     <div className="mb-3">
+                        <label className="form-label">Note</label>
+                        <textarea
+                           rows={3}
+                           className="form-control"
+                           value={story.note}
+                           onChange={e => {
+                              setStory({ ...story, note: e.target.value });
+                           }}
+                        />
+                     </div>
+                     <div className="mb-3">
+                        <label className="form-label">Compound Type</label>
+                        <select
+                           className="form-select"
+                           aria-label="Default select example"
+                           onChange={e => {
+                              setStory({
+                                 ...story,
+                                 category: e.target.value,
+                              });
+                           }}
+                        >
+                           {storyTypes.map(item => (
+                              <option value={item}>{item}</option>
+                           ))}
+                        </select>
                      </div>
                   </form>
                   <Button

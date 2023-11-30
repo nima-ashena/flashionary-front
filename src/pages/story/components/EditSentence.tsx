@@ -7,10 +7,17 @@ import {
    syncSentenceAudioApi,
 } from '../../../api/sentence.service';
 import { toast } from 'react-toastify';
+import { editStroyAfter } from '../EditStory';
 
 const EditSentence = props => {
-   const { render, setRender, sentenceId, showEditModal, setShowEditModal } =
-      props;
+   const {
+      render,
+      setRender,
+      sentenceId,
+      storyId,
+      showEditModal,
+      setShowEditModal,
+   } = props;
    const [sentence, setSentence] = useState<ISentence>({ context: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -33,6 +40,7 @@ const EditSentence = props => {
       const t = toast.loading('Editing Sentence...');
       editSentenceApi(sentenceId, sentence, (isOk: boolean, result) => {
          if (isOk) {
+            editStroyAfter(storyId);
             setSentence(result.sentence);
             setShowEditModal(false);
             setRender(!render);
@@ -149,8 +157,8 @@ const EditSentence = props => {
                      rows={3}
                   />
                </div>
-               
-               <div className='mb-2'>
+
+               <div className="mb-2">
                   <div className="form-check">
                      <input
                         className="form-check-input"
