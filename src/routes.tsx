@@ -21,7 +21,7 @@ import Test from './pages/test/Test';
 import Setting from './pages/auth/Setting';
 import VocabGroups from './pages/vocabs/vocabGroup/VocabGroups';
 import ShowVocabGroup from './pages/vocabs/vocabGroup/ShowVideoGroup';
-import StorySentenceReview from './pages/story/StorySentenceReview';
+import StorySentenceReview from './pages/story/review/StorySentenceReview';
 
 const RoutesHandle = () => {
    useEffect(() => {}, []);

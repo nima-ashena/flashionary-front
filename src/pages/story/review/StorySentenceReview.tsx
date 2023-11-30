@@ -2,17 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { deleteSentenceApi, getSentencesApi } from '../../api/sentence.service';
+import {
+   deleteSentenceApi,
+   getSentencesApi,
+} from '../../../api/sentence.service';
 import {
    editStoryApi,
    getStoriesApi,
    getStoryApi,
-} from '../../api/story.service';
-import { ISentence } from '../../interface/sentence.interface';
-import { IStory } from '../../interface/story.interface';
-import { shuffleArray } from '../../utils/utils';
-import SentenceItem from '../sentences/components/SentenceItem';
-import { SentenceTypes } from '../../utils/constants';
+} from '../../../api/story.service';
+import { ISentence } from '../../../interface/sentence.interface';
+import { IStory } from '../../../interface/story.interface';
+import { shuffleArray } from '../../../utils/utils';
+import SentenceItem from '../../sentences/components/SentenceItem';
+import { SentenceTypes } from '../../../utils/constants';
 
 const StorySentenceReview = () => {
    const navigate = useNavigate();
@@ -44,6 +47,7 @@ const StorySentenceReview = () => {
    // Panel 1
    const [p, setP] = useState<string>('-');
    const audioRef = useRef<HTMLAudioElement>(null);
+   const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(false);
 
    // finish modal
    const [showFinishModal, setShowFinishModal] = useState(false);
@@ -95,12 +99,10 @@ const StorySentenceReview = () => {
 
    useEffect(() => {
       if (counterState === 0 || panel === 0) return;
-
       // Check Finish
       if (counterState === sentences.length) {
          return setShowFinishModal(true);
       }
-
       convertSentence(sentences[counterState].context);
       setAnswerItems([]);
    }, [counterState]);
@@ -141,13 +143,10 @@ const StorySentenceReview = () => {
    }, [answerItems]);
 
    useEffect(() => {
-      if (
-         panel === 1 &&
-         counterState !== 0 &&
-         counterState !== sentences.length
-      ) {
+      if (panel === 1 && counterState !== sentences.length) {
          if (audioRef.current) {
             audioRef.current.src = sentences[counterState].audio;
+            if (autoPlayAudio) audioRef.current.play();
          }
       }
       if (panel === 2) {
@@ -308,6 +307,15 @@ const StorySentenceReview = () => {
                      setSliderTo(Number(e.target.value));
                   }}
                ></input>
+               <Form.Check
+                  type="switch"
+                  className="mb-2"
+                  label="Auto Play"
+                  checked={autoPlayAudio}
+                  onChange={e => {
+                     setAutoPlayAudio(e.target.checked);
+                  }}
+               />
                <button className="btn btn-primary w-100" onClick={startClick}>
                   Start
                </button>
@@ -384,6 +392,15 @@ const StorySentenceReview = () => {
                   <span className="badge bg-success" style={{ fontSize: 20 }}>
                      {ahead}
                   </span>
+                  <Form.Check
+                     type="switch"
+                     id="custom-switch"
+                     label="Auto Play"
+                     checked={autoPlayAudio}
+                     onChange={e => {
+                        setAutoPlayAudio(e.target.checked);
+                     }}
+                  />
                   <span className="badge bg-danger" style={{ fontSize: 20 }}>
                      {left}
                   </span>

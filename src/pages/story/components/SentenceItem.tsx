@@ -6,7 +6,7 @@ import { deleteSentenceOfVocabApi } from '../../../api/vocab.service';
 import { useNavigate } from 'react-router-dom';
 import Sentence from '../../sentences/components/Sentence';
 import { ISentence } from '../../../interface/sentence.interface';
-import EditSentenceModal from './EditSentence';
+import EditSentenceModal from './EditSentenceModal';
 
 const SentenceItem = (props: any) => {
    const sentence: ISentence = props.sentence;
