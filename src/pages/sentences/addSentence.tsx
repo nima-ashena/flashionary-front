@@ -35,7 +35,7 @@ const AddSentence = () => {
                isLoading: false,
                autoClose: 2000,
             });
-            setSentence(primaryData);
+            setSentence({ context: '', meaning: '', note: '' });
          } else {
             console.log(result.message);
             toast.update(id, {
@@ -110,7 +110,6 @@ const AddSentence = () => {
                   value={sentence.meaning}
                />
             </div>
-            
 
             <div className="form-check mb-3">
                <input

@@ -5,163 +5,241 @@ import {
    Form,
    ListGroup,
    Modal,
+   Offcanvas,
    Spinner,
 } from 'react-bootstrap';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import {
+   addSentenceToStoryApi,
    deleteSentenceOfStoryApi,
-   deleteStoryApi,
-   editStoryApi,
    getStoryApi,
 } from '../../api/story.service';
-import { ISentence } from '../../interface/sentence.interface';
+import { IAddSentence, ISentence } from '../../interface/sentence.interface';
 import { IStory } from '../../interface/story.interface';
 import SentenceItem from './components/SentenceItem';
 import Back from '../../components/Back';
+import { List, arrayMove } from 'react-movable';
 
 const EditStory = () => {
    const { storyId } = useParams();
-   const navigate = useNavigate();
 
    const [story, setStory] = useState<IStory>({ _id: '', title: '' });
-   const [sentence, setSentence] = useState<string>('');
+   const [translateApi, setTranslateApi] = useState<boolean>(true);
+   const [sentence, setSentence] = useState<IAddSentence>({ context: '' });
    const [sentences, setSentences] = useState<ISentence[]>([]);
-   const [render, setRender] = useState(false);
-   const [show, setShow] = useState(false);
-   const [reverse, setReverse] = useState<boolean>(false);
+   const [reverse, setReverse] = useState<boolean>(true);
    const [sentencesLoading, setSentencesLoading] = useState(true);
+   const [render, setRender] = useState(false);
+
+   const [replacementModal, setReplacementModal] = useState(false);
+
+   const navigate = useNavigate();
 
    useEffect(() => {
       setSentencesLoading(true);
       getStoryApi(storyId, (isOk, result) => {
          if (isOk) {
             setStory(result.story);
-            setSentences(result.story.sentences);
+            setSentences(result.story.sentences.reverse());
             setSentencesLoading(false);
          } else toast.error(result.message);
       });
    }, [render]);
 
-   const editStoryClick = (
+   const addSentenceClick = (
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       e.preventDefault();
-      editStoryApi(storyId, story, (isOk, result) => {
-         console.log(result.story);
-         if (isOk) {
-            setStory(result.story);
-            toast.success('Story edited successfully');
-            setRender(!render);
-            // setSentences(result.story.sentences.reverse())
-         } else {
-            toast.error(result.message);
-         }
-      });
-   };
-
-   const deleteStoryClick = () => {
-      deleteStoryApi(storyId, (isOk, result) => {
-         if (isOk) {
-            toast.success('Story deleted successfully');
-            navigate('/sentences/stories');
-         }
-      });
+      const id = toast.loading('Adding Sentence...');
+      addSentenceToStoryApi(
+         {
+            storyId,
+            context: sentence.context,
+            meaning: sentence.meaning,
+            storyFlag: sentence.storyFlag,
+            storyTough: sentence.storyTough,
+            translateApi,
+            TTSEngine: localStorage.getItem('defaultTTSEngine'),
+         },
+         (isOk, result) => {
+            if (isOk) {
+               setRender(!render);
+               setSentence({ context: '', meaning: '', note: '' });
+               toast.update(id, {
+                  render: 'sentence added successfully',
+                  type: 'success',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            } else {
+               toast.update(id, {
+                  render: result.response.data.message,
+                  type: 'error',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            }
+         },
+      );
    };
 
    return (
       <div className="container">
          <Back />
-         <form className="pt-3 col-12 col-md-10 col-lg-6">
-            <div className="mb-3">
-               <label className="form-label">Story Title</label>
-               <input
-                  type="text"
-                  className="form-control"
+         <div className='row'>
+            <section className="col-lg-5 col-12 col-md-10 pt-3">
+               <div className="mb-3">
+                  <label className="form-label">Story Title</label>
+                  <input
+                     type="text"
+                     className="form-control"
+                     // onChange={e => {
+                     //    setStory({ ...story, title: e.target.value });
+                     // }}
+                     value={story.title}
+                     disabled
+                  />
+               </div>
+               <hr />
+               <div className="mb-3">
+                  <label className="form-label">Context (*required)</label>
+                  <textarea
+                     className="form-control"
+                     onChange={e => {
+                        setSentence({ ...sentence, context: e.target.value });
+                     }}
+                     value={sentence.context}
+                     rows={3}
+                  />
+               </div>
+               <div className="mb-3">
+                  <label className="form-label">Meaning</label>
+                  <textarea
+                     className="form-control"
+                     onChange={e => {
+                        setSentence({ ...sentence, meaning: e.target.value });
+                     }}
+                     value={sentence.meaning}
+                     rows={2}
+                  />
+               </div>
+               <div className="form-check mb-3 d-flex justify-content-between">
+                  <div>
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              storyFlag: e.target.checked,
+                           });
+                        }}
+                        checked={sentence.storyFlag}
+                     />
+                     <label className="form-check-label">Flag</label>{' '}
+                     <i
+                        className="bi bi-flag-fill"
+                        style={{ color: '#fc4b08' }}
+                     ></i>
+                  </div>
+                  <div>
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              storyTough: e.target.checked,
+                           });
+                        }}
+                        checked={sentence.storyTough}
+                     />
+                     <label className="form-check-label">Tough</label>{' '}
+                     <i className="bi bi-bookmark-fill"></i>
+                  </div>
+               </div>
+               <Form.Check
+                  className="mb-3"
+                  type="switch"
+                  checked={translateApi}
                   onChange={e => {
-                     setStory({ ...story, title: e.target.value });
+                     setTranslateApi(e.target.checked);
                   }}
-                  value={story.title}
+                  label="Translate Api"
                />
-            </div>
-            <hr />
-            <button
-               type="submit"
-               className="btn btn-secondary btn-lg w-100 add-btn mb-2"
-               onClick={editStoryClick}
-            >
-               Edit
-            </button>
-            <button
-               type="button"
-               className="btn btn-danger btn-lg w-100 add-btn mb-3"
-               onClick={() => {
-                  setShow(true);
-               }}
-            >
-               Delete story
-            </button>
-            <Form.Check
-               className="mb-2"
-               type="switch"
-               checked={reverse}
-               onChange={e => {
-                  setReverse(e.target.checked);
-                  setSentences(sentences.reverse());
-               }}
-               label="Reverse"
-            />
-         </form>
-         <Modal
-            show={show}
-            onHide={() => {
-               setShow(false);
-            }}
-         >
-            <Modal.Header closeButton>
-               <Modal.Title>Delete Story: ?</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{story.title}</Modal.Body>
-            <Modal.Footer>
-               <Button
-                  variant="secondary"
-                  onClick={() => {
-                     setShow(false);
-                  }}
+               <button
+                  type="submit"
+                  className="btn btn-primary btn-lg w-100 add-btn mb-2"
+                  onClick={addSentenceClick}
                >
-                  Close
-               </Button>
-               <Button variant="danger" onClick={deleteStoryClick}>
-                  Yes
-               </Button>
-            </Modal.Footer>
-         </Modal>
-         <div className="col-12 col-lg-8">
-            {sentencesLoading && (
-               <Button className="w-100 py-3" variant="secondary" disabled>
-                  <Spinner
-                     className="mx-2"
-                     as="span"
-                     animation="grow"
-                     size="sm"
-                     role="status"
-                     aria-hidden="true"
-                  />
-                  Loading...
-               </Button>
-            )}
-            <ListGroup as="ol">
-               {sentences.map(item => (
-                  <SentenceItem
-                     storyId={storyId}
-                     item={item}
-                     key={item._id}
-                     render={render}
-                     setRender={setRender}
-                  />
-               ))}
-            </ListGroup>
+                  Add Sentence
+               </button>
+               <hr />
+
+               <Form.Check
+                  className="mt-2 mb-2"
+                  type="switch"
+                  checked={reverse}
+                  onChange={e => {
+                     setReverse(e.target.checked);
+                     setSentences(sentences.reverse());
+                  }}
+                  label="Reverse"
+               />
+            </section>
+            <section className="col-lg-7 col-12 row">
+               <div className="mb-3">
+                  {sentencesLoading && (
+                     <Button
+                        className="w-100 py-3"
+                        variant="secondary"
+                        disabled
+                     >
+                        <Spinner
+                           className="mx-2"
+                           as="span"
+                           animation="grow"
+                           size="sm"
+                           role="status"
+                           aria-hidden="true"
+                        />
+                        Loading...
+                     </Button>
+                  )}
+                  <ListGroup as="ol">
+                     {sentences.map(item => (
+                        <SentenceItem
+                           storyId={storyId}
+                           type={'story'}
+                           sentence={item}
+                           key={item._id}
+                           render={render}
+                           setRender={setRender}
+                        />
+                     ))}
+                  </ListGroup>
+                  <div className="mt-3">
+                     <List
+                        values={sentences}
+                        onChange={({ oldIndex, newIndex }) =>
+                           setSentences(
+                              arrayMove(sentences, oldIndex, newIndex),
+                           )
+                        }
+                        renderList={({ children, props }) => (
+                           <ListGroup {...props}>{children}</ListGroup>
+                        )}
+                        renderItem={({ value, props }) => (
+                           <div className="alert alert-success" {...props}>
+                              <p>{value.context}</p>
+                           </div>
+                        )}
+                     />
+                  </div>
+               </div>
+            </section>
          </div>
       </div>
    );

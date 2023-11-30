@@ -1,11 +1,13 @@
 export interface IAddSentence {
-   user: string;
    context: string;
    meaning?: string;
+   user?: string;
    note?: string;
    translateApi?: boolean;
    TTSEngine?: string;
    type?: string;
+   storyFlag?: boolean,
+   storyTough?: boolean,
 }
 
 export interface ISentence {
@@ -21,4 +23,6 @@ export interface ISentence {
    completed?: Boolean;
    type?: string;
    user?: string;
+   storyFlag?: boolean,
+   storyTough?: boolean,
 }

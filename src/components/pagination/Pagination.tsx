@@ -51,16 +51,19 @@ const PaginationN = (props: any) => {
             <Pagination.First onClick={firstClick} />
             <Pagination.Prev onClick={prevClick} />
 
-            {paginationItems.map(item => (
-               <Pagination.Item
-                  onClick={e => {
-                     pageClick(item.value);
-                  }}
-                  active={item.active}
-               >
-                  {item.value}
-               </Pagination.Item>
-            ))}
+            {paginationItems.map((item, index) => {
+               if (index >= page - 2 || index <= page + 2)
+                  return (
+                     <Pagination.Item
+                        onClick={e => {
+                           pageClick(item.value);
+                        }}
+                        active={item.active}
+                     >
+                        {item.value}
+                     </Pagination.Item>
+                  );
+            })}
 
             {/* <Pagination.Ellipsis /> */}
             <Pagination.Next onClick={nextClick} />

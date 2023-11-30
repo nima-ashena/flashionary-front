@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { addStoryApi, getStoriesApi } from '../../api/story.service';
-import Story from '../../components/story/Story';
+import Story from './Story';
 import { IStory } from '../../interface/story.interface';
 
 const Stories = () => {

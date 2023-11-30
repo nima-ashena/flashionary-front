@@ -7,12 +7,13 @@ import {
    Modal,
    Spinner,
 } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import {
-   addSentenceToStoryApi,
    deleteSentenceOfStoryApi,
+   deleteStoryApi,
+   editStoryApi,
    getStoryApi,
 } from '../../api/story.service';
 import { ISentence } from '../../interface/sentence.interface';
@@ -22,130 +23,85 @@ import Back from '../../components/Back';
 
 const ShowStory = () => {
    const { storyId } = useParams();
+   const navigate = useNavigate();
 
    const [story, setStory] = useState<IStory>({ _id: '', title: '' });
-   const [translateApi, setTranslateApi] = useState<boolean>(true);
-   const [sentence, setSentence] = useState<string>(''); // context
-   const [meaning, setMeaning] = useState<string>('');
+   const [sentence, setSentence] = useState<string>('');
    const [sentences, setSentences] = useState<ISentence[]>([]);
-   const [reverse, setReverse] = useState<boolean>(true);
-   const [sentencesLoading, setSentencesLoading] = useState(true);
    const [render, setRender] = useState(false);
-
-   const navigate = useNavigate();
+   const [show, setShow] = useState(false);
+   const [reverse, setReverse] = useState<boolean>(false);
+   const [sentencesLoading, setSentencesLoading] = useState(true);
 
    useEffect(() => {
       setSentencesLoading(true);
       getStoryApi(storyId, (isOk, result) => {
          if (isOk) {
             setStory(result.story);
-            setSentences(result.story.sentences.reverse());
+            setSentences(result.story.sentences);
             setSentencesLoading(false);
          } else toast.error(result.message);
       });
    }, [render]);
 
-   const addSentenceClick = (
+   const editStoryClick = (
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       e.preventDefault();
-      const id = toast.loading('Adding Sentence...');
-      addSentenceToStoryApi(
-         {
-            storyId,
-            context: sentence,
-            meaning,
-            translateApi,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
-         },
-         (isOk, result) => {
-            if (isOk) {
-               setRender(!render);
-               setSentence('');
-               setMeaning('');
-               toast.update(id, {
-                  render: 'sentence added successfully',
-                  type: 'success',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
-            } else {
-               toast.update(id, {
-                  render: result.response.data.message,
-                  type: 'error',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
-            }
-         },
-      );
+      editStoryApi(storyId, story, (isOk, result) => {
+         console.log(result.story);
+         if (isOk) {
+            setStory(result.story);
+            toast.success('Story edited successfully');
+            setRender(!render);
+            // setSentences(result.story.sentences.reverse())
+         } else {
+            toast.error(result.message);
+         }
+      });
+   };
+
+   const deleteStoryClick = () => {
+      deleteStoryApi(storyId, (isOk, result) => {
+         if (isOk) {
+            toast.success('Story deleted successfully');
+            navigate('/sentences/stories');
+         }
+      });
    };
 
    return (
       <div className="container">
          <Back />
+         <h1>در دست احداث</h1>
          <form className="pt-3 col-12 col-md-10 col-lg-6">
             <div className="mb-3">
                <label className="form-label">Story Title</label>
                <input
                   type="text"
                   className="form-control"
-                  // onChange={e => {
-                  //    setStory({ ...story, title: e.target.value });
-                  // }}
+                  onChange={e => {
+                     setStory({ ...story, title: e.target.value });
+                  }}
                   value={story.title}
-                  disabled
                />
             </div>
             <hr />
-            <div className="mb-3">
-               <label className="form-label">Context (*required)</label>
-               <textarea
-                  className="form-control"
-                  onChange={e => {
-                     setSentence(e.target.value);
-                  }}
-                  value={sentence}
-                  rows={3}
-               />
-            </div>
-            <div className="mb-3">
-               <label className="form-label">Meaning</label>
-               <textarea
-                  className="form-control"
-                  onChange={e => {
-                     setMeaning(e.target.value);
-                  }}
-                  value={meaning}
-                  rows={2}
-               />
-            </div>
-            <div className="form-check mb-3">
-               <input
-                  className="form-check-input"
-                  type="checkbox"
-                  onChange={e => {
-                     setTranslateApi(e.target.checked);
-                  }}
-                  checked={translateApi}
-               />
-               <label className="form-check-label">Translate Api</label>
-            </div>
             <button
                type="submit"
-               className="btn btn-primary btn-lg w-100 add-btn mb-2"
-               onClick={addSentenceClick}
+               className="btn btn-secondary btn-lg w-100 add-btn mb-2"
+               onClick={editStoryClick}
             >
-               Add Sentence
+               Edit
             </button>
             <button
-               type="submit"
-               className="btn btn-success btn-lg w-100 add-btn mb-3"
+               type="button"
+               className="btn btn-danger btn-lg w-100 add-btn mb-3"
                onClick={() => {
-                  navigate(`/sentences/review/${storyId}`);
+                  setShow(true);
                }}
             >
-               Review This Story
+               Delete story
             </button>
             <Form.Check
                className="mb-2"
@@ -158,34 +114,44 @@ const ShowStory = () => {
                label="Reverse"
             />
          </form>
-         <div className="row">
-            <div className="col-12 col-lg-8 mb-3">
-               {sentencesLoading && (
-                  <Button className="w-100 py-3" variant="secondary" disabled>
-                     <Spinner
-                        className="mx-2"
-                        as="span"
-                        animation="grow"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                     />
-                     Loading...
-                  </Button>
-               )}
-               <ListGroup as="ol">
-                  {sentences.map(item => (
-                     <SentenceItem
-                        storyId={storyId}
-                        type={'story'}
-                        item={item}
-                        key={item._id}
-                        render={render}
-                        setRender={setRender}
-                     />
-                  ))}
-               </ListGroup>
-            </div>
+         <Modal
+            show={show}
+            onHide={() => {
+               setShow(false);
+            }}
+         >
+            <Modal.Header closeButton>
+               <Modal.Title>Delete Story: ?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>{story.title}</Modal.Body>
+            <Modal.Footer>
+               <Button
+                  variant="secondary"
+                  onClick={() => {
+                     setShow(false);
+                  }}
+               >
+                  Close
+               </Button>
+               <Button variant="danger" onClick={deleteStoryClick}>
+                  Yes
+               </Button>
+            </Modal.Footer>
+         </Modal>
+         <div className="col-12 col-lg-8">
+            {sentencesLoading && (
+               <Button className="w-100 py-3" variant="secondary" disabled>
+                  <Spinner
+                     className="mx-2"
+                     as="span"
+                     animation="grow"
+                     size="sm"
+                     role="status"
+                     aria-hidden="true"
+                  />
+                  Loading...
+               </Button>
+            )}
          </div>
       </div>
    );

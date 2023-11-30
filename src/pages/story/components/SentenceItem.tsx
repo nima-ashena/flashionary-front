@@ -4,9 +4,12 @@ import { toast } from 'react-toastify';
 import { deleteSentenceOfStoryApi } from '../../../api/story.service';
 import { deleteSentenceOfVocabApi } from '../../../api/vocab.service';
 import { useNavigate } from 'react-router-dom';
+import Sentence from '../../sentences/components/Sentence';
+import { ISentence } from '../../../interface/sentence.interface';
+import EditSentence from './EditSentence';
 
 const SentenceItem = (props: any) => {
-   const item = props.item;
+   const sentence: ISentence = props.sentence;
    const type = props.type;
    const storyId = props.storyId;
    const vocabId = props.vocabId;
@@ -14,15 +17,17 @@ const SentenceItem = (props: any) => {
    const setRender = props.setRender;
    const audioRef = useRef<HTMLAudioElement>(null);
 
-   const [show, setShow] = useState(false);
+   const [showDeleteModal, setShowDeleteModal] = useState(false);
+   const [showEditModal, setShowEditModal] = useState(false);
+
 
    const navigate = useNavigate();
 
    const trashClick = () => {
-      setShow(false);
+      setShowDeleteModal(false);
       if (type === 'story') {
          deleteSentenceOfStoryApi(
-            { storyId, sentenceId: item._id },
+            { storyId, sentenceId: sentence._id },
             (isOk, result) => {
                if (isOk) {
                   setRender(!render);
@@ -35,7 +40,7 @@ const SentenceItem = (props: any) => {
          );
       } else if (type === 'vocab') {
          deleteSentenceOfVocabApi(
-            { vocabId, sentenceId: item._id },
+            { vocabId, sentenceId: sentence._id },
             (isOk, result) => {
                if (isOk) {
                   setRender(!render);
@@ -50,31 +55,53 @@ const SentenceItem = (props: any) => {
 
    return (
       <>
-         <ListGroup.Item as="li" className="">
+         <ListGroup.Item as="li" style={{ position: 'relative' }}>
             <div className="row">
                <div className="col-12 col-md-8 col-lg-9">
-                  <div className="fw-bold mb-2">{item.context}</div>
+                  <div className="fw-bold mb-2">{sentence.context}</div>
                   <div
                      className="fw-bold mb-2"
                      style={{ direction: 'rtl', textAlign: 'right' }}
                   >
-                     {item.meaning}
+                     {sentence.meaning}
                   </div>
                   <audio
                      hidden
                      className="mb-2 w-100"
                      controls
-                     src={`${item.audio}`}
+                     src={`${sentence.audio}`}
                      ref={audioRef}
                   ></audio>
                </div>
 
                <div className="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-start">
+                  {sentence.storyFlag && (
+                     <i
+                        className="bi bi-flag-fill"
+                        style={{
+                           color: '#fc4b08',
+                           position: 'absolute',
+                           left: 12,
+                           bottom: 4,
+                        }}
+                     ></i>
+                  )}
+                  {sentence.storyTough && (
+                     <i
+                        className="bi bi-bookmark-fill"
+                        style={{
+                           position: 'absolute',
+                           left: 32,
+                           bottom: 4,
+                        }}
+                     ></i>
+                  )}
                   <button
                      type="button"
                      className="btn btn-secondary m-1"
                      onClick={() => {
-                        navigate(`/sentences/edit/${item._id}`);
+                        // navigate(`/sentences/edit/${sentence._id}`);
+                        setShowEditModal(true)
                      }}
                   >
                      <i className="bi bi-pen" />
@@ -82,7 +109,7 @@ const SentenceItem = (props: any) => {
                   <button
                      type="button"
                      className="btn btn-danger m-1"
-                     onClick={() => setShow(true)}
+                     onClick={() => setShowDeleteModal(true)}
                   >
                      <i className="bi bi-trash" />
                   </button>
@@ -98,21 +125,29 @@ const SentenceItem = (props: any) => {
                </div>
             </div>
          </ListGroup.Item>
+         <EditSentence
+            render={render}
+            setRender={setRender}
+            sentenceId={sentence._id}
+            showEditModal={showEditModal}
+            setShowEditModal={setShowEditModal}
+         />
+         {/* Delete Modal */}
          <Modal
-            show={show}
+            show={showDeleteModal}
             onHide={() => {
-               setShow(false);
+               setShowDeleteModal(false);
             }}
          >
             <Modal.Header closeButton>
                <Modal.Title>Delete Sentence: ?</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{item.context}</Modal.Body>
+            <Modal.Body>{sentence.context}</Modal.Body>
             <Modal.Footer>
                <Button
                   variant="secondary"
                   onClick={() => {
-                     setShow(false);
+                     setShowDeleteModal(false);
                   }}
                >
                   Close
