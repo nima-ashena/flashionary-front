@@ -94,6 +94,7 @@ const StorySentenceReview = () => {
    const reviewToughs = () => {
       clearClick();
       let ss: any[] = story.toughs;
+      setStoryLength(ss.length)
       setSentences(ss);
       setLeft(ss.length - counterState);
       setAhead(counterState);

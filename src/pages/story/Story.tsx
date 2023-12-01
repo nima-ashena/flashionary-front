@@ -21,7 +21,7 @@ const Story = (props: any) => {
                   <div>
                      <Link
                         to={`/sentences/stories/show/${story._id}`}
-                        className="btn my-1 mx-1"
+                        className="btn my-1"
                         style={{ color: '#fff', backgroundColor: '#198754' }}
                         >
                         <i
@@ -30,10 +30,16 @@ const Story = (props: any) => {
                      </Link>
                      <Link
                         to={`/sentences/stories/edit/${story._id}`}
-                        className="btn my-1"
+                        className="btn my-1 mx-1"
                         style={{ color: '#fff', backgroundColor: 'orange' }}
                      >
                         <i className="bi bi-pen" />
+                     </Link>
+                     <Link
+                        to={`/stories/review/${story._id}`}
+                        className="btn my-1 text-light bg-primary"
+                     >
+                        <i className="bi bi-arrow-repeat" />
                      </Link>
                   </div>
                </div>
