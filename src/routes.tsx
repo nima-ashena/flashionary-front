@@ -51,13 +51,13 @@ const RoutesHandle = () => {
                   path="/sentences/review/:storyId"
                   element={<SentenceReview />}
                />
-               <Route path="/sentences/stories" element={<Story />} />
+               <Route path="/stories" element={<Story />} />
                <Route
-                  path="/sentences/stories/show/:storyId"
+                  path="/stories/show/:storyId"
                   element={<ShowStory />}
                />
                <Route
-                  path="/sentences/stories/edit/:storyId"
+                  path="/stories/edit/:storyId"
                   element={<EditStory />}
                />
                <Route

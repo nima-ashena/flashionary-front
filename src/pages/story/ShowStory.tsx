@@ -7,7 +7,7 @@ import {
    Modal,
    Spinner,
 } from 'react-bootstrap';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import {
@@ -33,7 +33,7 @@ const ShowStory = () => {
    const [reverse, setReverse] = useState<boolean>(false);
    const [sentencesLoading, setSentencesLoading] = useState(true);
 
-   const [reviewModal, setReviewModal] = useState(false)
+   const [reviewModal, setReviewModal] = useState(false);
 
    useEffect(() => {
       setSentencesLoading(true);
@@ -74,23 +74,31 @@ const ShowStory = () => {
 
    return (
       <div className="container">
-         <Back />
-         <form className="pt-3 col-12 col-md-10 col-lg-6">
+         <div className="d-flex justify-content-between mb-2 pt-2">
+            <Back />
+            <div>
+               <Link
+                  to={`/stories/edit/${story._id}`}
+                  className="btn my-1 mx-1"
+                  style={{ color: '#fff', backgroundColor: 'orange' }}
+               >
+                  <i className="bi bi-pen" />
+               </Link>
+               <Link
+                  to={`/stories/review/${story._id}`}
+                  className="btn my-1 text-light bg-primary"
+               >
+                  <i className="bi bi-arrow-repeat" />
+               </Link>
+            </div>
+         </div>
+         <form className="col-12 col-md-10 col-lg-6">
             <div className="mb-3">
                <div className="alert alert-primary mb-1">{story.title}</div>
                {story.note && (
                   <div className="alert alert-secondary">{story.note}</div>
                )}
             </div>
-            <button
-               type="submit"
-               className="btn btn-primary btn-lg w-100 add-btn mb-2"
-               onClick={() => {
-                  navigate(`/stories/review/${storyId}`);
-               }}
-            >
-               Review This Story
-            </button>
          </form>
          <Modal
             show={show}

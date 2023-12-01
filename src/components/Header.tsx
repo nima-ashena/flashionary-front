@@ -101,7 +101,7 @@ const Header = () => {
                <Link to={'/sentences/review/no-story'} onClick={closeSidebar}>
                   Sentence Review
                </Link>
-               <Link to={'/sentences/stories'} onClick={closeSidebar}>
+               <Link to={'/stories'} onClick={closeSidebar}>
                   Story
                </Link>
             </Offcanvas.Body>

@@ -14,13 +14,13 @@ const Story = (props: any) => {
 
    return (
       <>
-         <div className="col-6 col-sm-4 col-md-4 col-lg-3">
+         <div className="col-12 col-md-4 col-lg-3">
             <div className="card bg-dark text-light" id="story">
                <div className="card-body text-center">
                   <p className="card-title mb-3">{story.title}</p>
                   <div>
                      <Link
-                        to={`/sentences/stories/show/${story._id}`}
+                        to={`/stories/show/${story._id}`}
                         className="btn my-1"
                         style={{ color: '#fff', backgroundColor: '#198754' }}
                         >
@@ -29,7 +29,7 @@ const Story = (props: any) => {
                            />
                      </Link>
                      <Link
-                        to={`/sentences/stories/edit/${story._id}`}
+                        to={`/stories/edit/${story._id}`}
                         className="btn my-1 mx-1"
                         style={{ color: '#fff', backgroundColor: 'orange' }}
                      >

@@ -8,7 +8,7 @@ import {
    Offcanvas,
    Spinner,
 } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import {
@@ -145,8 +145,13 @@ const EditStory = () => {
                      style={{ fontSize: 30, margin: 0, cursor: 'pointer' }}
                   ></i>
                </div>
-               <div className="">
-                  <div className="alert alert-primary" style={{marginBottom: 2}}>{story.title}</div>
+               <div>
+                  <div
+                     className="alert alert-primary"
+                     style={{ marginBottom: 2 }}
+                  >
+                     {story.title}
+                  </div>
                   {story.note && (
                      <div className="alert alert-secondary">{story.note}</div>
                   )}
@@ -320,7 +325,22 @@ const EditStory = () => {
             }}
          >
             <Modal.Header closeButton>
-               <Modal.Title>Edit Story</Modal.Title>
+               <Modal.Title>
+                  Edit Story{' '}
+                  <Link
+                     to={`/stories/show/${story._id}`}
+                     className="btn mx-1"
+                     style={{ color: '#fff', backgroundColor: '#198754' }}
+                  >
+                     <i className="bi bi-eye" />
+                  </Link>
+                  <Link
+                     to={`/stories/review/${story._id}`}
+                     className="btn my-1 text-light bg-primary"
+                  >
+                     <i className="bi bi-arrow-repeat" />
+                  </Link>
+               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                <form className="pt-3">
@@ -379,7 +399,7 @@ const EditStory = () => {
                   </button>
                   <button
                      type="button"
-                     className="btn btn-danger btn-lg w-100 add-btn mb-3"
+                     className="btn btn-danger btn-lg w-100 add-btn mb-2"
                      // onClick={() => {
                      //    setShow(true);
                      // }}

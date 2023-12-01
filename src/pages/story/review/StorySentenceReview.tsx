@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
    deleteSentenceApi,
@@ -94,7 +94,7 @@ const StorySentenceReview = () => {
    const reviewToughs = () => {
       clearClick();
       let ss: any[] = story.toughs;
-      setStoryLength(ss.length)
+      setStoryLength(ss.length);
       setSentences(ss);
       setLeft(ss.length - counterState);
       setAhead(counterState);
@@ -290,9 +290,28 @@ const StorySentenceReview = () => {
       <div className="container">
          {panel === 0 && (
             <div className="pt-3 col-12 col-md-8 col-lg-6 mb-3">
-               <label className="form-label w-100">
-                  Length Of Story: {sentences.length}
-               </label>
+               <div className="d-flex justify-content-between pt-2">
+                  <label className="form-label">
+                     Length Of Story: {sentences.length}
+                  </label>
+                  <div>
+                     <Link
+                        to={`/stories/show/${story._id}`}
+                        className="btn mx-1"
+                        style={{ color: '#fff', backgroundColor: '#198754' }}
+                     >
+                        <i className="bi bi-eye" />
+                     </Link>
+                     <Link
+                        to={`/stories/edit/${story._id}`}
+                        className="btn my-1 mx-1"
+                        style={{ color: '#fff', backgroundColor: 'orange' }}
+                     >
+                        <i className="bi bi-pen" />
+                     </Link>
+                  </div>
+               </div>
+
                <label className="form-label">From: {sliderFrom}</label>
                <input
                   type="range"

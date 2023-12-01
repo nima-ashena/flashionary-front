@@ -217,9 +217,7 @@ const EditSentenceModal = props => {
                   >
                      Sync Audio
                   </button>
-               </div>
-
-               <div className="col">
+ 
                   <button
                      type="submit"
                      className="btn btn-primary btn-lg w-100 add-btn my-2"
