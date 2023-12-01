@@ -36,7 +36,6 @@ const StorySentenceReview = () => {
    // Panel 0
    const [sliderFrom, setSliderFrom] = useState(1);
    const [sliderTo, setSliderTo] = useState(0);
-   const [flagD, setFlagD] = useState({ from: 0, to: 0 });
    const [sentenceItems, setSentenceItems] = useState<any[]>([]);
    const [answerItems, setAnswerItems] = useState<any[]>([]);
    const [story, setStory] = useState<IStory>({
@@ -44,7 +43,8 @@ const StorySentenceReview = () => {
       sentences: [],
    });
    const [storyLength, setStoryLength] = useState<number>(0);
-   const [flags, setFlags] = useState([{ context: '', index: 0 }]);
+   const [flagD, setFlagD] = useState({ from: 0, to: 0 });
+   const [flags, setFlags] = useState<any[]>([{ context: '', index: 0 }]);
    const [answer, setAnswer] = useState<string>('');
 
    // Panel 1
@@ -72,8 +72,9 @@ const StorySentenceReview = () => {
             setSentences(result.story.sentences);
             setSliderTo(result.story.sentences.length);
             setStoryLength(result.story.sentences.length);
-            setFlags(calculateFlags(result.story.sentences));
-            // calculateFlags(result.story.sentences)
+            let flagsT = calculateFlags(result.story.sentences);
+            setFlags(flagsT);
+            setFlagD({ from: 0, to: flagsT[flagsT.length - 1].index });
          } else toast.error(result.message);
       });
    }, []);
@@ -94,6 +95,20 @@ const StorySentenceReview = () => {
    const reviewToughs = () => {
       clearClick();
       let ss: any[] = story.toughs;
+      setStoryLength(ss.length);
+      setSentences(ss);
+      setLeft(ss.length - counterState);
+      setAhead(counterState);
+      convertSentence(ss[counterState].context);
+      if (audioRef.current) {
+         audioRef.current.src = ss[counterState].audio;
+      }
+      setPanel(1);
+   };
+
+   const reviewFlags = () => {
+      if (flagD.from >= flagD.to) return toast.warn('Control your entries');
+      let ss: any[] = sentences.slice(flagD.from, flagD.to + 1);
       setStoryLength(ss.length);
       setSentences(ss);
       setLeft(ss.length - counterState);
@@ -351,7 +366,6 @@ const StorySentenceReview = () => {
                   Review Toughs
                </button>
                <hr />
-               <h2>Flag not finished</h2>
                {flags.map((item, index) => (
                   <div className="mb-1">
                      <i
@@ -389,7 +403,7 @@ const StorySentenceReview = () => {
                      <select
                         className="form-select"
                         aria-label="Default select example"
-                        // value={flagD.to}
+                        value={flagD.to}
                         onChange={e => {
                            setFlagD({
                               ...flagD,
@@ -407,7 +421,7 @@ const StorySentenceReview = () => {
                <button
                   className="btn w-100"
                   style={{ color: '#fff', backgroundColor: '#fc4b08' }}
-                  // onClick={reviewToughs}
+                  onClick={reviewFlags}
                >
                   Review Flags
                </button>

@@ -75,7 +75,7 @@ const EditVocabGroup = () => {
 
    return (
       <div className="container">
-         <Back />
+         <Back url={'/vocabs/groups'}/>
          <form className="pt-3 col-12 col-md-10 col-lg-6">
             <div className="mb-3">
                <label className="form-label">VocabGroup Title</label>

@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
-const Back = () => {
+const Back = ({url}) => {
    const navigate = useNavigate();
 
    const route = () => {
-      navigate('/sentences/stories');
+      navigate(url);
    };
 
    return (

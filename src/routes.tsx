@@ -41,6 +41,16 @@ const RoutesHandle = () => {
                <Route path="vocabs" element={<Vocabs />} />
                <Route path="/vocabs/edit/:vocabId" element={<EditVocab />} />
                <Route path="/vocabs/dict" element={<VocabDict />} />
+               <Route path="/vocabs/groups" element={<VocabGroups />} />
+               <Route
+                  path="/vocabs/groups/show/:vocabGroupId"
+                  element={<ShowVocabGroup />}
+               />
+               <Route
+                  path="/vocabs/vocab/edit/:VocabGroupId"
+                  element={<EditVocab />}
+               />
+
                <Route path="/sentences/add" element={<AddSentence />} />
                <Route path="/sentences" element={<Sentences />} />
                <Route
@@ -51,6 +61,7 @@ const RoutesHandle = () => {
                   path="/sentences/review/:storyId"
                   element={<SentenceReview />}
                />
+
                <Route path="/stories" element={<Story />} />
                <Route path="/stories/show/:storyId" element={<ShowStory />} />
                <Route path="/stories/edit/:storyId" element={<EditStory />} />
@@ -58,15 +69,7 @@ const RoutesHandle = () => {
                   path="/stories/review/:storyId"
                   element={<StorySentenceReview />}
                />
-               <Route path="/vocabs/groups" element={<VocabGroups />} />
-               <Route
-                  path="/vocabs/groups/show/:vocabGroupId"
-                  element={<ShowVocabGroup />}
-               />
-               <Route
-                  path="/vocabs/vocab/edit/:VocabGroupId"
-                  element={<EditVocab />}
-               />
+               
                <Route path="/user/setting" element={<Setting />} />
                <Route path="/test" element={<Test />} />
             </Routes>

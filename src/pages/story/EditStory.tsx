@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import {
    addSentenceToStoryApi,
    deleteSentenceOfStoryApi,
+   deleteStoryApi,
    editStoryApi,
    getStoryApi,
 } from '../../api/story.service';
@@ -26,6 +27,7 @@ import { storyTypes } from '../../utils/constants';
 
 const EditStory = () => {
    const { storyId } = useParams();
+   const navigate = useNavigate();
 
    const [story, setStory] = useState<IStory>({ _id: '', title: '' });
    const [editedStory, setEditedStory] = useState<IStory>({
@@ -40,6 +42,7 @@ const EditStory = () => {
 
    const [replacementMode, setReplacementMode] = useState(false);
    const [editStoryModal, setEditStoryModal] = useState(false);
+   const [deleteStoryModal, setDeleteStoryModal] = useState(false);
 
    useEffect(() => {
       setSentencesLoading(true);
@@ -131,12 +134,21 @@ const EditStory = () => {
       );
    };
 
+   const deleteStoryClick = () => {
+      deleteStoryApi(storyId, (isOk, result) => {
+         if (isOk) {
+            toast.success('Story deleted successfully');
+            navigate('/stories');
+         }
+      });
+   };
+
    return (
       <div className="container">
          <div className="row pt-2">
             <section className="col-lg-5 col-12 col-md-10 mb-2">
                <div className="d-flex justify-content-between mb-2">
-                  <Back />
+                  <Back url={'/stories'} />
                   <i
                      onClick={() => {
                         setEditStoryModal(true);
@@ -318,6 +330,7 @@ const EditStory = () => {
                </div>
             </section>
          </div>
+         {/* Edit Modal */}
          <Modal
             show={editStoryModal}
             onHide={() => {
@@ -400,14 +413,41 @@ const EditStory = () => {
                   <button
                      type="button"
                      className="btn btn-danger btn-lg w-100 add-btn mb-2"
-                     // onClick={() => {
-                     //    setShow(true);
-                     // }}
+                     onClick={() => {
+                        setEditStoryModal(false);
+                        setDeleteStoryModal(true);
+                     }}
                   >
-                     Delete story (Not Finished)
+                     Delete story
                   </button>
                </form>
             </Modal.Body>
+         </Modal>
+
+         {/* Delete Modal */}
+         <Modal
+            show={deleteStoryModal}
+            onHide={() => {
+               setDeleteStoryModal(false);
+            }}
+         >
+            <Modal.Header closeButton>
+               <Modal.Title>Delete Story: ?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>{story.title}</Modal.Body>
+            <Modal.Footer>
+               <Button
+                  variant="secondary"
+                  onClick={() => {
+                     setDeleteStoryModal(false);
+                  }}
+               >
+                  Close
+               </Button>
+               <Button variant="danger" onClick={deleteStoryClick}>
+                  Yes
+               </Button>
+            </Modal.Footer>
          </Modal>
       </div>
    );
