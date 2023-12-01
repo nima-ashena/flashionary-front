@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { getUserApi } from './api/auth.service';
 // import VocabDict from './pages/vocabs/VocabDict-old';
-import VocabDict from './pages/vocabs/vocabDict';
+import VocabDict from './pages/vocabs/vocabDict/vocabDict';
 import Home from './pages/Home';
 import AddSentence from './pages/sentences/addSentence';
 import Sentences from './pages/sentences/ Sentences';
@@ -13,8 +13,8 @@ import Story from './pages/story/Stories';
 import ShowStory from './pages/story/ShowStory';
 import EditStory from './pages/story/EditStory';
 import Header from './components/Header';
-import AddVocab from './pages/vocabs/addVocab';
-import EditVocab from './pages/vocabs/editVocab';
+import AddVocab from './pages/vocabs/AddVocab';
+import EditVocab from './pages/vocabs/EditVocab';
 import Vocabs from './pages/vocabs/Vocabs';
 import SignIn from './pages/auth/SignIn';
 import Test from './pages/test/Test';
@@ -52,14 +52,8 @@ const RoutesHandle = () => {
                   element={<SentenceReview />}
                />
                <Route path="/stories" element={<Story />} />
-               <Route
-                  path="/stories/show/:storyId"
-                  element={<ShowStory />}
-               />
-               <Route
-                  path="/stories/edit/:storyId"
-                  element={<EditStory />}
-               />
+               <Route path="/stories/show/:storyId" element={<ShowStory />} />
+               <Route path="/stories/edit/:storyId" element={<EditStory />} />
                <Route
                   path="/stories/review/:storyId"
                   element={<StorySentenceReview />}

@@ -13,8 +13,8 @@ import {
 } from '../../api/vocab.service';
 import { editVocabApi } from '../../api/vocab.service';
 import { ISentence } from '../../interface/sentence.interface';
-import SentenceItem from '../story/components/SentenceItem';
 import { compoundTypes } from '../../utils/constants';
+import SentenceItem from './components/SentenceItem';
 
 // ! when edit vocab done, audio doesn't reload
 const EditVocab = () => {
@@ -212,12 +212,12 @@ const EditVocab = () => {
          <div className="container">
             <div className="row">
                <form
-                  className="pt-3 col-sm-12 col-md-8 col-lg-6 row mb-4"
+                  className="pt-3 col-sm-12 col-md-8 col-lg-5 mb-4"
                   onSubmit={event => {
                      submitClick(event);
                   }}
                >
-                  <div className="mb-3 col-lg-6">
+                  <div className="mb-3">
                      <label className="form-label">Title</label>
                      <input
                         type="text"
@@ -226,10 +226,9 @@ const EditVocab = () => {
                            setVocab({ ...vocab, title: e.target.value });
                         }}
                         value={vocab.title}
-                        disabled
                      />
                   </div>
-                  <div className="mb-3 col-lg-6">
+                  <div className="mb-3">
                      <label className="form-label">Meaning (Persian)</label>
                      <input
                         type="text"
@@ -240,49 +239,44 @@ const EditVocab = () => {
                         value={vocab.meaning}
                      />
                   </div>
-                  <div className="mb-3 col-lg-6">
-                     <label className="form-label">Type</label>
-                     <select
-                        className="form-select"
-                        aria-label="Default select example"
-                        value={vocab.type}
-                        onChange={e => {
-                           setVocab({ ...vocab, type: e.target.value });
-                        }}
-                     >
-                        <option value="noun">Noun</option>
-                        <option value="verb">Verb</option>
-                        <option value="adjective">Adjective</option>
-                        <option value="adverb">Adverb</option>
-                        <option value="nounVerb">Noun, Verb</option>
-                     </select>
+                  <div className='row'>
+                     <div className="mb-3 col-lg-6">
+                        <label className="form-label">Type</label>
+                        <select
+                           className="form-select"
+                           aria-label="Default select example"
+                           value={vocab.type}
+                           onChange={e => {
+                              setVocab({ ...vocab, type: e.target.value });
+                           }}
+                        >
+                           <option value="noun">Noun</option>
+                           <option value="verb">Verb</option>
+                           <option value="adjective">Adjective</option>
+                           <option value="adverb">Adverb</option>
+                           <option value="nounVerb">Noun, Verb</option>
+                        </select>
+                     </div>
+                     <div className="mb-3 col-lg-6">
+                        <label className="form-label">Compound Type</label>
+                        <select
+                           className="form-select"
+                           aria-label="Default select example"
+                           value={vocab.compoundType}
+                           onChange={e => {
+                              setVocab({
+                                 ...vocab,
+                                 compoundType: e.target.value,
+                              });
+                           }}
+                        >
+                           {compoundTypes.map(item => (
+                              <option value={item}>{item}</option>
+                           ))}
+                        </select>
+                     </div>
                   </div>
-                  <div className="mb-3">
-                     <label className="form-label">Compound Type</label>
-                     <select
-                        className="form-select"
-                        aria-label="Default select example"
-                        value={vocab.compoundType}
-                        onChange={e => {
-                           setVocab({ ...vocab, compoundType: e.target.value });
-                        }}
-                     >
-                        {compoundTypes.map(item => (
-                           <option value={item}>{item}</option>
-                        ))}
-                     </select>
-                  </div>
-                  <div className="mb-3 col-lg-6">
-                     <label className="form-label">Phonetics</label>
-                     <input
-                        type="text"
-                        className="form-control"
-                        onChange={e => {
-                           setVocab({ ...vocab, phonetics: e.target.value });
-                        }}
-                        value={vocab.phonetics}
-                     />
-                  </div>
+
                   <div className="mb-3">
                      <label className="form-label">Definition</label>
                      <textarea
@@ -293,6 +287,17 @@ const EditVocab = () => {
                         value={vocab.definition}
                         rows={3}
                      ></textarea>
+                  </div>
+                  <div className="mb-3">
+                     <label className="form-label">Phonetics</label>
+                     <input
+                        type="text"
+                        className="form-control"
+                        onChange={e => {
+                           setVocab({ ...vocab, phonetics: e.target.value });
+                        }}
+                        value={vocab.phonetics}
+                     />
                   </div>
                   <audio
                      className="mb-2 w-100"
@@ -355,7 +360,7 @@ const EditVocab = () => {
                         type="submit"
                         className="btn btn-primary btn-lg w-100 add-btn my-2"
                      >
-                        Edit Vocab
+                        Save
                      </button>
                      {!isThisUserOwnVocab && (
                         <button
@@ -381,7 +386,7 @@ const EditVocab = () => {
                      )}
                   </div>
                </form>
-               <div className="col-12 col-md-8 col-lg-6 pb-3">
+               <div className="col-12 col-md-8 col-lg-7 pb-3">
                   <div className="mb-3">
                      <label className="form-label">Context (*required)</label>
                      <textarea
