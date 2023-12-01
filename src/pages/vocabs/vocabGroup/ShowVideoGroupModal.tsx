@@ -82,7 +82,7 @@ const ShowVocabGroupModal = props => {
                </div>
             </div>
             <div className="row mb-3">
-               <div className="col-12 col-lg-8 mt-3">
+               <div className="col-12 mt-3">
                   {vocabsLoading && (
                      <Button
                         className="w-100 py-3"
