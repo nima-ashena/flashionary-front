@@ -610,7 +610,7 @@ const StorySentenceReview = () => {
                   variant="secondary"
                   onClick={() => {
                      setShowFinishModal(false);
-                     navigate('/sentences/stories');
+                     navigate('/stories');
                   }}
                >
                   No

@@ -632,7 +632,7 @@ const SentenceReview = () => {
                   onClick={() => {
                      setShowFinishModal(false);
                      if (!storyMode) navigate('/sentences') 
-                     else navigate('/sentences/stories')
+                     else navigate('/stories')
                   }}
                >
                   No

@@ -68,7 +68,7 @@ const EditVocabGroup = () => {
       deleteVocabGroupApi(vocabGroupId, (isOk, result) => {
          if (isOk) {
             toast.success('VocabGroup deleted successfully');
-            navigate('/sentences/stories');
+            navigate('/vocabs/groups');
          }
       });
    };
