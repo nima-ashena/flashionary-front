@@ -50,10 +50,11 @@ const StorySentenceReview = () => {
    // Panel 1
    const [p, setP] = useState<string>('-');
    const audioRef = useRef<HTMLAudioElement>(null);
-   const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(false);
+   const [autoPlayAudio1, setAutoPlayAudio1] = useState<boolean>(true);
 
    // panel 2
    const [showEditModal, setShowEditModal] = useState(false);
+   const [autoPlayAudio2, setAutoPlayAudio2] = useState<boolean>(true);
 
    // finish modal
    const [showFinishModal, setShowFinishModal] = useState(false);
@@ -152,13 +153,13 @@ const StorySentenceReview = () => {
       if (panel === 1 && counterState !== sentences.length) {
          if (audioRef.current) {
             audioRef.current.src = sentences[counterState].audio;
-            if (autoPlayAudio) audioRef.current.play();
+            if (autoPlayAudio1) audioRef.current.play();
          }
       }
       if (panel === 2) {
          if (audioRef.current) {
             audioRef.current.src = sentences[counterState].audio;
-            audioRef.current.play();
+            if (autoPlayAudio2) audioRef.current.play();
          }
       }
    }, [panel]);
@@ -317,9 +318,9 @@ const StorySentenceReview = () => {
                   type="switch"
                   className="mb-2"
                   label="Auto Play"
-                  checked={autoPlayAudio}
+                  checked={autoPlayAudio1}
                   onChange={e => {
-                     setAutoPlayAudio(e.target.checked);
+                     setAutoPlayAudio1(e.target.checked);
                   }}
                />
                <button className="btn btn-primary w-100" onClick={startClick}>
@@ -402,9 +403,9 @@ const StorySentenceReview = () => {
                      type="switch"
                      id="custom-switch"
                      label="Auto Play"
-                     checked={autoPlayAudio}
+                     checked={autoPlayAudio1}
                      onChange={e => {
-                        setAutoPlayAudio(e.target.checked);
+                        setAutoPlayAudio1(e.target.checked);
                      }}
                   />
                   <span className="badge bg-danger" style={{ fontSize: 20 }}>
@@ -464,6 +465,15 @@ const StorySentenceReview = () => {
                   <span className="badge bg-success" style={{ fontSize: 20 }}>
                      {ahead}
                   </span>
+                  <Form.Check
+                     type="switch"
+                     className="mb-2"
+                     label="Auto Play"
+                     checked={autoPlayAudio2}
+                     onChange={e => {
+                        setAutoPlayAudio2(e.target.checked);
+                     }}
+                  />
                   <span className="badge bg-danger" style={{ fontSize: 20 }}>
                      {left}
                   </span>

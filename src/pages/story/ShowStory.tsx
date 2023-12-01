@@ -77,14 +77,14 @@ const ShowStory = () => {
          <Back />
          <form className="pt-3 col-12 col-md-10 col-lg-6">
             <div className="mb-3">
-               <div className="alert alert-info">{story.title}</div>
+               <div className="alert alert-primary mb-1">{story.title}</div>
                {story.note && (
                   <div className="alert alert-secondary">{story.note}</div>
                )}
             </div>
             <button
                type="submit"
-               className="btn btn-success btn-lg w-100 add-btn mb-2"
+               className="btn btn-primary btn-lg w-100 add-btn mb-2"
                onClick={() => {
                   navigate(`/stories/review/${storyId}`);
                }}

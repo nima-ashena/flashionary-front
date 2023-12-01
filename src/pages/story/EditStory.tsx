@@ -28,7 +28,10 @@ const EditStory = () => {
    const { storyId } = useParams();
 
    const [story, setStory] = useState<IStory>({ _id: '', title: '' });
-   const [editedStory, setEditedStory] = useState<IStory>({ _id: '', title: '' });
+   const [editedStory, setEditedStory] = useState<IStory>({
+      _id: '',
+      title: '',
+   });
    const [translateApi, setTranslateApi] = useState<boolean>(true);
    const [sentence, setSentence] = useState<IAddSentence>({ context: '' });
    const [sentences, setSentences] = useState<ISentence[]>([]);
@@ -96,7 +99,7 @@ const EditStory = () => {
       });
       editStoryApi(storyId, { sentences, flags, toughs }, (isOk, result) => {
          if (isOk) {
-            setReplacementMode(false)
+            setReplacementMode(false);
             setRender(!render);
          } else {
             toast.error(result.message);
@@ -108,16 +111,24 @@ const EditStory = () => {
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       e.preventDefault();
-      editStoryApi(storyId, editedStory, (isOk, result) => {
-         if (isOk) {
-            setStory(result.story);
-            setEditStoryModal(false)
-            setRender(!render);
-            // setSentences(result.story.sentences.reverse())
-         } else {
-            toast.error(result.message);
-         }
-      });
+      editStoryApi(
+         storyId,
+         {
+            title: editedStory.title,
+            note: editedStory.note,
+            category: editedStory.category,
+         },
+         (isOk, result) => {
+            if (isOk) {
+               setStory(result.story);
+               setEditStoryModal(false);
+               setRender(!render);
+               // setSentences(result.story.sentences.reverse())
+            } else {
+               toast.error(result.message);
+            }
+         },
+      );
    };
 
    return (
@@ -127,13 +138,15 @@ const EditStory = () => {
                <div className="d-flex justify-content-between mb-2">
                   <Back />
                   <i
-                     onClick={() => {setEditStoryModal(true)}}
+                     onClick={() => {
+                        setEditStoryModal(true);
+                     }}
                      className="bi bi-gear-fill mx-1"
                      style={{ fontSize: 30, margin: 0, cursor: 'pointer' }}
                   ></i>
                </div>
                <div className="">
-                  <div className="alert alert-primary mb-1">{story.title}</div>
+                  <div className="alert alert-primary" style={{marginBottom: 2}}>{story.title}</div>
                   {story.note && (
                      <div className="alert alert-secondary">{story.note}</div>
                   )}
@@ -250,8 +263,8 @@ const EditStory = () => {
                         type="switch"
                         checked={replacementMode}
                         onChange={e => {
-                           let t:  any = sentences
-                           setSentence(t.reverse())
+                           let t: any = sentences;
+                           setSentence(t.reverse());
                            setReplacementMode(e.target.checked);
                         }}
                         label="ReplacementMode"
@@ -317,7 +330,10 @@ const EditStory = () => {
                         type="text"
                         className="form-control"
                         onChange={e => {
-                           setEditedStory({ ...editedStory, title: e.target.value });
+                           setEditedStory({
+                              ...editedStory,
+                              title: e.target.value,
+                           });
                         }}
                         value={editedStory.title}
                      />
@@ -329,7 +345,10 @@ const EditStory = () => {
                         className="form-control"
                         value={editedStory.note}
                         onChange={e => {
-                           setEditedStory({ ...editedStory, note: e.target.value });
+                           setEditedStory({
+                              ...editedStory,
+                              note: e.target.value,
+                           });
                         }}
                      />
                   </div>
@@ -396,4 +415,3 @@ export const editStroyAfter = storyId => {
       }
    });
 };
-
