@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { deleteStoryApi } from '../../api/story.service';
 import { IStory } from '../../interface/story.interface';
+import { storyTypesEnum } from '../../utils/constants';
 
 // const Story = ({ story }: { story: IStory }, renderValue: boolean) => {
 const Story = (props: any) => {
@@ -17,16 +18,22 @@ const Story = (props: any) => {
          <div className="col-12 col-md-4 col-lg-3">
             <div className="card bg-dark text-light" id="story">
                <div className="card-body text-center">
-                  <p className="card-title mb-3">{story.title}</p>
+                  <p className="card-title mb-3">
+                     {story.title}{' '}
+                     {story.category === storyTypesEnum.music && (
+                        <i
+                           className="bi bi-music-note-beamed mx-2"
+                           style={{ fontSize: 20 }}
+                        ></i>
+                     )}
+                  </p>
                   <div>
                      <Link
                         to={`/stories/show/${story._id}`}
                         className="btn my-1"
                         style={{ color: '#fff', backgroundColor: '#198754' }}
-                        >
-                        <i
-                           className="bi bi-eye"
-                           />
+                     >
+                        <i className="bi bi-eye" />
                      </Link>
                      <Link
                         to={`/stories/edit/${story._id}`}

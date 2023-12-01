@@ -15,4 +15,7 @@ export const GroupTypes = [
 export const compoundTypes = ['Single', 'Closed', 'Hyphenated', 'Open'];
 
 export const storyTypes = ['Simple', 'Music'];
-
+export const enum storyTypesEnum {
+   simple = 'Simple',
+   music = 'Music',
+}

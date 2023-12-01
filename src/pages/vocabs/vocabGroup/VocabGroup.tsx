@@ -2,8 +2,9 @@ import { FC, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { deleteVocabGroupApi } from '../../../../api/vocabGroup.service';
-import { IVocabGroup } from '../../../../interface/vocabGroup.interface';
+import { deleteVocabGroupApi } from '../../../api/vocabGroup.service';
+import { IVocabGroup } from '../../../interface/vocabGroup.interface';
+import ShowVocabGroupModal from './ShowVideoGroupModal';
 
 const VocabGroup = (props: any) => {
    const vocabGroup: IVocabGroup = props.vocabGroup;
@@ -11,16 +12,12 @@ const VocabGroup = (props: any) => {
    const setRender: React.Dispatch<React.SetStateAction<boolean>> =
       props.setRender;
 
-   const [show, setShow] = useState(false);
-   const handleClose = () => {
-      setShow(false);
-   };
-   const handleShow = () => {
-      setShow(true);
-   };
+   const [showModal, setShowModal] = useState(false);
+
+   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
    const deleteVocabGroupClick = () => {
-      handleClose();
+      setShowDeleteModal(false);
       deleteVocabGroupApi(vocabGroup._id, (isOk, result) => {
          const t = toast.loading('Deleting VocabGroup...');
          if (isOk) {
@@ -51,8 +48,11 @@ const VocabGroup = (props: any) => {
                   <p className="card-title mb-3">{vocabGroup.title}</p>
                   <div>
                      <Link
-                        to={`/vocabs/groups/show/${vocabGroup._id}`}
+                        to={``}
                         className="btn my-1"
+                        onClick={() => {
+                           setShowModal(true);
+                        }}
                      >
                         <i className="bi bi-eye" style={{ color: '#198754' }} />
                      </Link>
@@ -67,31 +67,45 @@ const VocabGroup = (props: any) => {
                         to={``}
                         className="btn my-1"
                         style={{ color: 'red' }}
-                        onClick={handleShow}
+                        onClick={() => {
+                           setShowDeleteModal(true);
+                        }}
                      >
                         <i className="bi bi-trash" />
                      </Link>
-                     {/* Modal */}
-                     <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                           <Modal.Title>Delete VocabGroup: ?</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>{vocabGroup.title}</Modal.Body>
-                        <Modal.Footer>
-                           <Button variant="secondary" onClick={handleClose}>
-                              Close
-                           </Button>
-                           <Button
-                              variant="danger"
-                              onClick={deleteVocabGroupClick}
-                           >
-                              Yes
-                           </Button>
-                        </Modal.Footer>
-                     </Modal>
                   </div>
                </div>
             </div>
+            <ShowVocabGroupModal
+               showModal={showModal}
+               setShowModal={setShowModal}
+               vocabGroupId={vocabGroup._id}
+            />
+            {/* Delete Modal */}
+            <Modal
+               show={showDeleteModal}
+               onHide={() => {
+                  setShowDeleteModal(false);
+               }}
+            >
+               <Modal.Header closeButton>
+                  <Modal.Title>Delete VocabGroup: ?</Modal.Title>
+               </Modal.Header>
+               <Modal.Body>{vocabGroup.title}</Modal.Body>
+               <Modal.Footer>
+                  <Button
+                     variant="secondary"
+                     onClick={() => {
+                        setShowDeleteModal(false);
+                     }}
+                  >
+                     Close
+                  </Button>
+                  <Button variant="danger" onClick={deleteVocabGroupClick}>
+                     Yes
+                  </Button>
+               </Modal.Footer>
+            </Modal>
          </div>
       </>
    );

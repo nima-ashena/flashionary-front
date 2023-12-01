@@ -28,5 +28,6 @@ export interface IVocab {
    is_disable?: Boolean;
    true_guess_count?: number;
    completed?: Boolean;
+   note?: string;
    user?: string;
 }

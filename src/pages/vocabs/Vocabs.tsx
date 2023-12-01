@@ -6,7 +6,7 @@ import { getVocabsApi } from '../../api/vocab.service';
 import PaginationN, {
    generatePaginationItems,
 } from '../../components/pagination/Pagination';
-import Vocab from './components/Vocab';
+import Vocab from './Vocab';
 import { IPaginationItem } from '../../interface/common.interface';
 import { IVocab } from '../../interface/vocab.interface';
 import { UserContext } from '../../context/common';

@@ -20,6 +20,7 @@ import { ISentence } from '../../interface/sentence.interface';
 import { IStory } from '../../interface/story.interface';
 import SentenceItem from './components/SentenceItem';
 import Back from '../../components/Back';
+import { storyTypesEnum } from '../../utils/constants';
 
 const ShowStory = () => {
    const { storyId } = useParams();
@@ -57,17 +58,12 @@ const ShowStory = () => {
       });
    };
 
-
    return (
       <div className="container">
          <form className="col-12 col-md-10 col-lg-6">
             <div className="d-flex justify-content-between mb-2 pt-2">
-               <Back url={'/stories'}/>
+               <Back url={'/stories'} />
                <div>
-                  <i
-                     className="bi bi-music-note-beamed mx-2"
-                     style={{ fontSize: 20 }}
-                  ></i>
                   <Link
                      to={`/stories/edit/${story._id}`}
                      className="btn my-1 mx-1"
@@ -84,13 +80,21 @@ const ShowStory = () => {
                </div>
             </div>
             <div className="mb-3">
-               <div className="alert alert-primary mb-1">{story.title}</div>
+               <div className="alert alert-primary mb-1">
+                  {story.title}{' '}
+                  {story.category === storyTypesEnum.music && (
+                     <i
+                        className="bi bi-music-note-beamed mx-2"
+                        style={{ fontSize: 20 }}
+                     ></i>
+                  )}
+               </div>
                {story.note && (
                   <div className="alert alert-secondary">{story.note}</div>
                )}
             </div>
          </form>
-         
+
          <div className="col-12 col-lg-8 mb-3">
             {sentencesLoading && (
                <Button className="w-100 py-3" variant="secondary" disabled>

@@ -2,9 +2,9 @@ import { FC, useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { cloneVocabApi, deleteVocabApi } from '../../../api/vocab.service';
-import { IVocab } from '../../../interface/vocab.interface';
-import VocabViewModal from './VocabView';
+import { cloneVocabApi, deleteVocabApi } from '../../api/vocab.service';
+import { IVocab } from '../../interface/vocab.interface';
+import VocabViewModal from './components/VocabView';
 
 // const Vocab = ({ vocab }: { vocab: IVocab }, renderValue: boolean) => {
 const Vocab = (props: any) => {

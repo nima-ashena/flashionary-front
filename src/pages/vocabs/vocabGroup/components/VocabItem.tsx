@@ -4,24 +4,25 @@ import { toast } from 'react-toastify';
 import { deleteVocabOfVocabGroupApi } from '../../../../api/vocabGroup.service';
 import { useNavigate } from 'react-router-dom';
 import { IVocab } from '../../../../interface/vocab.interface';
+import EditVocabModal from './EditVocabModal';
 
 const VocabItem = (props: any) => {
-   const item: IVocab = props.item;
-   const type = props.type;
+   const vocab: IVocab = props.vocab;
    const vocabGroupId = props.vocabGroupId;
-   const vocabId = props.vocabId;
    const render = props.render;
    const setRender = props.setRender;
-   const audioRef = useRef<HTMLAudioElement>(null);
 
-   const [show, setShow] = useState(false);
+   const audioRef = useRef<HTMLAudioElement>(null);
+   const [showEditModal, setShowEditModal] = useState(false);
+
+   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
    const navigate = useNavigate();
 
    const trashClick = () => {
-      setShow(false);
+      setShowDeleteModal(false);
       deleteVocabOfVocabGroupApi(
-         { vocabGroupId, vocabId: item._id },
+         { vocabGroupId, vocabId: vocab._id },
          (isOk, result) => {
             if (isOk) {
                setRender(!render);
@@ -36,21 +37,21 @@ const VocabItem = (props: any) => {
 
    return (
       <>
-         <ListGroup.Item as="li" className="">
+         <ListGroup.Item key={vocab._id} as="li" className="">
             <div className="row">
                <div className="col-12 col-md-8 col-lg-9">
-                  <div className="fw-bold mb-2">{item.title}</div>
+                  <div className="fw-bold mb-2">{vocab.title}</div>
                   <div
                      className="fw-bold mb-2"
                      style={{ direction: 'rtl', textAlign: 'right' }}
                   >
-                     {item.meaning}
+                     {vocab.meaning}
                   </div>
                   <audio
                      hidden
                      className="mb-2 w-100"
                      controls
-                     src={`${item.audio}`}
+                     src={`${vocab.audio}`}
                      ref={audioRef}
                   ></audio>
                </div>
@@ -60,7 +61,8 @@ const VocabItem = (props: any) => {
                      type="button"
                      className="btn btn-secondary m-1"
                      onClick={() => {
-                        navigate(`/vocabs/edit/${item._id}`);
+                        // navigate(`/vocabs/edit/${vocab._id}`);
+                        setShowEditModal(true)
                      }}
                   >
                      <i className="bi bi-pen" />
@@ -68,7 +70,7 @@ const VocabItem = (props: any) => {
                   <button
                      type="button"
                      className="btn btn-danger m-1"
-                     onClick={() => setShow(true)}
+                     onClick={() => setShowDeleteModal(true)}
                   >
                      <i className="bi bi-trash" />
                   </button>
@@ -84,21 +86,30 @@ const VocabItem = (props: any) => {
                </div>
             </div>
          </ListGroup.Item>
+         <EditVocabModal
+            showEditModal={showEditModal}
+            setShowEditModal={setShowEditModal}
+            render={render}
+            setRender={setRender}
+            vocabId={vocab._id}
+         />
+
+         {/* Delete Modal */}
          <Modal
-            show={show}
+            show={showDeleteModal}
             onHide={() => {
-               setShow(false);
+               setShowDeleteModal(false);
             }}
          >
             <Modal.Header closeButton>
                <Modal.Title>Delete Vocab: ?</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{item.title}</Modal.Body>
+            <Modal.Body>{vocab.title}</Modal.Body>
             <Modal.Footer>
                <Button
                   variant="secondary"
                   onClick={() => {
-                     setShow(false);
+                     setShowDeleteModal(false);
                   }}
                >
                   Close

@@ -20,7 +20,7 @@ import SignIn from './pages/auth/SignIn';
 import Test from './pages/test/Test';
 import Setting from './pages/auth/Setting';
 import VocabGroups from './pages/vocabs/vocabGroup/VocabGroups';
-import ShowVocabGroup from './pages/vocabs/vocabGroup/ShowVideoGroup';
+import EditVocabGroup from './pages/vocabs/vocabGroup/EditVideoGroup';
 import StorySentenceReview from './pages/story/review/StorySentenceReview';
 
 const RoutesHandle = () => {
@@ -43,12 +43,8 @@ const RoutesHandle = () => {
                <Route path="/vocabs/dict" element={<VocabDict />} />
                <Route path="/vocabs/groups" element={<VocabGroups />} />
                <Route
-                  path="/vocabs/groups/show/:vocabGroupId"
-                  element={<ShowVocabGroup />}
-               />
-               <Route
-                  path="/vocabs/vocab/edit/:VocabGroupId"
-                  element={<EditVocab />}
+                  path="/vocabs/groups/edit/:vocabGroupId"
+                  element={<EditVocabGroup />}
                />
 
                <Route path="/sentences/add" element={<AddSentence />} />
