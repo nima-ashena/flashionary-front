@@ -1,5 +1,6 @@
 import { Button, Pagination, Spinner } from 'react-bootstrap';
 import { IPaginationItem } from '../../interface/common.interface';
+import { useEffect, useState } from 'react';
 
 export const generatePaginationItems = (count: number, value: number) => {
    let t = [];
@@ -18,6 +19,20 @@ const PaginationN = (props: any) => {
    const setPaginationItems: React.Dispatch<
       React.SetStateAction<IPaginationItem[]>
    > = props.setPaginationItems;
+   const [pageMargin, setPageMargin] = useState<number>(2)
+   useEffect(() => {
+      const width = window.innerWidth
+      if(width <= 576)
+         setPageMargin(2)
+      else if(width >576 && width <= 768 )
+         setPageMargin(4)
+      else if(width >768 && width <= 972 )
+         setPageMargin(5)
+      else if(width >972 && width <= 1200 )
+         setPageMargin(6)
+      else if(width >1200 )
+         setPageMargin(8)
+   }, [])
 
    const nextClick = () => {
       setPage((prev: number) => Math.min(prev + 1, pages));
@@ -48,11 +63,11 @@ const PaginationN = (props: any) => {
    return (
       <>
          <Pagination>
-            <Pagination.First onClick={firstClick} />
+            <Pagination.Item onClick={firstClick}>1</Pagination.Item>
             <Pagination.Prev onClick={prevClick} />
 
             {paginationItems.map((item, index) => {
-               if (index >= page - 2 || index <= page + 2)
+               if (index >= page - (pageMargin + 1) && index <= page + (pageMargin - 1))
                   return (
                      <Pagination.Item
                         onClick={e => {
@@ -66,8 +81,9 @@ const PaginationN = (props: any) => {
             })}
 
             {/* <Pagination.Ellipsis /> */}
+
             <Pagination.Next onClick={nextClick} />
-            <Pagination.Last onClick={lastClick} />
+            <Pagination.Item onClick={lastClick}>{pages}</Pagination.Item>
          </Pagination>
       </>
    );

@@ -56,7 +56,7 @@ const Header = () => {
                            Setting
                         </Dropdown.Item>
                         <Dropdown.Item onClick={signOutClick}>
-                           Exit
+                           Sign Out
                         </Dropdown.Item>
                      </Dropdown.Menu>
                   ) : (

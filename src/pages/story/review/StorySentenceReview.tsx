@@ -16,12 +16,15 @@ import { IStory } from '../../../interface/story.interface';
 import { shuffleArray } from '../../../utils/utils';
 import SentenceItem from '../../sentences/components/SentenceItem';
 import { SentenceTypes } from '../../../utils/constants';
+import EditSentenceModal from './EditSentenceModal';
 
 const StorySentenceReview = () => {
    const navigate = useNavigate();
 
    const { storyId } = useParams();
-   const [sentences, setSentences] = useState<ISentence[]>([]);
+   const [sentences, setSentences] = useState<ISentence[]>([
+      { _id: '', context: '' },
+   ]);
 
    // start panel is zero (0)
    const [panel, setPanel] = useState(0);
@@ -48,6 +51,9 @@ const StorySentenceReview = () => {
    const [p, setP] = useState<string>('-');
    const audioRef = useRef<HTMLAudioElement>(null);
    const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(false);
+
+   // panel 2
+   const [showEditModal, setShowEditModal] = useState(false);
 
    // finish modal
    const [showFinishModal, setShowFinishModal] = useState(false);
@@ -281,7 +287,7 @@ const StorySentenceReview = () => {
    return (
       <div className="container">
          {panel === 0 && (
-            <div className="pt-3 col-12 col-md-8 col-lg-6">
+            <div className="pt-3 col-12 col-md-8 col-lg-6 mb-3">
                <label className="form-label w-100">
                   Length Of Story: {sentences.length}
                </label>
@@ -482,8 +488,13 @@ const StorySentenceReview = () => {
                >
                   Next
                </button>
-               <Button className="btn btn-secondary w-100 mb-2">
-                  <a
+               <Button
+                  onClick={() => {
+                     setShowEditModal(true);
+                  }}
+                  className="btn btn-secondary w-100 mb-2"
+               >
+                  {/* <a
                      style={{
                         color: '#fff',
                         fontSize: 18,
@@ -493,7 +504,8 @@ const StorySentenceReview = () => {
                      href={`${process.env.REACT_APP_API_BASE_URL}/sentences/edit/${sentences[counterState]._id}`}
                   >
                      Edit
-                  </a>
+                  </a> */}
+                  Edit
                </Button>
                <button
                   className="btn btn-danger w-100 mb-2"
@@ -504,6 +516,15 @@ const StorySentenceReview = () => {
                   Delete
                </button>
             </div>
+         )}
+
+         {counterState < storyLength && (
+            <EditSentenceModal
+               storyId={storyId}
+               sentenceId={sentences[counterState]._id}
+               showEditModal={showEditModal}
+               setShowEditModal={setShowEditModal}
+            />
          )}
 
          <Modal

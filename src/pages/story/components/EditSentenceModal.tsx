@@ -37,28 +37,38 @@ const EditSentenceModal = props => {
       if (sentence.context === '') return toast.warn('Please fill context');
 
       const t = toast.loading('Editing Sentence...');
-      editSentenceApi(sentenceId, sentence, (isOk: boolean, result) => {
-         if (isOk) {
-            editStroyAfter(storyId);
-            setSentence(result.sentence);
-            setShowEditModal(false);
-            setRender(!render);
-            toast.update(t, {
-               render: 'sentence edited successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         } else {
-            console.log(result.message);
-            toast.update(t, {
-               render: result.message,
-               type: 'error',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         }
-      });
+      editSentenceApi(
+         sentenceId,
+         {
+            context: sentence.context,
+            note: sentence.note,
+            meaning: sentence.meaning,
+            storyFlag: sentence.storyFlag,
+            storyTough: sentence.storyTough,
+         },
+         (isOk: boolean, result) => {
+            if (isOk) {
+               editStroyAfter(storyId);
+               setSentence(result.sentence);
+               setShowEditModal(false);
+               setRender(!render);
+               toast.update(t, {
+                  render: 'sentence edited successfully',
+                  type: 'success',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            } else {
+               console.log(result.message);
+               toast.update(t, {
+                  render: result.message,
+                  type: 'error',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            }
+         },
+      );
    };
 
    const syncAudioClick = () => {

@@ -11,10 +11,10 @@ import { editStroyAfter } from '../EditStory';
 
 const EditSentenceModal = props => {
    const {
-      render,
-      setRender,
-      sentenceId,
+      // render,
+      // setRender,
       storyId,
+      sentenceId,
       showEditModal,
       setShowEditModal,
    } = props;
@@ -22,6 +22,7 @@ const EditSentenceModal = props => {
    const audioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
+      if(sentenceId === '') return
       getSentenceApi(sentenceId, (isOk: boolean, result) => {
          if (isOk) {
             setSentence(result.sentence);
@@ -30,19 +31,27 @@ const EditSentenceModal = props => {
             toast.error(result.message);
          }
       });
-   }, []);
+   }, [sentenceId]);
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
       if (sentence.context === '') return toast.warn('Please fill context');
 
       const t = toast.loading('Editing Sentence...');
-      editSentenceApi(sentenceId, sentence, (isOk: boolean, result) => {
+      editSentenceApi(sentenceId, 
+         {
+            context: sentence.context,
+            note: sentence.note,
+            meaning: sentence.meaning,
+            storyFlag: sentence.storyFlag,
+            storyTough: sentence.storyTough,
+         }
+         , (isOk: boolean, result) => {
          if (isOk) {
             editStroyAfter(storyId);
             setSentence(result.sentence);
             setShowEditModal(false);
-            setRender(!render);
+            // setRender(!render);
             toast.update(t, {
                render: 'sentence edited successfully',
                type: 'success',
@@ -126,7 +135,7 @@ const EditSentenceModal = props => {
                      onChange={e => {
                         setSentence({ ...sentence, context: e.target.value });
                      }}
-                     value={sentence.context}
+                     value={sentence?.context}
                      rows={3}
                   />
                </div>
@@ -138,7 +147,7 @@ const EditSentenceModal = props => {
                      onChange={e => {
                         setSentence({ ...sentence, meaning: e.target.value });
                      }}
-                     value={sentence.meaning}
+                     value={sentence?.meaning}
                      rows={3}
                   />
                </div>
@@ -152,7 +161,7 @@ const EditSentenceModal = props => {
                            note: e.target.value,
                         });
                      }}
-                     value={sentence.note}
+                     value={sentence?.note}
                      rows={3}
                   />
                </div>
@@ -168,7 +177,7 @@ const EditSentenceModal = props => {
                               storyFlag: e.target.checked,
                            });
                         }}
-                        checked={sentence.storyFlag}
+                        checked={sentence?.storyFlag}
                      />
                      <label className="form-check-label">Flag</label>{' '}
                      <i
@@ -186,7 +195,7 @@ const EditSentenceModal = props => {
                               storyTough: e.target.checked,
                            });
                         }}
-                        checked={sentence.storyTough}
+                        checked={sentence?.storyTough}
                      />
                      <label className="form-check-label">Tough</label>{' '}
                      <i className="bi bi-bookmark-fill"></i>
@@ -197,7 +206,7 @@ const EditSentenceModal = props => {
                   controls
                   hidden
                   ref={audioRef}
-                  src={`${sentence.audio}`}
+                  src={`${sentence?.audio}`}
                ></audio>
                <div>
                   <button

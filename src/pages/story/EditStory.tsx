@@ -397,18 +397,3 @@ export const editStroyAfter = storyId => {
    });
 };
 
-const editStroyAfterWithSentences = (storyId, sentences?: ISentence[]) => {
-   let flags: string[] = [];
-   let toughs: string[] = [];
-   sentences.filter(item => {
-      if (item.storyFlag === true) flags.push(item._id);
-      if (item.storyTough === true) toughs.push(item._id);
-   });
-   editStoryApi(storyId, { sentences, flags, toughs }, (isOk, result) => {
-      if (isOk) {
-         //
-      } else {
-         toast.error(result.message);
-      }
-   });
-};
