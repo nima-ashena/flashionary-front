@@ -45,8 +45,24 @@ const VocabViewModal = props => {
             <form className="w-100">
                <div className="mb-3">
                   <label className="form-label">Title</label>
-                  
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {vocab.title}
+                  </div>
                </div>
+               {vocab.note && (
+                  <div className="mb-3">
+                     <label className="form-label">Note</label>
+                     <div
+                        className="alert text-dark"
+                        style={{ backgroundColor: '#E9ECEF' }}
+                     >
+                        {vocab.note}
+                     </div>
+                  </div>
+               )}
                <div className="mb-3">
                   <label className="form-label">Definition</label>
                   <div
@@ -96,7 +112,7 @@ const VocabViewModal = props => {
                      />
                   </div>
                </div>
-               
+
                <audio
                   className="mb-2 w-100"
                   controls

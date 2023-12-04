@@ -273,7 +273,7 @@ const EditSentence = () => {
                      type="submit"
                      className="btn btn-primary btn-lg w-100 add-btn my-2"
                   >
-                     Edit Sentence
+                     Save
                   </button>
                   {!isThisUserOwnSentence && (
                      <button

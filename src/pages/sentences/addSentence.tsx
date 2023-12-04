@@ -17,10 +17,6 @@ const AddSentence = () => {
       type: 'Simple',
    };
    const [sentence, setSentence] = useState<IAddSentence>(primaryData);
-   // const [type, setType] = useState<string>('Simple');
-   const [defaultTTSEngine, setDefaultTTSEngine] = useState<string>(
-      localStorage.getItem('defaultTTSEngine'),
-   );
 
    const addSentenceClick = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -35,7 +31,7 @@ const AddSentence = () => {
                isLoading: false,
                autoClose: 2000,
             });
-            setSentence({ context: '', meaning: '', note: '' });
+            setSentence({ ...sentence, context: '', meaning: '', note: '' });
          } else {
             console.log(result.message);
             toast.update(id, {
@@ -45,14 +41,6 @@ const AddSentence = () => {
                autoClose: 2000,
             });
          }
-      });
-   };
-
-   const changeDefaultTTSEngineClick = (item: string) => {
-      setDefaultTTSEngine(item);
-      setSentence({
-         ...sentence,
-         TTSEngine: item,
       });
    };
 
@@ -140,32 +128,6 @@ const AddSentence = () => {
                               <Dropdown.Item
                                  onClick={e => {
                                     setSentence({ ...sentence, type: item });
-                                 }}
-                              >
-                                 {item}
-                              </Dropdown.Item>
-                           );
-                        })}
-                     </Dropdown.Menu>
-                  </Dropdown>
-               </label>
-            </div>
-
-            <div className="mb-3">
-               <label className="form-check-label">
-                  TTS Type:{' '}
-                  <span style={{ fontWeight: 800 }}>{defaultTTSEngine}</span>{' '}
-                  <Dropdown style={{ display: 'inline' }}>
-                     <Dropdown.Toggle
-                        variant="secondary"
-                        id="dropdown-basic"
-                     ></Dropdown.Toggle>
-                     <Dropdown.Menu>
-                        {TTSTypes.map(item => {
-                           return (
-                              <Dropdown.Item
-                                 onClick={e => {
-                                    changeDefaultTTSEngineClick(item);
                                  }}
                               >
                                  {item}

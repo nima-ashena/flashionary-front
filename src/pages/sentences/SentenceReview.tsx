@@ -1,27 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
    deleteSentenceApi,
    getSentencesApi,
    plusTrueSentenceApi,
 } from '../../api/sentence.service';
-import {
-   editStoryApi,
-   getStoriesApi,
-   getStoryApi,
-} from '../../api/story.service';
 import { ISentence } from '../../interface/sentence.interface';
-import { IStory } from '../../interface/story.interface';
 import { shuffleArray } from '../../utils/utils';
 import SentenceItem from './components/SentenceItem';
 import { SentenceTypes } from '../../utils/constants';
+import EditSentenceModal from './components/EditSentenceModal';
 
 const SentenceReview = () => {
    const navigate = useNavigate();
 
-   const { storyId } = useParams();
    const [sentences, setSentences] = useState<ISentence[]>([]);
 
    // start panel is zero (0)
@@ -40,15 +34,16 @@ const SentenceReview = () => {
    const [type, setType] = useState<string>('');
    const [sentenceItems, setSentenceItems] = useState<any[]>([]);
    const [answerItems, setAnswerItems] = useState<any[]>([]);
-   const [stories, setStories] = useState<IStory[]>([]);
-   const [story, setStory] = useState<string>('free'); // _id of story
-   const [storyMode, setStoryMode] = useState<boolean>(false);
-   const [resetStory, setResetStory] = useState<boolean>(false);
    const [answer, setAnswer] = useState<string>('');
+   const [autoPlayAudio1, setAutoPlayAudio1] = useState<boolean>(true);
 
    // Panel 1
    const [p, setP] = useState<string>('-');
    const audioRef = useRef<HTMLAudioElement>(null);
+
+   // Panel 2
+   const [showEditModal, setShowEditModal] = useState(false);
+   const [autoPlayAudio2, setAutoPlayAudio2] = useState<boolean>(true);
 
    // finish modal
    const [showFinishModal, setShowFinishModal] = useState(false);
@@ -56,91 +51,54 @@ const SentenceReview = () => {
       useState(false);
 
    const startClick = () => {
-      if (resetStory) {
-         editStoryApi(story, { counterState: 0 }, (isOk, result) => {
-            if (!isOk) toast.warn('CounterState failed');
-         });
-         setStateCounter(0);
-      }
       setPanel(1);
       setAgain(!again);
    };
 
    useEffect(() => {
-      if (storyId !== 'no-story') {
-         setStoryMode(true);
-         setStory(storyId);
-         startClick();
-      }
-   }, []);
-
-   useEffect(() => {
       clearClick();
       if (panel === 0) {
-         getStoriesApi((isOk, result) => {
-            setStories(result.stories);
-         });
          return;
       }
       const id = toast.loading('Loading...');
-      if (storyMode) {
-         getStoryApi(story, (isOk, result) => {
+
+      getSentencesApi(
+         (isOk: boolean, result: any) => {
             if (isOk) {
-               let ss: any[] = result.story.sentences;
-               setSentences(ss);
                toast.dismiss(id);
+               let ss: any[] = result.sentences;
                if (ss.length === 0) {
                   setPanel(0);
                   return toast.info('There is no Sentences to review');
                }
+               if (limitMode) {
+                  ss = ss.slice(0, sliderLimitValue);
+                  setSentences(ss);
+               } else {
+                  setSentences(ss);
+               }
 
                setLeft(ss.length - counterState);
                setAhead(counterState);
+
                convertSentence(ss[counterState].context);
                if (audioRef.current) {
                   audioRef.current.src = ss[counterState].audio;
                }
-            } else toast.error(result.message);
-         });
-      } else {
-         getSentencesApi(
-            (isOk: boolean, result: any) => {
-               if (isOk) {
-                  toast.dismiss(id);
-                  let ss: any[] = result.sentences;
-                  if (ss.length === 0) {
-                     setPanel(0);
-                     return toast.info('There is no Sentences to review');
-                  }
-                  if (limitMode) {
-                     ss = ss.slice(0, sliderLimitValue);
-                     setSentences(ss);
-                  } else {
-                     setSentences(ss);
-                  }
-
-                  setLeft(ss.length - counterState);
-                  setAhead(counterState);
-
-                  convertSentence(ss[counterState].context);
-                  if (audioRef.current) {
-                     audioRef.current.src = ss[counterState].audio;
-                  }
-               } else {
-                  toast.error(result.message);
-               }
-            },
-            [
-               { name: 'trueGuessLimitMax', value: sliderCountValueMax },
-               { name: 'trueGuessLimitMin', value: sliderCountValueMin },
-               { name: 'sort', value: 'true_guess_count' },
-               { name: 'type', value: type },
-               { name: 'user', value: localStorage.getItem('userId') },
-               { name: 'reviewMode', value: true },
-               { name: 'story', value: 'free' },
-            ],
-         );
-      }
+            } else {
+               toast.error(result.message);
+            }
+         },
+         [
+            { name: 'trueGuessLimitMax', value: sliderCountValueMax },
+            { name: 'trueGuessLimitMin', value: sliderCountValueMin },
+            { name: 'sort', value: 'true_guess_count' },
+            { name: 'type', value: type },
+            { name: 'user', value: localStorage.getItem('userId') },
+            { name: 'reviewMode', value: true },
+            { name: 'story', value: 'free' },
+         ],
+      );
    }, [again]);
 
    useEffect(() => {
@@ -148,10 +106,6 @@ const SentenceReview = () => {
 
       // Check Finish
       if (counterState === sentences.length) {
-         if (storyMode)
-            editStoryApi(story, { counterState: 0 }, (isOk, result) => {
-               if (!isOk) toast.warn('CounterState failed (for story)');
-            });
          return setShowFinishModal(true);
       }
 
@@ -195,19 +149,16 @@ const SentenceReview = () => {
    }, [answerItems]);
 
    useEffect(() => {
-      if (
-         panel === 1 &&
-         counterState !== 0 &&
-         counterState !== sentences.length
-      ) {
+      if (panel === 1 && counterState !== sentences.length) {
          if (audioRef.current) {
             audioRef.current.src = sentences[counterState].audio;
+            if (autoPlayAudio1) audioRef.current.play();
          }
       }
       if (panel === 2) {
          if (audioRef.current) {
             audioRef.current.src = sentences[counterState].audio;
-            audioRef.current.play();
+            if (autoPlayAudio2) audioRef.current.play();
          }
       }
    }, [panel]);
@@ -262,10 +213,6 @@ const SentenceReview = () => {
          toast.success('Correct', { autoClose: 1000 });
          setAhead(ahead + 1);
          setLeft(left - 1);
-         if (!storyMode)
-            plusTrueSentenceApi(sentences[counterState]._id, isOk => {
-               if (!isOk) toast.error('Plus counter failed');
-            });
          setPanel(2);
       } else {
          toast.warn('Try Again');
@@ -285,17 +232,6 @@ const SentenceReview = () => {
          });
       setSentenceItems(t);
       setClear(!clear);
-   };
-
-   const storyCheckBoxChanged = (storyValue: string) => {
-      if (storyMode && !(storyValue === 'all' || storyValue === 'free')) {
-         getStoryApi(storyValue, (isOk, result) => {
-            if (isOk) {
-               if (result.story.counterState)
-                  setStateCounter(result.story.counterState);
-            }
-         });
-      }
    };
 
    const showAnswerClick = () => {
@@ -321,15 +257,6 @@ const SentenceReview = () => {
    };
 
    const nextClick = () => {
-      if (storyMode) {
-         // editStoryApi(
-         //    story,
-         //    { counterState: counterState + 1 },
-         //    (isOk, result) => {
-         //       if (!isOk) toast.warn('CounterState failed');
-         //    },
-         // );
-      }
       setStateCounter(counterState + 1);
       setPanel(1);
       setP('-');
@@ -427,49 +354,6 @@ const SentenceReview = () => {
                   </>
                )}
 
-               <Form.Check
-                  className="mb-1 my-1"
-                  type="switch"
-                  checked={storyMode}
-                  onChange={e => {
-                     setStoryMode(e.target.checked);
-                  }}
-                  label="Story Mode"
-               />
-               {storyMode && (
-                  <>
-                     <Form.Check
-                        className="mb-1"
-                        type="switch"
-                        checked={resetStory}
-                        onChange={e => {
-                           setResetStory(e.target.checked);
-                        }}
-                        label="Reset Story"
-                     />
-                     <select
-                        className="form-select mb-3"
-                        aria-label="Default select example"
-                        onChange={e => {
-                           if (e.target.value === '1') setStory('free');
-                           else setStory(e.target.value);
-                           storyCheckBoxChanged(e.target.value);
-                        }}
-                        disabled={!storyMode}
-                     >
-                        <option value="1" style={{ color: 'blue' }}>
-                           Free (No Story)
-                        </option>
-                        <option value="all" style={{ color: 'blue' }}>
-                           All
-                        </option>
-                        {stories.map(item => (
-                           <option value={item._id}>{item.title}</option>
-                        ))}
-                     </select>
-                  </>
-               )}
-
                <button className="btn btn-primary w-100" onClick={startClick}>
                   Start
                </button>
@@ -481,6 +365,15 @@ const SentenceReview = () => {
                   <span className="badge bg-success" style={{ fontSize: 20 }}>
                      {ahead}
                   </span>
+                  <Form.Check
+                     type="switch"
+                     id="custom-switch"
+                     label="Auto Play"
+                     checked={autoPlayAudio1}
+                     onChange={e => {
+                        setAutoPlayAudio1(e.target.checked);
+                     }}
+                  />
                   <span className="badge bg-danger" style={{ fontSize: 20 }}>
                      {left}
                   </span>
@@ -544,6 +437,15 @@ const SentenceReview = () => {
                   <span className="badge bg-success" style={{ fontSize: 20 }}>
                      {ahead}
                   </span>
+                  <Form.Check
+                     type="switch"
+                     className="mb-2"
+                     label="Auto Play"
+                     checked={autoPlayAudio2}
+                     onChange={e => {
+                        setAutoPlayAudio2(e.target.checked);
+                     }}
+                  />
                   <span className="badge bg-danger" style={{ fontSize: 20 }}>
                      {left}
                   </span>
@@ -568,18 +470,13 @@ const SentenceReview = () => {
                >
                   Next
                </button>
-               <Button className="btn btn-secondary w-100 mb-2">
-                  <a
-                     style={{
-                        color: '#fff',
-                        fontSize: 18,
-                        textDecoration: 'none',
-                     }}
-                     target="_blank"
-                     href={`${process.env.REACT_APP_API_BASE_URL}/sentences/edit/${sentences[counterState]._id}`}
-                  >
-                     Edit
-                  </a>
+               <Button
+                  className="btn btn-secondary w-100 mb-2"
+                  onClick={() => {
+                     setShowEditModal(true);
+                  }}
+               >
+                  Edit
                </Button>
                <button
                   className="btn btn-danger w-100 mb-2"
@@ -590,6 +487,15 @@ const SentenceReview = () => {
                   Delete
                </button>
             </div>
+         )}
+
+         {counterState < sentences.length && (
+            <EditSentenceModal
+               
+               sentenceId={sentences[counterState]._id}
+               showEditModal={showEditModal}
+               setShowEditModal={setShowEditModal}
+            />
          )}
 
          <Modal
@@ -631,8 +537,7 @@ const SentenceReview = () => {
                   variant="secondary"
                   onClick={() => {
                      setShowFinishModal(false);
-                     if (!storyMode) navigate('/sentences') 
-                     else navigate('/stories')
+                     navigate('/sentences');
                   }}
                >
                   No

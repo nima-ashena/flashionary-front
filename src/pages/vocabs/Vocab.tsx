@@ -140,6 +140,7 @@ const Vocab = (props: any) => {
                         </Link>
                      )}
 
+                     {/* Delete Modal */}
                      <Modal
                         show={showDeleteModal}
                         onHide={() => {

@@ -30,10 +30,6 @@ const SignIn = () => {
                   autoClose: 2000,
                });
                localStorage.setItem('AuthToken', result.token);
-               localStorage.setItem(
-                  'defaultTTSEngine',
-                  result.user.defaultTTSEngine,
-               );
                localStorage.setItem('username', result.user.username);
                localStorage.setItem('userId', result.user._id);
                setIsUserLogin(true);
@@ -45,8 +41,6 @@ const SignIn = () => {
                   isLoading: false,
                   autoClose: 2000,
                });
-               // toast.error(result.response.data.message);
-               // console.log(result);
             }
          },
       );

@@ -54,7 +54,7 @@ const RoutesHandle = () => {
                   element={<EditSentence />}
                />
                <Route
-                  path="/sentences/review/:storyId"
+                  path="/sentences/review"
                   element={<SentenceReview />}
                />
 

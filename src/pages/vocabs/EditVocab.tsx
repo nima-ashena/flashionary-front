@@ -229,6 +229,17 @@ const EditVocab = () => {
                      />
                   </div>
                   <div className="mb-3">
+                     <label className="form-label">Note</label>
+                     <input
+                        type="text"
+                        className="form-control"
+                        onChange={e => {
+                           setVocab({ ...vocab, note: e.target.value });
+                        }}
+                        value={vocab.note}
+                     />
+                  </div>
+                  <div className="mb-3">
                      <label className="form-label">Meaning (Persian)</label>
                      <input
                         type="text"
@@ -386,7 +397,7 @@ const EditVocab = () => {
                      )}
                   </div>
                </form>
-               <div className="col-12 col-md-8 col-lg-7 pb-3">
+               <div className="col-12 col-md-8 col-lg-7 pb-3 pt-2">
                   <div className="mb-3">
                      <label className="form-label">Context (*required)</label>
                      <textarea

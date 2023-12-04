@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Dropdown, Modal } from 'react-bootstrap';
 import { ISentence } from '../../../interface/sentence.interface';
 import {
    editSentenceApi,
@@ -7,20 +7,15 @@ import {
    syncSentenceAudioApi,
 } from '../../../api/sentence.service';
 import { toast } from 'react-toastify';
-import { editStroyAfter } from '../EditStory';
+import { SentenceTypes } from '../../../utils/constants';
 
 const EditSentenceModal = props => {
-   const {
-      storyId,
-      sentenceId,
-      showEditModal,
-      setShowEditModal,
-   } = props;
+   const {  sentenceId, showEditModal, setShowEditModal } =
+      props;
    const [sentence, setSentence] = useState<ISentence>({ context: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
-      if(sentenceId === '') return
       getSentenceApi(sentenceId, (isOk: boolean, result) => {
          if (isOk) {
             setSentence(result.sentence);
@@ -29,42 +24,42 @@ const EditSentenceModal = props => {
             toast.error(result.message);
          }
       });
-   }, [sentenceId]);
+   }, []);
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
       if (sentence.context === '') return toast.warn('Please fill context');
 
       const t = toast.loading('Editing Sentence...');
-      editSentenceApi(sentenceId, 
+      editSentenceApi(
+         sentenceId,
          {
             context: sentence.context,
             note: sentence.note,
             meaning: sentence.meaning,
-            storyFlag: sentence.storyFlag,
-            storyTough: sentence.storyTough,
-         }
-         , (isOk: boolean, result) => {
-         if (isOk) {
-            editStroyAfter(storyId);
-            setSentence(result.sentence);
-            setShowEditModal(false);
-            toast.update(t, {
-               render: 'sentence edited successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         } else {
-            console.log(result.message);
-            toast.update(t, {
-               render: result.message,
-               type: 'error',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         }
-      });
+            type: sentence.type,
+         },
+         (isOk: boolean, result) => {
+            if (isOk) {
+               setSentence(result.sentence);
+               setShowEditModal(false);
+               toast.update(t, {
+                  render: 'sentence edited successfully',
+                  type: 'success',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            } else {
+               console.log(result.message);
+               toast.update(t, {
+                  render: result.message,
+                  type: 'error',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            }
+         },
+      );
    };
 
    const syncAudioClick = () => {
@@ -132,7 +127,7 @@ const EditSentenceModal = props => {
                      onChange={e => {
                         setSentence({ ...sentence, context: e.target.value });
                      }}
-                     value={sentence?.context}
+                     value={sentence.context}
                      rows={3}
                   />
                </div>
@@ -144,7 +139,7 @@ const EditSentenceModal = props => {
                      onChange={e => {
                         setSentence({ ...sentence, meaning: e.target.value });
                      }}
-                     value={sentence?.meaning}
+                     value={sentence.meaning}
                      rows={3}
                   />
                </div>
@@ -158,52 +153,44 @@ const EditSentenceModal = props => {
                            note: e.target.value,
                         });
                      }}
-                     value={sentence?.note}
+                     value={sentence.note}
                      rows={3}
                   />
                </div>
 
-               <div className="mb-2">
-                  <div className="form-check">
-                     <input
-                        className="form-check-input"
-                        type="checkbox"
-                        onChange={e => {
-                           setSentence({
-                              ...sentence,
-                              storyFlag: e.target.checked,
-                           });
-                        }}
-                        checked={sentence?.storyFlag}
-                     />
-                     <label className="form-check-label">Flag</label>{' '}
-                     <i
-                        className="bi bi-flag-fill"
-                        style={{ color: '#fc4b08' }}
-                     ></i>
-                  </div>
-                  <div className="form-check">
-                     <input
-                        className="form-check-input"
-                        type="checkbox"
-                        onChange={e => {
-                           setSentence({
-                              ...sentence,
-                              storyTough: e.target.checked,
-                           });
-                        }}
-                        checked={sentence?.storyTough}
-                     />
-                     <label className="form-check-label">Tough</label>{' '}
-                     <i className="bi bi-bookmark-fill"></i>
-                  </div>
+               <div className="mb-3">
+                  <label className="form-check-label">
+                     Type:{' '}
+                     <span style={{ fontWeight: 800 }}>{sentence.type}</span>{' '}
+                     <Dropdown style={{ display: 'inline' }}>
+                        <Dropdown.Toggle
+                           variant="secondary"
+                           id="dropdown-basic"
+                        ></Dropdown.Toggle>
+                        <Dropdown.Menu>
+                           {SentenceTypes.map(item => {
+                              return (
+                                 <Dropdown.Item
+                                    onClick={e => {
+                                       // setType(item);
+                                       setSentence({ ...sentence, type: item });
+                                    }}
+                                 >
+                                    {item}
+                                 </Dropdown.Item>
+                              );
+                           })}
+                        </Dropdown.Menu>
+                     </Dropdown>
+                  </label>
                </div>
+
                <audio
                   className="mb-2 w-100"
                   controls
                   hidden
                   ref={audioRef}
-                  src={`${sentence?.audio}`}
+                  src={`${sentence.audio}`}
                ></audio>
                <div>
                   <button
@@ -213,9 +200,7 @@ const EditSentenceModal = props => {
                   >
                      Sync Audio
                   </button>
-               </div>
 
-               <div className="col">
                   <button
                      type="submit"
                      className="btn btn-primary btn-lg w-100 add-btn my-2"

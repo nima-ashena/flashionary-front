@@ -7,8 +7,6 @@ import {
    getSentencesApi,
 } from '../../../api/sentence.service';
 import {
-   editStoryApi,
-   getStoriesApi,
    getStoryApi,
 } from '../../../api/story.service';
 import { ISentence } from '../../../interface/sentence.interface';
@@ -120,6 +118,7 @@ const StorySentenceReview = () => {
       setPanel(1);
    };
 
+   // Check Finish
    useEffect(() => {
       if (counterState === 0 || panel === 0) return;
       // Check Finish
@@ -538,17 +537,6 @@ const StorySentenceReview = () => {
                   }}
                   className="btn btn-secondary w-100 mb-2"
                >
-                  {/* <a
-                     style={{
-                        color: '#fff',
-                        fontSize: 18,
-                        textDecoration: 'none',
-                     }}
-                     target="_blank"
-                     href={`${process.env.REACT_APP_API_BASE_URL}/sentences/edit/${sentences[counterState]._id}`}
-                  >
-                     Edit
-                  </a> */}
                   Edit
                </Button>
                <button
