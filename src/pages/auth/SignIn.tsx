@@ -32,6 +32,10 @@ const SignIn = () => {
                localStorage.setItem('AuthToken', result.token);
                localStorage.setItem('username', result.user.username);
                localStorage.setItem('userId', result.user._id);
+               localStorage.setItem(
+                  'defaultTTSEngine',
+                  result.user.defaultTTSEngine,
+               );
                setIsUserLogin(true);
                navigate('/');
             } else {

@@ -188,7 +188,6 @@ const EditVocab = () => {
          { _id: vocabId, TTSEngine: localStorage.getItem('defaultTTSEngine') },
          (isOk: boolean, result) => {
             if (isOk) {
-               console.log(result);
                setVocab(result);
                toast.update(t, {
                   render:
@@ -246,6 +245,7 @@ const EditVocab = () => {
                      <label className="form-label">Meaning (Persian)</label>
                      <input
                         type="text"
+                        style={{ direction: 'rtl' }}
                         className="form-control"
                         onChange={e => {
                            setVocab({ ...vocab, meaning: e.target.value });
