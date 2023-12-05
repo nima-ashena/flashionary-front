@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { deleteVocabOfVocabGroupApi } from '../../../../api/vocabGroup.service';
 import { useNavigate } from 'react-router-dom';
 import { IVocab } from '../../../../interface/vocab.interface';
-import EditVocabModal from './EditVocabModal';
+import EditVocabModal from '../../components/EditVocabModal';
 
 const VocabItem = (props: any) => {
    const vocab: IVocab = props.vocab;
@@ -62,7 +62,7 @@ const VocabItem = (props: any) => {
                      className="btn btn-secondary m-1"
                      onClick={() => {
                         // navigate(`/vocabs/edit/${vocab._id}`);
-                        setShowEditModal(true)
+                        setShowEditModal(true);
                      }}
                   >
                      <i className="bi bi-pen" />

@@ -4,19 +4,13 @@ import {
    editVocabApi,
    getVocabApi,
    syncVocabAudioApi,
-} from '../../../../api/vocab.service';
+} from '../../../api/vocab.service';
 import { toast } from 'react-toastify';
-import { IVocab } from '../../../../interface/vocab.interface';
-
+import { IVocab } from '../../../interface/vocab.interface';
 
 const EditVocabModal = props => {
-   const {
-      render,
-      setRender,
-      vocabId,
-      showEditModal,
-      setShowEditModal,
-   } = props;
+   const { render, setRender, vocabId, showEditModal, setShowEditModal } =
+      props;
    const [vocab, setVocab] = useState<IVocab>({ title: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -177,7 +171,7 @@ const EditVocabModal = props => {
                   >
                      Sync Audio
                   </button>
- 
+
                   <button
                      type="submit"
                      className="btn btn-primary btn-lg w-100 add-btn my-2"

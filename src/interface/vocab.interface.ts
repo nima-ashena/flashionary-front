@@ -8,9 +8,10 @@ export interface IAddVocab {
    definition: string;
    phonetics: string;
    dictionaryApi: boolean;
-   audioApi: boolean;
    translateApi: boolean;
    TTSEngine: string;
+   reviewImportance?: boolean;
+   dictImportance?: boolean;
 }
 
 export interface IVocab {
@@ -25,9 +26,13 @@ export interface IVocab {
    definition?: string;
    example?: string;
    sentences?: any[];
-   is_disable?: Boolean;
+   is_disable?: boolean;
    true_guess_count?: number;
-   completed?: Boolean;
+   reviewTrueGuessCount?: number;
+   dictTrueGuessCount?: number;
+   completed?: boolean;
+   reviewImportance?: boolean;
+   dictImportance?: boolean;
    note?: string;
    user?: string;
 }

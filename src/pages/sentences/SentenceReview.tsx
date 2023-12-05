@@ -211,6 +211,9 @@ const SentenceReview = () => {
 
       if (result) {
          toast.success('Correct', { autoClose: 1000 });
+         plusTrueSentenceApi(sentences[counterState]._id, isOk => {
+            if (!isOk) toast.error('Plus counter failed');
+         });
          setAhead(ahead + 1);
          setLeft(left - 1);
          setPanel(2);
@@ -406,7 +409,7 @@ const SentenceReview = () => {
                   Clear
                </button>
                <button
-                  className="btn btn-secondary w-100 mb-2"
+                  className="btn btn-success w-100 mb-2"
                   onClick={showAnswerClick}
                >
                   Show answer
@@ -418,7 +421,7 @@ const SentenceReview = () => {
                   ref={audioRef}
                ></audio>
                <button
-                  className="btn btn-success w-100 mb-2"
+                  className="btn btn-primary w-100 mb-2"
                   onClick={goNextClick}
                >
                   Go Next!
@@ -456,7 +459,7 @@ const SentenceReview = () => {
                <p style={{ fontSize: 22 }}>
                   {sentences[counterState] && sentences[counterState].note}
                </p>
-               <p style={{ fontSize: 22 }}>
+               <p style={{ fontSize: 22, direction: 'rtl' }}>
                   {sentences[counterState] && sentences[counterState].meaning}
                </p>
                <audio
@@ -491,7 +494,8 @@ const SentenceReview = () => {
 
          {counterState < sentences.length && (
             <EditSentenceModal
-               
+               sentences={sentences}
+               setSentences={setSentences}
                sentenceId={sentences[counterState]._id}
                showEditModal={showEditModal}
                setShowEditModal={setShowEditModal}

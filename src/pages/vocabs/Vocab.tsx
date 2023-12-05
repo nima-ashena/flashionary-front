@@ -154,6 +154,7 @@ const Vocab = (props: any) => {
                         </Modal.Header>
                         <Modal.Footer>
                            <Button
+                              style={{ width: '48%' }}
                               variant="secondary"
                               onClick={() => {
                                  setShowDeleteModal(false);
@@ -161,7 +162,11 @@ const Vocab = (props: any) => {
                            >
                               Close
                            </Button>
-                           <Button variant="danger" onClick={deleteVocabClick}>
+                           <Button
+                              style={{ width: '48%' }}
+                              variant="danger"
+                              onClick={deleteVocabClick}
+                           >
                               Yes
                            </Button>
                         </Modal.Footer>

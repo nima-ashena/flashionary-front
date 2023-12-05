@@ -426,6 +426,7 @@ const StorySentenceReview = () => {
                </button>
             </div>
          )}
+
          {panel === 1 && (
             <div className="pt-3 col-12 col-md-8 col-lg-6">
                <div className="mb-2 w-100 d-flex justify-content-between">
@@ -473,7 +474,7 @@ const StorySentenceReview = () => {
                   Clear
                </button>
                <button
-                  className="btn btn-secondary w-100 mb-2"
+                  className="btn btn-success w-100 mb-2"
                   onClick={showAnswerClick}
                >
                   Show answer
@@ -485,13 +486,14 @@ const StorySentenceReview = () => {
                   ref={audioRef}
                ></audio>
                <button
-                  className="btn btn-success w-100 mb-2"
+                  className="btn btn-primary w-100 mb-2"
                   onClick={goNextClick}
                >
                   Go Next!
                </button>
             </div>
          )}
+
          {panel === 2 && (
             <div className="pt-3 col-12 col-md-8 col-lg-6">
                <div className="mb-2 w-100 d-flex justify-content-between">

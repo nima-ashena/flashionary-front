@@ -64,6 +64,8 @@ const EditSentence = () => {
       formData.append('meaning', sentence.meaning);
       formData.append('note', sentence.note);
       formData.append('type', sentence.type);
+      if (sentence.true_guess_count)
+         formData.append('true_guess_count', String(sentence.true_guess_count));
       if (file) {
          formData.append('audioFile', file, file.name);
       }
@@ -239,6 +241,21 @@ const EditSentence = () => {
                         </Dropdown.Menu>
                      </Dropdown>
                   </label>
+               </div>
+
+               <div className="mb-3 col-lg-6">
+                  <label className="form-label">True Guess Count</label>
+                  <input
+                     type="number"
+                     className="form-control"
+                     onChange={e => {
+                        setSentence({
+                           ...sentence,
+                           true_guess_count: Number(e.target.value),
+                        });
+                     }}
+                     value={sentence.true_guess_count}
+                  />
                </div>
 
                <audio

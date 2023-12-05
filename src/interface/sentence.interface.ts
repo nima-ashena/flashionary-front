@@ -17,7 +17,9 @@ export interface ISentence {
    audio?: string;
    note?: string;
    is_disable?: Boolean;
-   true_guess_count?: Number;
+   true_guess_count?: number;
+   reviewTrueGuessCount?: number;
+   replacementTrueGuessCount?: number;
    story?: string;
    vocab?: string;
    completed?: Boolean;

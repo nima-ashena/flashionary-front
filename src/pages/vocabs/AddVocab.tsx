@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { addVocabApi } from '../../api/vocab.service';
 import { IAddVocab } from '../../interface/vocab.interface';
 import { compoundTypes } from '../../utils/constants';
+import { Form } from 'react-bootstrap';
 
 const AddVocab = () => {
    const primaryData: IAddVocab = {
@@ -15,8 +16,9 @@ const AddVocab = () => {
       phonetics: '',
       type: 'noun',
       dictionaryApi: true,
-      audioApi: true,
       translateApi: false,
+      dictImportance: true,
+      reviewImportance: true,
       TTSEngine: localStorage.getItem('defaultTTSEngine'),
    };
    const [vocabData, setVocabData] = useState<IAddVocab>(primaryData);
@@ -111,7 +113,10 @@ const AddVocab = () => {
                   className="form-select"
                   aria-label="Default select example"
                   onChange={e => {
-                     setVocabData({ ...vocabData, compoundType: e.target.value });
+                     setVocabData({
+                        ...vocabData,
+                        compoundType: e.target.value,
+                     });
                   }}
                >
                   {compoundTypes.map(item => (
@@ -130,10 +135,41 @@ const AddVocab = () => {
                   value={vocabData.phonetics}
                />
             </div>
-            <div className="form-check mb-1">
-               <input
-                  className="form-check-input"
-                  type="checkbox"
+
+            <div className="d-flex justify-content-between mb-2">
+               <div className="form-check">
+                  <input
+                     className="form-check-input"
+                     type="checkbox"
+                     onChange={e => {
+                        setVocabData({
+                           ...vocabData,
+                           reviewImportance: e.target.checked,
+                        });
+                     }}
+                     checked={vocabData.reviewImportance}
+                  />
+                  <label className="form-check-label">Review Importance</label>
+               </div>
+               <div className="form-check">
+                  <input
+                     className="form-check-input"
+                     type="checkbox"
+                     onChange={e => {
+                        setVocabData({
+                           ...vocabData,
+                           dictImportance: e.target.checked,
+                        });
+                     }}
+                     checked={vocabData.dictImportance}
+                  />
+                  <label className="form-check-label">Dict Importance</label>
+               </div>
+            </div>
+
+            <div className="d-flex justify-content-between mb-3">
+               <Form.Check
+                  type="switch"
                   onChange={e => {
                      setVocabData({
                         ...vocabData,
@@ -141,13 +177,10 @@ const AddVocab = () => {
                      });
                   }}
                   checked={vocabData.dictionaryApi}
+                  label="Dictionary Api"
                />
-               <label className="form-check-label">Dictionary Api</label>
-            </div>
-            <div className="form-check mb-3">
-               <input
-                  className="form-check-input"
-                  type="checkbox"
+               <Form.Check
+                  type="switch"
                   onChange={e => {
                      setVocabData({
                         ...vocabData,
@@ -155,8 +188,8 @@ const AddVocab = () => {
                      });
                   }}
                   checked={vocabData.translateApi}
+                  label="Translate Api"
                />
-               <label className="form-check-label">Translate Api</label>
             </div>
 
             <button

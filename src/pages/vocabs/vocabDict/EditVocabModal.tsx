@@ -1,63 +1,61 @@
 import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { ISentence } from '../../../interface/sentence.interface';
 import {
-   editSentenceApi,
-   getSentenceApi,
-   syncSentenceAudioApi,
-} from '../../../api/sentence.service';
+   editVocabApi,
+   getVocabApi,
+   syncVocabAudioApi,
+} from '../../../api/vocab.service';
 import { toast } from 'react-toastify';
-import { editStroyAfter } from '../EditStory';
+import { IVocab } from '../../../interface/vocab.interface';
 
-const EditSentenceModal = props => {
-   const {
-      render,
-      setRender,
-      sentenceId,
-      storyId,
-      showEditModal,
-      setShowEditModal,
-   } = props;
-   const [sentence, setSentence] = useState<ISentence>({ context: '' });
+const EditVocabModal = props => {
+   const vocabs: IVocab[] = props.vocabs;
+   const { vocabId, setVocabs, showEditModal, setShowEditModal } = props;
+   const [vocab, setVocab] = useState<IVocab>({ title: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
-      getSentenceApi(sentenceId, (isOk: boolean, result) => {
+      getVocabApi(vocabId, (isOk: boolean, result) => {
          if (isOk) {
-            setSentence(result.sentence);
+            setVocab(result.vocab);
          } else {
             console.log(result.message);
             toast.error(result.message);
          }
       });
-   }, []);
+   }, [showEditModal]);
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
-      if (sentence.context === '') return toast.warn('Please fill context');
-
-      const t = toast.loading('Editing Sentence...');
-      editSentenceApi(
-         sentenceId,
+      if (vocab.title === '') return toast.warn('Please fill context');
+      const t = toast.loading('Editing Vocab...');
+      editVocabApi(
+         vocabId,
          {
-            context: sentence.context,
-            note: sentence.note,
-            meaning: sentence.meaning,
-            storyFlag: sentence.storyFlag,
-            storyTough: sentence.storyTough,
+            title: vocab.title,
+            note: vocab.note,
+            meaning: vocab.meaning,
+            true_guess_count: vocab.true_guess_count
          },
          (isOk: boolean, result) => {
             if (isOk) {
-               editStroyAfter(storyId);
-               setSentence(result.sentence);
+               setVocab(result.vocab);
                setShowEditModal(false);
-               setRender(!render);
                toast.update(t, {
-                  render: 'sentence edited successfully',
+                  render: 'vocab edited successfully',
                   type: 'success',
                   isLoading: false,
                   autoClose: 2000,
                });
+               let ss: IVocab[] = [];
+               vocabs.forEach(item => {
+                  if (item._id === vocabId) {
+                     ss.push(result.vocab);
+                  } else {
+                     ss.push(item);
+                  }
+               });
+               setVocabs(ss);
             } else {
                console.log(result.message);
                toast.update(t, {
@@ -72,18 +70,18 @@ const EditSentenceModal = props => {
    };
 
    const syncAudioClick = () => {
-      const t = toast.loading('Syncing Audio Sentence...');
-      syncSentenceAudioApi(
+      const t = toast.loading('Syncing Audio Vocab...');
+      syncVocabAudioApi(
          {
-            _id: sentenceId,
+            _id: vocabId,
             TTSEngine: localStorage.getItem('defaultTTSEngine'),
          },
          (isOk: boolean, result) => {
             if (isOk) {
-               setSentence(result);
+               setVocab(result);
                toast.update(t, {
                   render:
-                     'sentence audio sync done successfully, Please reload the page',
+                     'Vocab audio sync done successfully, Please reload the page',
                   type: 'success',
                   isLoading: false,
                   autoClose: 2000,
@@ -110,7 +108,7 @@ const EditSentenceModal = props => {
       >
          <Modal.Header closeButton>
             <Modal.Title>
-               Edit Sentence{' '}
+               Edit Vocab{' '}
                <button
                   type="button"
                   className="btn btn-success m-1"
@@ -134,10 +132,10 @@ const EditSentenceModal = props => {
                   <textarea
                      className="form-control"
                      onChange={e => {
-                        setSentence({ ...sentence, context: e.target.value });
+                        setVocab({ ...vocab, title: e.target.value });
                      }}
-                     value={sentence.context}
-                     rows={3}
+                     value={vocab.title}
+                     rows={1}
                   />
                </div>
                <div className="mb-3">
@@ -145,12 +143,12 @@ const EditSentenceModal = props => {
                   <textarea
                      className="form-control"
                      onChange={e => {
-                        setSentence({
-                           ...sentence,
+                        setVocab({
+                           ...vocab,
                            note: e.target.value,
                         });
                      }}
-                     value={sentence.note}
+                     value={vocab.note}
                      rows={3}
                   />
                </div>
@@ -160,54 +158,34 @@ const EditSentenceModal = props => {
                      className="form-control"
                      style={{ direction: 'rtl' }}
                      onChange={e => {
-                        setSentence({ ...sentence, meaning: e.target.value });
+                        setVocab({ ...vocab, meaning: e.target.value });
                      }}
-                     value={sentence.meaning}
+                     value={vocab.meaning}
                      rows={3}
                   />
                </div>
 
-               <div className="mb-2">
-                  <div className="form-check">
-                     <input
-                        className="form-check-input"
-                        type="checkbox"
-                        onChange={e => {
-                           setSentence({
-                              ...sentence,
-                              storyFlag: e.target.checked,
-                           });
-                        }}
-                        checked={sentence.storyFlag}
-                     />
-                     <label className="form-check-label">Flag</label>{' '}
-                     <i
-                        className="bi bi-flag-fill"
-                        style={{ color: '#fc4b08' }}
-                     ></i>
-                  </div>
-                  <div className="form-check">
-                     <input
-                        className="form-check-input"
-                        type="checkbox"
-                        onChange={e => {
-                           setSentence({
-                              ...sentence,
-                              storyTough: e.target.checked,
-                           });
-                        }}
-                        checked={sentence.storyTough}
-                     />
-                     <label className="form-check-label">Tough</label>{' '}
-                     <i className="bi bi-bookmark-fill"></i>
-                  </div>
+               <div className="mb-3 col-lg-6">
+                  <label className="form-label">True Guess Count</label>
+                  <input
+                     type="number"
+                     className="form-control"
+                     onChange={e => {
+                        setVocab({
+                           ...vocab,
+                           true_guess_count: Number(e.target.value),
+                        });
+                     }}
+                     value={vocab.true_guess_count}
+                  />
                </div>
+
                <audio
                   className="mb-2 w-100"
                   controls
                   hidden
                   ref={audioRef}
-                  src={`${sentence.audio}`}
+                  src={`${vocab.audio}`}
                ></audio>
                <div>
                   <button
@@ -231,4 +209,4 @@ const EditSentenceModal = props => {
    );
 };
 
-export default EditSentenceModal;
+export default EditVocabModal;

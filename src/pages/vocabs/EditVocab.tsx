@@ -49,33 +49,6 @@ const EditVocab = () => {
       });
    }, [render]);
 
-   const addSentenceClick = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-   ) => {
-      e.preventDefault();
-      const id = toast.loading('Adding Sentence...');
-      addSentenceToVocabApi({ vocabId, context: sentence }, (isOk, result) => {
-         if (isOk) {
-            setRender(!render);
-            setSentence('');
-            toast.update(id, {
-               render: 'sentence added successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
-            // setSentences(result.story.sentences.reverse());
-         } else {
-            toast.update(id, {
-               render: result.response.data.message,
-               type: 'error',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         }
-      });
-   };
-
    const handleFileChange = function (e: React.ChangeEvent<HTMLInputElement>) {
       const fileList = e.target.files;
 
@@ -144,6 +117,33 @@ const EditVocab = () => {
             console.log(result.message);
             toast.update(t, {
                render: result.message,
+               type: 'error',
+               isLoading: false,
+               autoClose: 2000,
+            });
+         }
+      });
+   };
+
+   const addSentenceClick = (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+   ) => {
+      e.preventDefault();
+      const id = toast.loading('Adding Sentence...');
+      addSentenceToVocabApi({ vocabId, context: sentence }, (isOk, result) => {
+         if (isOk) {
+            setRender(!render);
+            setSentence('');
+            toast.update(id, {
+               render: 'sentence added successfully',
+               type: 'success',
+               isLoading: false,
+               autoClose: 2000,
+            });
+            // setSentences(result.story.sentences.reverse());
+         } else {
+            toast.update(id, {
+               render: result.response.data.message,
                type: 'error',
                isLoading: false,
                autoClose: 2000,

@@ -164,9 +164,6 @@ const EditStory = () => {
                   >
                      {story.title}
                   </div>
-                  {/* {story.note && (
-                     <div className="alert alert-secondary">{story.note}</div>
-                  )} */}
                </div>
                <hr />
                <div className="mb-3">

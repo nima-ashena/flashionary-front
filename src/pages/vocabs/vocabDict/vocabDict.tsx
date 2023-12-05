@@ -10,6 +10,7 @@ import {
 import { log } from 'console';
 import { useNavigate } from 'react-router-dom';
 import SentenceItemVocab from './SentenceItem';
+import EditVocabModal from './EditVocabModal';
 
 const VocabDict = () => {
    const navigate = useNavigate();
@@ -28,12 +29,15 @@ const VocabDict = () => {
    const [left, setLeft] = useState<number>(0);
    const [ahead, setAhead] = useState<number>(0);
    const [accurate, setAccurate] = useState<number>(0);
-   const [vocabs, setVocabs] = useState<IVocab[]>([{ _id: '', title: '' }]);
+   const [vocabs, setVocabs] = useState<IVocab[]>([]);
    const [p, setP] = useState<string>('-');
    const [input, setInput] = useState<string>('');
    const audioRef = useRef<HTMLAudioElement>(null);
    const [isShowAnswerUsed, setIsShowAnswerUsed] = useState(false);
    const [hardMode, setHardMode] = useState<boolean>(false);
+
+   // Panel 2
+   const [showEditModal, setShowEditModal] = useState(false);
 
    // finish modal
    const [showModal, setShowModal] = useState(false);
@@ -83,6 +87,8 @@ const VocabDict = () => {
    }, [again]);
 
    useEffect(() => {
+      if (counterState === 0 || panel === 0) return;
+
       // Check Finish
       if (counterState === vocabs.length) {
          return setShowModal(true);
@@ -185,6 +191,15 @@ const VocabDict = () => {
       setStateCounter(counterState + 1);
       setPanel(1);
       setP('-');
+   };
+
+   const goNextClick = () => {
+      plusTrueVocabApi(vocabs[counterState]._id, isOk => {
+         if (!isOk) toast.error('Plus counter failed');
+      });
+      setAhead(ahead + 1);
+      setLeft(left - 1);
+      setPanel(2);
    };
 
    return (
@@ -314,8 +329,15 @@ const VocabDict = () => {
                      Show Answer
                   </button>
                )}
+               <button
+                  className="btn btn-primary w-100 mb-2"
+                  onClick={goNextClick}
+               >
+                  Go Next!
+               </button>
             </div>
          )}
+
          {panel === 2 && (
             <div className="pt-3 col-12 col-md-8 col-lg-6">
                <div className="mb-2 w-100 d-flex justify-content-between">
@@ -333,6 +355,9 @@ const VocabDict = () => {
                   </span>
                </p>
                <p style={{ fontSize: 22 }}>
+                  {vocabs[counterState] && vocabs[counterState].note}
+               </p>
+               <p style={{ fontSize: 22, direction: 'rtl' }}>
                   {vocabs[counterState] && vocabs[counterState].meaning}
                </p>
                {vocabs[counterState].phonetics && (
@@ -355,18 +380,13 @@ const VocabDict = () => {
                >
                   Next
                </button>
-               <Button className="btn btn-secondary w-100 mb-2">
-                  <a
-                     style={{
-                        color: '#fff',
-                        fontSize: 18,
-                        textDecoration: 'none',
-                     }}
-                     target="_blank"
-                     href={`${process.env.REACT_APP_API_BASE_URL}/vocabs/edit/${vocabs[counterState]._id}`}
-                  >
-                     Edit
-                  </a>
+               <Button
+                  className="btn btn-secondary w-100 mb-2"
+                  onClick={() => {
+                     setShowEditModal(true);
+                  }}
+               >
+                  Edit
                </Button>
                <button
                   className="btn btn-danger w-100 mb-2"
@@ -378,6 +398,18 @@ const VocabDict = () => {
                </button>
             </div>
          )}
+
+         {counterState < vocabs.length && (
+            <EditVocabModal
+               vocabs={vocabs}
+               setVocabs={setVocabs}
+               vocabId={vocabs[counterState]._id}
+               showEditModal={showEditModal}
+               setShowEditModal={setShowEditModal}
+            />
+         )}
+
+         {/* Delete Modal */}
          <Modal
             show={showDeleteVocabModal}
             onHide={() => {
