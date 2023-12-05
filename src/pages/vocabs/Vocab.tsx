@@ -82,7 +82,7 @@ const Vocab = (props: any) => {
                <div className="card-body text-center">
                   <p className="card-title mb-3">
                      <span className="badge bg-primary mx-2">
-                        {vocab.true_guess_count?.toString()}
+                        {vocab.dictTrueGuessCount?.toString()}
                      </span>
                      {vocab.title}
                      {vocab?.completed === true && (

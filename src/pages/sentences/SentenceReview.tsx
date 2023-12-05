@@ -92,7 +92,7 @@ const SentenceReview = () => {
          [
             { name: 'trueGuessLimitMax', value: sliderCountValueMax },
             { name: 'trueGuessLimitMin', value: sliderCountValueMin },
-            { name: 'sort', value: 'true_guess_count' },
+            { name: 'sort', value: 'replacementTrueGuessCount' },
             { name: 'type', value: type },
             { name: 'user', value: localStorage.getItem('userId') },
             { name: 'replacementMode', value: true },
@@ -211,9 +211,15 @@ const SentenceReview = () => {
 
       if (result) {
          toast.success('Correct', { autoClose: 1000 });
-         plusTrueSentenceApi(sentences[counterState]._id, isOk => {
-            if (!isOk) toast.error('Plus counter failed');
-         });
+         plusTrueSentenceApi(
+            {
+               sentenceId: sentences[counterState]._id,
+               plusType: 'replacement',
+            },
+            isOk => {
+               if (!isOk) toast.error('Plus counter failed');
+            },
+         );
          setAhead(ahead + 1);
          setLeft(left - 1);
          setPanel(2);
@@ -245,9 +251,12 @@ const SentenceReview = () => {
    };
 
    const goNextClick = () => {
-      plusTrueSentenceApi(sentences[counterState]._id, isOk => {
-         if (!isOk) toast.error('Plus counter failed');
-      });
+      plusTrueSentenceApi(
+         { sentenceId: sentences[counterState]._id, plusType: 'replacement' },
+         isOk => {
+            if (!isOk) toast.error('Plus counter failed');
+         },
+      );
       setAhead(ahead + 1);
       setLeft(left - 1);
       setPanel(2);

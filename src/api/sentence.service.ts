@@ -97,11 +97,11 @@ export const deleteSentenceApi = (sentenceId: any, callBack: ApiFunction) => {
 };
 
 // plus true guess Sentence
-export const plusTrueSentenceApi = (sentenceId: any, callBack: ApiFunction) => {
+export const plusTrueSentenceApi = (data: any, callBack: ApiFunction) => {
    axios
       .post(
-         `${BASEURL}/sentences/plus-true-guess/${sentenceId}`,
-         {},
+         `${BASEURL}/sentences/plus-true-guess`,
+         data,
          {
             headers: {
                Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,

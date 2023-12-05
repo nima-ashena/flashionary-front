@@ -55,7 +55,7 @@ const VocabDict = () => {
                   setPanel(0);
                   return toast.info('There is no Vocabs to review');
                }
-               let vs: any[] = result.vocabs;
+               let vs: IVocab[] = result.vocabs;
                if (limitMode) {
                   vs = vs.slice(0, sliderLimitValue);
                   setVocabs(vs);
@@ -69,7 +69,7 @@ const VocabDict = () => {
                   audioRef.current.play();
                   audioRef.current.onended = () => {};
                }
-               if (vs[counterState].true_guess_count > 5) {
+               if (vs[counterState].dictTrueGuessCount > 5) {
                   setHardMode(true);
                }
             } else {
@@ -79,7 +79,7 @@ const VocabDict = () => {
          [
             { name: 'trueGuessLimitMax', value: sliderCountValueMax },
             { name: 'trueGuessLimitMin', value: sliderCountValueMin },
-            { name: 'sort', value: 'true_guess_count' },
+            { name: 'sort', value: 'dictTrueGuessCount' },
             { name: 'user', value: localStorage.getItem('userId') },
             { name: 'dictMode', value: true },
          ],
@@ -96,7 +96,7 @@ const VocabDict = () => {
 
       if (hardMode) setP('Hard Mode');
       else setP('0%');
-      if (vocabs[counterState].true_guess_count > 5) {
+      if (vocabs[counterState].dictTrueGuessCount > 5) {
          setHardMode(true);
       }
       setAccurate(0);
@@ -148,9 +148,15 @@ const VocabDict = () => {
          setLeft(left - 1);
          setPanel(2);
          if (!isShowAnswerUsed)
-            plusTrueVocabApi(vocabs[counterState]._id, isOk => {
-               if (!isOk) toast.error('Plus counter failed');
-            });
+            plusTrueVocabApi(
+               { vocabId: vocabs[counterState]._id, plusType: 'dict' },
+               (isOk, result) => {
+                  if (!isOk) {
+                     toast.error('Plus counter failed');
+                     console.log(result);
+                  }
+               },
+            );
          setIsShowAnswerUsed(false);
       }
    };
@@ -194,9 +200,12 @@ const VocabDict = () => {
    };
 
    const goNextClick = () => {
-      plusTrueVocabApi(vocabs[counterState]._id, isOk => {
-         if (!isOk) toast.error('Plus counter failed');
-      });
+      plusTrueVocabApi(
+         { vocabId: vocabs[counterState]._id, plusType: 'dict' },
+         isOk => {
+            if (!isOk) toast.error('Plus counter failed');
+         },
+      );
       setAhead(ahead + 1);
       setLeft(left - 1);
       setPanel(2);
@@ -302,11 +311,6 @@ const VocabDict = () => {
                      autoFocus
                   />
                </div>
-               {vocabs[counterState]?.meaning && (
-                  <p className="" style={{ fontSize: 28 }}>
-                     {vocabs[counterState].meaning}
-                  </p>
-               )}
                {!hardMode && (
                   <>
                      <ProgressBar now={accurate} label={p} />
@@ -314,6 +318,14 @@ const VocabDict = () => {
                         {p}
                      </p>
                   </>
+               )}
+               {vocabs[counterState]?.meaning && (
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
+                  >
+                     {vocabs[counterState] && vocabs[counterState].meaning}
+                  </div>
                )}
                <button
                   className="btn btn-secondary w-100 mb-2"
@@ -349,14 +361,13 @@ const VocabDict = () => {
                   </span>
                </div>
 
-               <div style={{marginBottom: 0}}>
+               <div style={{ marginBottom: 0 }}>
                   <label className="form-label">Title</label>
                   <div
                      className="alert text-dark"
                      style={{ backgroundColor: '#E9ECEF' }}
                   >
-                     {vocabs[counterState] &&
-                        vocabs[counterState].title}
+                     {vocabs[counterState] && vocabs[counterState].title}
                   </div>
                </div>
                <div className="mb-1">
@@ -374,8 +385,7 @@ const VocabDict = () => {
                      className="alert text-dark"
                      style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
                   >
-                     {vocabs[counterState] &&
-                        vocabs[counterState].meaning}
+                     {vocabs[counterState] && vocabs[counterState].meaning}
                   </div>
                </div>
 
@@ -456,10 +466,18 @@ const VocabDict = () => {
                </Modal.Title>
             </Modal.Header>
             <Modal.Footer>
-               <Button variant="secondary" onClick={handleModalClose}>
+               <Button
+                  style={{ width: '48%' }}
+                  variant="secondary"
+                  onClick={handleModalClose}
+               >
                   No
                </Button>
-               <Button variant="primary" onClick={againClick}>
+               <Button
+                  style={{ width: '48%' }}
+                  variant="primary"
+                  onClick={againClick}
+               >
                   Yes
                </Button>
             </Modal.Footer>

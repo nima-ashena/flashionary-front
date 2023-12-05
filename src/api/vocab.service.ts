@@ -97,11 +97,11 @@ export const deleteVocabApi = (vocabId: any, callBack: ApiFunction) => {
 };
 
 // plus true guess Vocab
-export const plusTrueVocabApi = (vocabId: any, callBack: ApiFunction) => {
+export const plusTrueVocabApi = (data: any, callBack: ApiFunction) => {
    axios
       .post(
-         `${BASEURL}/vocabs/plus-true-guess/${vocabId}`,
-         {},
+         `${BASEURL}/vocabs/plus-true-guess`,
+         data,
          {
             headers: {
                Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,
