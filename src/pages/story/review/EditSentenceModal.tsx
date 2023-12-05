@@ -10,8 +10,10 @@ import { toast } from 'react-toastify';
 import { editStroyAfter } from '../EditStory';
 
 const EditSentenceModal = props => {
+   const sentences: ISentence[] = props.sentences;
    const {
       storyId,
+      setSentences,
       sentenceId,
       showEditModal,
       setShowEditModal,
@@ -20,7 +22,7 @@ const EditSentenceModal = props => {
    const audioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
-      if(sentenceId === '') return
+      if (sentenceId === '') return;
       getSentenceApi(sentenceId, (isOk: boolean, result) => {
          if (isOk) {
             setSentence(result.sentence);
@@ -29,42 +31,53 @@ const EditSentenceModal = props => {
             toast.error(result.message);
          }
       });
-   }, [sentenceId]);
+   }, [sentenceId, showEditModal]);
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
       if (sentence.context === '') return toast.warn('Please fill context');
 
       const t = toast.loading('Editing Sentence...');
-      editSentenceApi(sentenceId, 
+      editSentenceApi(
+         sentenceId,
          {
             context: sentence.context,
             note: sentence.note,
             meaning: sentence.meaning,
             storyFlag: sentence.storyFlag,
             storyTough: sentence.storyTough,
-         }
-         , (isOk: boolean, result) => {
-         if (isOk) {
-            editStroyAfter(storyId);
-            setSentence(result.sentence);
-            setShowEditModal(false);
-            toast.update(t, {
-               render: 'sentence edited successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         } else {
-            console.log(result.message);
-            toast.update(t, {
-               render: result.message,
-               type: 'error',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         }
-      });
+         },
+         (isOk: boolean, result) => {
+            if (isOk) {
+               editStroyAfter(storyId);
+               setSentence(result.sentence);
+               setShowEditModal(false);
+               toast.update(t, {
+                  render: 'sentence edited successfully',
+                  type: 'success',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+               let ss: ISentence[] = [];
+               sentences.forEach(item => {
+                  if (item._id === sentenceId) {
+                     ss.push(result.sentence);
+                  } else {
+                     ss.push(item);
+                  }
+               });
+               setSentences(ss);
+            } else {
+               console.log(result.message);
+               toast.update(t, {
+                  render: result.message,
+                  type: 'error',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            }
+         },
+      );
    };
 
    const syncAudioClick = () => {
@@ -137,18 +150,6 @@ const EditSentenceModal = props => {
                   />
                </div>
                <div className="mb-3">
-                  <label className="form-label">Meaning (Persian)</label>
-                  <textarea
-                     className="form-control"
-                     style={{ direction: 'rtl' }}
-                     onChange={e => {
-                        setSentence({ ...sentence, meaning: e.target.value });
-                     }}
-                     value={sentence?.meaning}
-                     rows={3}
-                  />
-               </div>
-               <div className="mb-3">
                   <label className="form-label">Note</label>
                   <textarea
                      className="form-control"
@@ -159,6 +160,18 @@ const EditSentenceModal = props => {
                         });
                      }}
                      value={sentence?.note}
+                     rows={3}
+                  />
+               </div>
+               <div className="mb-3">
+                  <label className="form-label">Meaning (Persian)</label>
+                  <textarea
+                     className="form-control"
+                     style={{ direction: 'rtl' }}
+                     onChange={e => {
+                        setSentence({ ...sentence, meaning: e.target.value });
+                     }}
+                     value={sentence?.meaning}
                      rows={3}
                   />
                </div>

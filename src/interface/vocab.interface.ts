@@ -30,9 +30,9 @@ export interface IVocab {
    true_guess_count?: number;
    reviewTrueGuessCount?: number;
    dictTrueGuessCount?: number;
-   completed?: boolean;
    reviewImportance?: boolean;
    dictImportance?: boolean;
+   completed?: boolean;
    note?: string;
    user?: string;
 }

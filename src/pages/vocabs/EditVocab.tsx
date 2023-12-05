@@ -64,18 +64,21 @@ const EditVocab = () => {
 
       const t = toast.loading('Editing Vocab...');
       const formData = new FormData();
-      if (vocab.title) formData.append('title', vocab.title);
-      if (vocab.meaning) formData.append('meaning', vocab.meaning);
-      if (vocab.phonetics) formData.append('phonetics', vocab.phonetics);
-      if (vocab.definition) formData.append('definition', vocab.definition);
-      if (vocab.example) formData.append('example', vocab.example);
-      if (vocab.type) formData.append('type', vocab.type);
-      if (vocab.compoundType)
-         formData.append('compoundType', vocab.compoundType);
-      if (vocab.true_guess_count)
-         formData.append('true_guess_count', String(vocab.true_guess_count));
-      if (vocab.completed) formData.append('completed', 'true');
-      else formData.append('completed', 'false');
+      formData.append('title', vocab.title);
+      formData.append('meaning', vocab.meaning);
+      formData.append('phonetics', vocab.phonetics);
+      formData.append('definition', vocab.definition);
+      formData.append('example', vocab.example);
+      formData.append('type', vocab.type);
+      formData.append('compoundType', vocab.compoundType);
+      formData.append(
+         'reviewTrueGuessCount',
+         String(vocab.reviewTrueGuessCount),
+      );
+      formData.append('dictTrueGuessCount', String(vocab.dictTrueGuessCount));
+      formData.append('reviewImportance', String(vocab.reviewImportance));
+      formData.append('dictImportance', String(vocab.dictImportance));
+      formData.append('completed', String(vocab.completed));
       if (file) {
          formData.append('audioFile', file, file.name);
       }
@@ -250,8 +253,8 @@ const EditVocab = () => {
                         value={vocab.meaning}
                      />
                   </div>
-                  <div className='row'>
-                     <div className="mb-3 col-lg-6">
+                  <div className="row">
+                     <div className="mb-3 col-sm-6">
                         <label className="form-label">Type</label>
                         <select
                            className="form-select"
@@ -268,7 +271,7 @@ const EditVocab = () => {
                            <option value="nounVerb">Noun, Verb</option>
                         </select>
                      </div>
-                     <div className="mb-3 col-lg-6">
+                     <div className="mb-3 col-sm-6">
                         <label className="form-label">Compound Type</label>
                         <select
                            className="form-select"
@@ -310,6 +313,77 @@ const EditVocab = () => {
                         value={vocab.phonetics}
                      />
                   </div>
+
+                  <div className="row">
+                     <div className="mb-3 col-6">
+                        <label className="form-label">
+                           Review TrueGuessCount
+                        </label>
+                        <input
+                           type="number"
+                           className="form-control"
+                           onChange={e => {
+                              setVocab({
+                                 ...vocab,
+                                 reviewTrueGuessCount: Number(e.target.value),
+                              });
+                           }}
+                           value={vocab.reviewTrueGuessCount}
+                        />
+                     </div>
+                     <div className="mb-3 col-6">
+                        <label className="form-label">
+                           Dict TrueGuessCount
+                        </label>
+                        <input
+                           type="number"
+                           className="form-control"
+                           onChange={e => {
+                              setVocab({
+                                 ...vocab,
+                                 dictTrueGuessCount: Number(e.target.value),
+                              });
+                           }}
+                           value={vocab.dictTrueGuessCount}
+                        />
+                     </div>
+                  </div>
+
+                  <div className="d-flex justify-content-between mb-2">
+                     <div className="form-check">
+                        <input
+                           className="form-check-input"
+                           type="checkbox"
+                           onChange={e => {
+                              setVocab({
+                                 ...vocab,
+                                 reviewImportance: e.target.checked,
+                              });
+                           }}
+                           checked={vocab.reviewImportance}
+                        />
+                        <label className="form-check-label">
+                           Review Importance
+                        </label>
+                     </div>
+                     <div className="form-check">
+                        <input
+                           className="form-check-input"
+                           type="checkbox"
+                           onChange={e => {
+                              setVocab({
+                                 ...vocab,
+                                 dictImportance: e.target.checked,
+                              });
+                           }}
+                           checked={vocab.dictImportance}
+                        />
+                        <label className="form-check-label">
+                           Dict Importance
+                        </label>
+                     </div>
+                  </div>
+
                   <audio
                      className="mb-2 w-100"
                      controls
@@ -332,21 +406,6 @@ const EditVocab = () => {
                         type="file"
                         className="mx-2"
                         onChange={handleFileChange}
-                     />
-                  </div>
-
-                  <div className="mb-3 col-lg-6">
-                     <label className="form-label">True Guess Count</label>
-                     <input
-                        type="number"
-                        className="form-control"
-                        onChange={e => {
-                           setVocab({
-                              ...vocab,
-                              true_guess_count: Number(e.target.value),
-                           });
-                        }}
-                        value={vocab.true_guess_count}
                      />
                   </div>
 

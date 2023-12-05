@@ -8,6 +8,8 @@ export interface IAddSentence {
    type?: string;
    storyFlag?: boolean,
    storyTough?: boolean,
+   reviewImportance?: boolean;
+   replacementImportance?: boolean;
 }
 
 export interface ISentence {
@@ -20,6 +22,8 @@ export interface ISentence {
    true_guess_count?: number;
    reviewTrueGuessCount?: number;
    replacementTrueGuessCount?: number;
+   reviewImportance?: boolean;
+   replacementImportance?: boolean;
    story?: string;
    vocab?: string;
    completed?: Boolean;

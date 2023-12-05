@@ -64,14 +64,18 @@ const EditSentence = () => {
       formData.append('meaning', sentence.meaning);
       formData.append('note', sentence.note);
       formData.append('type', sentence.type);
-      if (sentence.true_guess_count)
-         formData.append('true_guess_count', String(sentence.true_guess_count));
+      formData.append(
+         'reviewTrueGuessCount',
+         String(sentence.reviewTrueGuessCount),
+      );
+      formData.append('replacementTrueGuessCount', String(sentence.replacementTrueGuessCount));
+      formData.append('reviewImportance', String(sentence.reviewImportance));
+      formData.append('replacementImportance', String(sentence.replacementImportance));
       if (file) {
          formData.append('audioFile', file, file.name);
       }
       editSentenceApi(sentenceId, formData, (isOk: boolean, result) => {
          if (isOk) {
-            console.log(result.sentence);
             setSentence(result.sentence);
             toast.update(t, {
                render: 'sentence edited successfully',
@@ -174,7 +178,7 @@ const EditSentence = () => {
       <>
          <div className="container">
             <form
-               className="pt-3 col-sm-12 col-md-8 col-lg-6 row"
+               className="pt-3 col-sm-12 col-md-8 col-lg-6"
                onSubmit={event => {
                   submitClick(event);
                }}
@@ -184,7 +188,10 @@ const EditSentence = () => {
                   <textarea
                      className="form-control"
                      onChange={e => {
-                        setSentence({ ...sentence, context: e.target.value });
+                        setSentence({
+                           ...sentence,
+                           context: e.target.value,
+                        });
                      }}
                      value={sentence.context}
                      rows={3}
@@ -210,7 +217,10 @@ const EditSentence = () => {
                      className="form-control"
                      style={{ direction: 'rtl' }}
                      onChange={e => {
-                        setSentence({ ...sentence, meaning: e.target.value });
+                        setSentence({
+                           ...sentence,
+                           meaning: e.target.value,
+                        });
                      }}
                      value={sentence.meaning}
                      rows={4}
@@ -231,7 +241,10 @@ const EditSentence = () => {
                                  <Dropdown.Item
                                     onClick={e => {
                                        // setType(item);
-                                       setSentence({ ...sentence, type: item });
+                                       setSentence({
+                                          ...sentence,
+                                          type: item,
+                                       });
                                     }}
                                  >
                                     {item}
@@ -243,19 +256,68 @@ const EditSentence = () => {
                   </label>
                </div>
 
-               <div className="mb-3 col-lg-6">
-                  <label className="form-label">True Guess Count</label>
-                  <input
-                     type="number"
-                     className="form-control"
-                     onChange={e => {
-                        setSentence({
-                           ...sentence,
-                           true_guess_count: Number(e.target.value),
-                        });
-                     }}
-                     value={sentence.true_guess_count}
-                  />
+               <div className="row">
+                  <div className="mb-3 col-6">
+                     <label className="form-label">Review TrueGuessCount</label>
+                     <input
+                        type="number"
+                        className="form-control"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              reviewTrueGuessCount: Number(e.target.value),
+                           });
+                        }}
+                        value={sentence.reviewTrueGuessCount}
+                     />
+                  </div>
+                  <div className="mb-3 col-6">
+                     <label className="form-label">Replacement TrueGuessCount</label>
+                     <input
+                        type="number"
+                        className="form-control"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              replacementTrueGuessCount: Number(e.target.value),
+                           });
+                        }}
+                        value={sentence.replacementTrueGuessCount}
+                     />
+                  </div>
+               </div>
+
+               <div className="d-flex justify-content-between mb-2">
+                  <div className="form-check">
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              reviewImportance: e.target.checked,
+                           });
+                        }}
+                        checked={sentence.reviewImportance}
+                     />
+                     <label className="form-check-label">
+                        Review Importance
+                     </label>
+                  </div>
+                  <div className="form-check">
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              replacementImportance: e.target.checked,
+                           });
+                        }}
+                        checked={sentence.replacementImportance}
+                     />
+                     <label className="form-check-label">Dict Importance</label>
+                  </div>
                </div>
 
                <audio
@@ -316,6 +378,7 @@ const EditSentence = () => {
                   )}
                </div>
             </form>
+
             {/* Modal */}
             <Modal
                show={showDeleteModal}

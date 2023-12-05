@@ -35,7 +35,8 @@ const EditVocabModal = props => {
             title: vocab.title,
             note: vocab.note,
             meaning: vocab.meaning,
-            true_guess_count: vocab.true_guess_count
+            dictTrueGuessCount: vocab.dictTrueGuessCount,
+            phonetics: vocab.phonetics,
          },
          (isOk: boolean, result) => {
             if (isOk) {
@@ -166,17 +167,61 @@ const EditVocabModal = props => {
                </div>
 
                <div className="mb-3 col-lg-6">
-                  <label className="form-label">True Guess Count</label>
+                  <label className="form-label">Dict TrueGuessCount</label>
                   <input
                      type="number"
                      className="form-control"
                      onChange={e => {
                         setVocab({
                            ...vocab,
-                           true_guess_count: Number(e.target.value),
+                           dictTrueGuessCount: Number(e.target.value),
                         });
                      }}
-                     value={vocab.true_guess_count}
+                     value={vocab.dictTrueGuessCount}
+                  />
+               </div>
+
+               <div className="d-flex justify-content-between mb-2">
+                  <div className="form-check">
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setVocab({
+                              ...vocab,
+                              reviewImportance: e.target.checked,
+                           });
+                        }}
+                        checked={vocab.reviewImportance}
+                     />
+                     <label className="form-check-label">
+                        Review Importance
+                     </label>
+                  </div>
+                  <div className="form-check">
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setVocab({
+                              ...vocab,
+                              dictImportance: e.target.checked,
+                           });
+                        }}
+                        checked={vocab.dictImportance}
+                     />
+                     <label className="form-check-label">Dict Importance</label>
+                  </div>
+               </div>
+
+               <div className="mb-3">
+                  <label className="form-label">Phonetics</label>
+                  <input
+                     className="form-control"
+                     onChange={e => {
+                        setVocab({ ...vocab, phonetics: e.target.value });
+                     }}
+                     value={vocab.phonetics}
                   />
                </div>
 

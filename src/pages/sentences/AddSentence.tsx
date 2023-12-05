@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { addSentenceApi } from '../../api/sentence.service';
 import { IAddSentence } from '../../interface/sentence.interface';
 import { TTSTypes, SentenceTypes } from '../../utils/constants';
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, Form } from 'react-bootstrap';
 
 const AddSentence = () => {
    const primaryData: IAddSentence = {
@@ -12,6 +12,8 @@ const AddSentence = () => {
       context: '',
       meaning: '',
       translateApi: true,
+      reviewImportance: true,
+      replacementImportance: true,
       note: '',
       TTSEngine: localStorage.getItem('defaultTTSEngine'),
       type: 'Simple',
@@ -99,21 +101,6 @@ const AddSentence = () => {
                />
             </div>
 
-            <div className="form-check mb-3">
-               <input
-                  className="form-check-input"
-                  type="checkbox"
-                  onChange={e => {
-                     setSentence({
-                        ...sentence,
-                        translateApi: e.target.checked,
-                     });
-                  }}
-                  checked={sentence.translateApi}
-               />
-               <label className="form-check-label">Translate Api</label>
-            </div>
-
             <div className="mb-3">
                <label className="form-check-label">
                   Type: <span style={{ fontWeight: 800 }}>{sentence.type}</span>{' '}
@@ -138,6 +125,50 @@ const AddSentence = () => {
                   </Dropdown>
                </label>
             </div>
+
+            <div className="d-flex justify-content-between mb-2">
+               <div className="form-check">
+                  <input
+                     className="form-check-input"
+                     type="checkbox"
+                     onChange={e => {
+                        setSentence({
+                           ...sentence,
+                           reviewImportance: e.target.checked,
+                        });
+                     }}
+                     checked={sentence.reviewImportance}
+                  />
+                  <label className="form-check-label">Review Importance</label>
+               </div>
+               <div className="form-check">
+                  <input
+                     className="form-check-input"
+                     type="checkbox"
+                     onChange={e => {
+                        setSentence({
+                           ...sentence,
+                           replacementImportance: e.target.checked,
+                        });
+                     }}
+                     checked={sentence.replacementImportance}
+                  />
+                  <label className="form-check-label">Dict Importance</label>
+               </div>
+            </div>
+
+            <Form.Check
+               className='mb-3'
+               type="switch"
+               onChange={e => {
+                  setSentence({
+                     ...sentence,
+                     translateApi: e.target.checked,
+                  });
+               }}
+               checked={sentence.translateApi}
+               label="Translate Api"
+            />
 
             <button
                type="submit"

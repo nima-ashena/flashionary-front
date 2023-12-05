@@ -348,23 +348,37 @@ const VocabDict = () => {
                      {left}
                   </span>
                </div>
-               <p style={{ fontSize: 22 }}>
-                  {vocabs[counterState] && vocabs[counterState].title}
-                  <span className="badge bg-primary mx-2">
-                     {String(vocabs[counterState].true_guess_count + 1)}
-                  </span>
-               </p>
-               <p style={{ fontSize: 22 }}>
-                  {vocabs[counterState] && vocabs[counterState].note}
-               </p>
-               <p style={{ fontSize: 22, direction: 'rtl' }}>
-                  {vocabs[counterState] && vocabs[counterState].meaning}
-               </p>
-               {vocabs[counterState].phonetics && (
-                  <p style={{ fontSize: 22 }}>
-                     {vocabs[counterState] && vocabs[counterState].phonetics}
-                  </p>
-               )}
+
+               <div style={{marginBottom: 0}}>
+                  <label className="form-label">Title</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {vocabs[counterState] &&
+                        vocabs[counterState].title}
+                  </div>
+               </div>
+               <div className="mb-1">
+                  <label className="form-label">Note</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {vocabs[counterState] && vocabs[counterState].note}
+                  </div>
+               </div>
+               <div className="mb-1">
+                  <label className="form-label">Meaning (Persian)</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
+                  >
+                     {vocabs[counterState] &&
+                        vocabs[counterState].meaning}
+                  </div>
+               </div>
+
                <audio
                   className="mb-2 w-100 rounded-2"
                   controls

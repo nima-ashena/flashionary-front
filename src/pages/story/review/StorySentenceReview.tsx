@@ -6,9 +6,7 @@ import {
    deleteSentenceApi,
    getSentencesApi,
 } from '../../../api/sentence.service';
-import {
-   getStoryApi,
-} from '../../../api/story.service';
+import { getStoryApi } from '../../../api/story.service';
 import { ISentence } from '../../../interface/sentence.interface';
 import { IStory } from '../../../interface/story.interface';
 import { shuffleArray } from '../../../utils/utils';
@@ -513,15 +511,35 @@ const StorySentenceReview = () => {
                      {left}
                   </span>
                </div>
-               <p style={{ fontSize: 22 }}>
-                  {sentences[counterState] && sentences[counterState].context}
-               </p>
-               <p style={{ fontSize: 22 }}>
-                  {sentences[counterState] && sentences[counterState].note}
-               </p>
-               <p style={{ fontSize: 22 }}>
-                  {sentences[counterState] && sentences[counterState].meaning}
-               </p>
+               <div className="mb-1">
+                  <label className="form-label">Context</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {sentences[counterState] &&
+                        sentences[counterState].context}
+                  </div>
+               </div>
+               <div className="mb-1">
+                  <label className="form-label">Note</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {sentences[counterState] && sentences[counterState].note}
+                  </div>
+               </div>
+               <div className="mb-1">
+                  <label className="form-label">Meaning (Persian)</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
+                  >
+                     {sentences[counterState] &&
+                        sentences[counterState].meaning}
+                  </div>
+               </div>
                <audio
                   className="mb-2 w-100 rounded-2"
                   controls
@@ -556,6 +574,8 @@ const StorySentenceReview = () => {
             <EditSentenceModal
                storyId={storyId}
                sentenceId={sentences[counterState]._id}
+               sentences={sentences}
+               setSentences={setSentences}
                showEditModal={showEditModal}
                setShowEditModal={setShowEditModal}
             />

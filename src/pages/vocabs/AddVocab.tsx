@@ -21,14 +21,14 @@ const AddVocab = () => {
       reviewImportance: true,
       TTSEngine: localStorage.getItem('defaultTTSEngine'),
    };
-   const [vocabData, setVocabData] = useState<IAddVocab>(primaryData);
+   const [vocab, setVocab] = useState<IAddVocab>(primaryData);
 
    const addVocabClick = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      if (vocabData.title === '') return toast.warn('Please fill title');
+      if (vocab.title === '') return toast.warn('Please fill title');
 
       const id = toast.loading('Adding Vocab...');
-      addVocabApi(vocabData, (isOk, result) => {
+      addVocabApi(vocab, (isOk, result) => {
          if (isOk) {
             toast.update(id, {
                render: 'vocab added successfully',
@@ -36,7 +36,7 @@ const AddVocab = () => {
                isLoading: false,
                autoClose: 2000,
             });
-            setVocabData(primaryData);
+            setVocab(primaryData);
          } else {
             console.log(result.message);
             toast.update(id, {
@@ -63,9 +63,9 @@ const AddVocab = () => {
                   rows={1}
                   className="form-control"
                   onChange={e => {
-                     setVocabData({ ...vocabData, title: e.target.value });
+                     setVocab({ ...vocab, title: e.target.value });
                   }}
-                  value={vocabData.title}
+                  value={vocab.title}
                />
             </div>
             <div className="mb-3">
@@ -73,9 +73,9 @@ const AddVocab = () => {
                <textarea
                   className="form-control"
                   onChange={e => {
-                     setVocabData({ ...vocabData, definition: e.target.value });
+                     setVocab({ ...vocab, definition: e.target.value });
                   }}
-                  value={vocabData.definition}
+                  value={vocab.definition}
                   rows={3}
                ></textarea>
             </div>
@@ -85,9 +85,9 @@ const AddVocab = () => {
                   rows={1}
                   className="form-control"
                   onChange={e => {
-                     setVocabData({ ...vocabData, meaning: e.target.value });
+                     setVocab({ ...vocab, meaning: e.target.value });
                   }}
-                  value={vocabData.meaning}
+                  value={vocab.meaning}
                />
             </div>
             <div className="mb-3">
@@ -96,7 +96,7 @@ const AddVocab = () => {
                   className="form-select"
                   aria-label="Default select example"
                   onChange={e => {
-                     setVocabData({ ...vocabData, type: e.target.value });
+                     setVocab({ ...vocab, type: e.target.value });
                   }}
                >
                   <option value=""></option>
@@ -113,8 +113,8 @@ const AddVocab = () => {
                   className="form-select"
                   aria-label="Default select example"
                   onChange={e => {
-                     setVocabData({
-                        ...vocabData,
+                     setVocab({
+                        ...vocab,
                         compoundType: e.target.value,
                      });
                   }}
@@ -130,9 +130,9 @@ const AddVocab = () => {
                   type="text"
                   className="form-control"
                   onChange={e => {
-                     setVocabData({ ...vocabData, phonetics: e.target.value });
+                     setVocab({ ...vocab, phonetics: e.target.value });
                   }}
-                  value={vocabData.phonetics}
+                  value={vocab.phonetics}
                />
             </div>
 
@@ -142,12 +142,12 @@ const AddVocab = () => {
                      className="form-check-input"
                      type="checkbox"
                      onChange={e => {
-                        setVocabData({
-                           ...vocabData,
+                        setVocab({
+                           ...vocab,
                            reviewImportance: e.target.checked,
                         });
                      }}
-                     checked={vocabData.reviewImportance}
+                     checked={vocab.reviewImportance}
                   />
                   <label className="form-check-label">Review Importance</label>
                </div>
@@ -156,12 +156,12 @@ const AddVocab = () => {
                      className="form-check-input"
                      type="checkbox"
                      onChange={e => {
-                        setVocabData({
-                           ...vocabData,
+                        setVocab({
+                           ...vocab,
                            dictImportance: e.target.checked,
                         });
                      }}
-                     checked={vocabData.dictImportance}
+                     checked={vocab.dictImportance}
                   />
                   <label className="form-check-label">Dict Importance</label>
                </div>
@@ -171,23 +171,23 @@ const AddVocab = () => {
                <Form.Check
                   type="switch"
                   onChange={e => {
-                     setVocabData({
-                        ...vocabData,
+                     setVocab({
+                        ...vocab,
                         dictionaryApi: e.target.checked,
                      });
                   }}
-                  checked={vocabData.dictionaryApi}
+                  checked={vocab.dictionaryApi}
                   label="Dictionary Api"
                />
                <Form.Check
                   type="switch"
                   onChange={e => {
-                     setVocabData({
-                        ...vocabData,
+                     setVocab({
+                        ...vocab,
                         translateApi: e.target.checked,
                      });
                   }}
-                  checked={vocabData.translateApi}
+                  checked={vocab.translateApi}
                   label="Translate Api"
                />
             </div>
