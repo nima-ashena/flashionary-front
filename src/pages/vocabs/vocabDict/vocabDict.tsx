@@ -38,6 +38,7 @@ const VocabDict = () => {
 
    // Panel 2
    const [showEditModal, setShowEditModal] = useState(false);
+   const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(true);
 
    // finish modal
    const [showModal, setShowModal] = useState(false);
@@ -112,7 +113,7 @@ const VocabDict = () => {
       if (panel === 2) {
          if (audioRef.current) {
             audioRef.current.src = vocabs[counterState].audio;
-            audioRef.current.play();
+            if (autoPlayAudio) audioRef.current.play();
          }
       }
    }, [panel]);
@@ -356,6 +357,15 @@ const VocabDict = () => {
                   <span className="badge bg-success" style={{ fontSize: 20 }}>
                      {ahead}
                   </span>
+                  <Form.Check
+                     type="switch"
+                     className="mb-2"
+                     label="Auto Play"
+                     checked={autoPlayAudio}
+                     onChange={e => {
+                        setAutoPlayAudio(e.target.checked);
+                     }}
+                  />
                   <span className="badge bg-danger" style={{ fontSize: 20 }}>
                      {left}
                   </span>
@@ -370,15 +380,17 @@ const VocabDict = () => {
                      {vocabs[counterState] && vocabs[counterState].title}
                   </div>
                </div>
-               <div className="mb-1">
-                  <label className="form-label">Note</label>
-                  <div
-                     className="alert text-dark"
-                     style={{ backgroundColor: '#E9ECEF' }}
-                  >
-                     {vocabs[counterState] && vocabs[counterState].note}
+               {vocabs[counterState].note && (
+                  <div className="mb-1">
+                     <label className="form-label">Note</label>
+                     <div
+                        className="alert text-dark"
+                        style={{ backgroundColor: '#E9ECEF' }}
+                     >
+                        {vocabs[counterState] && vocabs[counterState].note}
+                     </div>
                   </div>
-               </div>
+               )}
                <div className="mb-1">
                   <label className="form-label">Meaning (Persian)</label>
                   <div

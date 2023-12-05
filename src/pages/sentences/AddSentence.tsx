@@ -153,7 +153,7 @@ const AddSentence = () => {
                      }}
                      checked={sentence.replacementImportance}
                   />
-                  <label className="form-check-label">Dict Importance</label>
+                  <label className="form-check-label">Replacement Importance</label>
                </div>
             </div>
 

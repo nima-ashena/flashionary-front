@@ -68,9 +68,10 @@ const StorySentenceReview = () => {
             setSentences(result.story.sentences);
             setSliderTo(result.story.sentences.length);
             setStoryLength(result.story.sentences.length);
-            let flagsT = calculateFlags(result.story.sentences);
-            setFlags(flagsT);
-            setFlagD({ from: 0, to: flagsT[flagsT.length - 1].index });
+            let flagsTs = calculateFlags(result.story.sentences);
+            setFlags(flagsTs);
+            if (flagsTs.length > 0)
+               setFlagD({ from: 0, to: flagsTs[flagsTs.length - 1].index });
          } else toast.error(result.message);
       });
    }, []);
@@ -362,66 +363,76 @@ const StorySentenceReview = () => {
                <button className="btn btn-danger w-100" onClick={reviewToughs}>
                   Review Toughs
                </button>
-               <hr />
-               {flags.map((item, index) => (
-                  <div className="mb-1">
-                     <i
-                        className="bi bi-flag-fill"
-                        style={{
-                           color: '#fc4b08',
-                        }}
-                     ></i>{' '}
-                     Number {index}, Index: {item.index}
-                     <p>{item.context}</p>
-                  </div>
-               ))}
-               <div className="row mb-3">
-                  <div className="col-6">
-                     <label className="form-label">From</label>
-                     <select
-                        className="form-select"
-                        aria-label="Default select example"
-                        value={flagD.from}
-                        onChange={e => {
-                           setFlagD({
-                              ...flagD,
-                              from: Number(e.target.value),
-                           });
-                        }}
+               {flags.length > 0 && (
+                  <div>
+                     <hr />
+                     {flags.map((item, index) => (
+                        <div className="mb-1">
+                           <i
+                              className="bi bi-flag-fill"
+                              style={{
+                                 color: '#fc4b08',
+                              }}
+                           ></i>{' '}
+                           Number {index}, Index: {item.index}
+                           <p>{item.context}</p>
+                        </div>
+                     ))}
+                     <div className="row mb-3">
+                        <div className="col-6">
+                           <label className="form-label">From</label>
+                           <select
+                              className="form-select"
+                              aria-label="Default select example"
+                              value={flagD.from}
+                              onChange={e => {
+                                 setFlagD({
+                                    ...flagD,
+                                    from: Number(e.target.value),
+                                 });
+                              }}
+                           >
+                              <option value={0}>Beginning</option>
+                              {flags.map((item, index) => (
+                                 <option value={item.index}>
+                                    Flag: {index}
+                                 </option>
+                              ))}
+                           </select>
+                        </div>
+                        <div className="col-6">
+                           <label className="form-label">To</label>
+                           <select
+                              className="form-select"
+                              aria-label="Default select example"
+                              value={flagD.to}
+                              onChange={e => {
+                                 setFlagD({
+                                    ...flagD,
+                                    to: Number(e.target.value),
+                                 });
+                              }}
+                           >
+                              {flags.map((item, index) => (
+                                 <option value={item.index}>
+                                    Flag: {index}
+                                 </option>
+                              ))}
+                              <option value={story.sentences.length}>
+                                 End
+                              </option>
+                           </select>
+                        </div>
+                     </div>
+                     <button
+                        className="btn w-100"
+                        style={{ color: '#fff', backgroundColor: '#fc4b08' }}
+                        onClick={reviewFlags}
                      >
-                        <option value={0}>Beginning</option>
-                        {flags.map((item, index) => (
-                           <option value={item.index}>Flag: {index}</option>
-                        ))}
-                     </select>
+                        Review Flags
+                     </button>
                   </div>
-                  <div className="col-6">
-                     <label className="form-label">To</label>
-                     <select
-                        className="form-select"
-                        aria-label="Default select example"
-                        value={flagD.to}
-                        onChange={e => {
-                           setFlagD({
-                              ...flagD,
-                              to: Number(e.target.value),
-                           });
-                        }}
-                     >
-                        {flags.map((item, index) => (
-                           <option value={item.index}>Flag: {index}</option>
-                        ))}
-                        <option value={story.sentences.length}>End</option>
-                     </select>
-                  </div>
-               </div>
-               <button
-                  className="btn w-100"
-                  style={{ color: '#fff', backgroundColor: '#fc4b08' }}
-                  onClick={reviewFlags}
-               >
-                  Review Flags
-               </button>
+               )}
             </div>
          )}
 

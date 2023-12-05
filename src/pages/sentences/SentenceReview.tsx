@@ -472,15 +472,18 @@ const SentenceReview = () => {
                         sentences[counterState].context}
                   </div>
                </div>
-               <div className="mb-1">
-                  <label className="form-label">Note</label>
-                  <div
-                     className="alert text-dark"
-                     style={{ backgroundColor: '#E9ECEF' }}
-                  >
-                     {sentences[counterState] && sentences[counterState].note}
+               {sentences[counterState].note && (
+                  <div className="mb-1">
+                     <label className="form-label">Note</label>
+                     <div
+                        className="alert text-dark"
+                        style={{ backgroundColor: '#E9ECEF' }}
+                     >
+                        {sentences[counterState] &&
+                           sentences[counterState].note}
+                     </div>
                   </div>
-               </div>
+               )}
                <div className="mb-1">
                   <label className="form-label">Meaning (Persian)</label>
                   <div

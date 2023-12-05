@@ -37,6 +37,8 @@ const EditVocabModal = props => {
             meaning: vocab.meaning,
             dictTrueGuessCount: vocab.dictTrueGuessCount,
             phonetics: vocab.phonetics,
+            reviewImportance: vocab.reviewImportance,
+            dictImportance: vocab.dictImportance,
          },
          (isOk: boolean, result) => {
             if (isOk) {

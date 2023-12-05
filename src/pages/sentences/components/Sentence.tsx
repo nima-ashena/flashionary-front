@@ -80,7 +80,7 @@ const Sentence = (props: any) => {
                <div className="card-body text-center">
                   <p className="card-title mb-2">
                      <span className="badge bg-primary mx-2">
-                        {sentence.true_guess_count?.toString()}
+                        {sentence.replacementTrueGuessCount?.toString()}
                      </span>
                   </p>
                   <p
