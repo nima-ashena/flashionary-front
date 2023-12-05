@@ -1,6 +1,6 @@
 import { time } from 'console';
 import { useContext, useEffect, useState } from 'react';
-import { Button, Dropdown, Pagination, Spinner } from 'react-bootstrap';
+import { Button, Dropdown, Modal, Pagination, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getSentencesApi } from '../../api/sentence.service';
 import { getStoriesApi } from '../../api/story.service';
@@ -17,6 +17,7 @@ import { UserContext } from '../../context/common';
 
 const Sentences = () => {
    const [loading, setLoading] = useState(true);
+   const [searchModal, setSearchModal] = useState<boolean>(false);
 
    const limit = 32;
    const [sentences, setSentences] = useState<ISentence[]>([]);
@@ -71,108 +72,15 @@ const Sentences = () => {
    return (
       <>
          <div className="container">
-            <div className="accordion my-3" id="accordionHooks">
-               <div className="accordion-item">
-                  <h2 className="accordion-header ">
-                     <button
-                        className="accordion-button collapsed"
-                        style={{ transition: '1000' }}
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target={`#collapseHeading`}
-                        aria-expanded="true"
-                        aria-controls={`collapseHeading`}
-                     >
-                        Enable Filter
-                     </button>
-                  </h2>
-                  <div
-                     id={`collapseHeading`}
-                     className="accordion-collapse collapse"
-                     aria-labelledby="heading"
-                     data-bs-parent="#accordionHooks"
-                  >
-                     <div className="accordion-body">
-                        <form className="pt-3 col-sm-12 col-md-8 col-lg-6">
-                           <div className="mb-3">
-                              <label className="form-label">Search</label>
-                              <input
-                                 type="text"
-                                 className="form-control"
-                                 value={query}
-                                 onChange={e => {
-                                    setQuery(e.target.value);
-                                 }}
-                              />
-                           </div>
-                           <label className="form-label">Sort By</label>
-                           <select
-                              className="form-select mb-3"
-                              aria-label="Default select example"
-                              onChange={e => {
-                                 let t = Number(e.target.value);
-                                 if (t === 1) setSort('-created_at');
-                                 if (t === 2) setSort('created_at');
-                                 if (t === 3) setSort('true_guess_count');
-                                 if (t === 4) setSort('-true_guess_count');
-                                 if (t === 5) setSort('title');
-                                 if (t === 6) setSort('-title');
-                              }}
-                           >
-                              <option value="1">Date - Descending</option>
-                              <option value="2">Date - ascending</option>
-                              <option value="3">
-                                 True Guess Count - Descending
-                              </option>
-                              <option value="4">
-                                 True Guess Count - Ascending
-                              </option>
-                              <option value="5">Name - ascending</option>
-                              <option value="6">Name - Descending</option>
-                           </select>
-
-                           <label className="form-label">Type:</label>
-                           <select
-                              className="form-select mb-3"
-                              aria-label="Default select example"
-                              onChange={e => {
-                                 if (e.target.value == 'all')
-                                    return setType('');
-                                 setType(e.target.value);
-                              }}
-                           >
-                              <option value={'all'}>All Types</option>
-                              {SentenceTypes.map(item => {
-                                 return <option value={item}>{item}</option>;
-                              })}
-                           </select>
-
-                           <label className="form-label">User</label>
-                           <select
-                              className="form-select mb-3"
-                              aria-label="Default select example"
-                              onChange={e => {
-                                 setUserC(Number(e.target.value));
-                              }}
-                           >
-                              {users.map((item, index) => (
-                                 <option value={index}>{item.username}</option>
-                              ))}
-                           </select>
-                           <button
-                              type="submit"
-                              className="btn btn-primary btn-lg w-100"
-                              onClick={e => {
-                                 e.preventDefault();
-                                 setRender(!render);
-                              }}
-                           >
-                              Search
-                           </button>
-                        </form>
-                     </div>
-                  </div>
-               </div>
+            <div className="p-1">
+               <button
+                  className="btn btn-lg btn-outline-dark w-100 my-2"
+                  onClick={() => {
+                     setSearchModal(true);
+                  }}
+               >
+                  Enable Filter...
+               </button>
             </div>
 
             {loading && (
@@ -215,6 +123,90 @@ const Sentences = () => {
                />
             </div>
          </div>
+
+         <Modal
+            show={searchModal}
+            onHide={() => {
+               setSearchModal(false);
+            }}
+         >
+            <Modal.Header closeButton>
+               <Modal.Title>Searching...</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="pb-3 pt-3">
+               <div className="mb-3">
+                  <label className="form-label">Search</label>
+                  <input
+                     type="text"
+                     className="form-control"
+                     value={query}
+                     onChange={e => {
+                        setQuery(e.target.value);
+                     }}
+                  />
+               </div>
+               <label className="form-label">Sort By</label>
+               <select
+                  className="form-select mb-3"
+                  aria-label="Default select example"
+                  onChange={e => {
+                     let t = Number(e.target.value);
+                     if (t === 1) setSort('-created_at');
+                     if (t === 2) setSort('created_at');
+                     if (t === 3) setSort('true_guess_count');
+                     if (t === 4) setSort('-true_guess_count');
+                     if (t === 5) setSort('title');
+                     if (t === 6) setSort('-title');
+                  }}
+               >
+                  <option value="1">Date - Descending</option>
+                  <option value="2">Date - ascending</option>
+                  <option value="3">True Guess Count - Descending</option>
+                  <option value="4">True Guess Count - Ascending</option>
+                  <option value="5">Name - ascending</option>
+                  <option value="6">Name - Descending</option>
+               </select>
+
+               <label className="form-label">Type:</label>
+               <select
+                  className="form-select mb-3"
+                  aria-label="Default select example"
+                  onChange={e => {
+                     if (e.target.value == 'all') return setType('');
+                     setType(e.target.value);
+                  }}
+               >
+                  <option value={'all'}>All Types</option>
+                  {SentenceTypes.map(item => {
+                     return <option value={item}>{item}</option>;
+                  })}
+               </select>
+
+               <label className="form-label">User</label>
+               <select
+                  className="form-select mb-3"
+                  aria-label="Default select example"
+                  onChange={e => {
+                     setUserC(Number(e.target.value));
+                  }}
+               >
+                  {users.map((item, index) => (
+                     <option value={index}>{item.username}</option>
+                  ))}
+               </select>
+               <button
+                  type="submit"
+                  className="btn btn-primary btn-lg w-100"
+                  onClick={e => {
+                     e.preventDefault();
+                     setSearchModal(false);
+                     setRender(!render);
+                  }}
+               >
+                  Search
+               </button>
+            </Modal.Body>
+         </Modal>
       </>
    );
 };

@@ -12,6 +12,7 @@ import {
 import { editSentenceApi } from '../../api/sentence.service';
 import { Button, Dropdown, Modal } from 'react-bootstrap';
 import { SentenceTypes } from '../../utils/constants';
+import Back from '../../components/Back';
 
 // ! when edit sentence done, audio doesn't reload
 const EditSentence = () => {
@@ -68,9 +69,15 @@ const EditSentence = () => {
          'reviewTrueGuessCount',
          String(sentence.reviewTrueGuessCount),
       );
-      formData.append('replacementTrueGuessCount', String(sentence.replacementTrueGuessCount));
+      formData.append(
+         'replacementTrueGuessCount',
+         String(sentence.replacementTrueGuessCount),
+      );
       formData.append('reviewImportance', String(sentence.reviewImportance));
-      formData.append('replacementImportance', String(sentence.replacementImportance));
+      formData.append(
+         'replacementImportance',
+         String(sentence.replacementImportance),
+      );
       if (file) {
          formData.append('audioFile', file, file.name);
       }
@@ -177,8 +184,9 @@ const EditSentence = () => {
    return (
       <>
          <div className="container">
+            <Back url={'/sentences'} />
             <form
-               className="pt-3 col-sm-12 col-md-8 col-lg-6"
+               className="pt-2 col-sm-12 col-md-8 col-lg-6"
                onSubmit={event => {
                   submitClick(event);
                }}
@@ -272,7 +280,9 @@ const EditSentence = () => {
                      />
                   </div>
                   <div className="mb-3 col-6">
-                     <label className="form-label">Replacement TrueGuessCount</label>
+                     <label className="form-label">
+                        Replacement TrueGuessCount
+                     </label>
                      <input
                         type="number"
                         className="form-control"

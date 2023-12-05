@@ -15,6 +15,7 @@ import { editVocabApi } from '../../api/vocab.service';
 import { ISentence } from '../../interface/sentence.interface';
 import { compoundTypes } from '../../utils/constants';
 import SentenceItem from './components/SentenceItem';
+import Back from '../../components/Back';
 
 // ! when edit vocab done, audio doesn't reload
 const EditVocab = () => {
@@ -212,9 +213,11 @@ const EditVocab = () => {
    return (
       <>
          <div className="container">
+            <Back url={'/vocabs'} />
+
             <div className="row">
                <form
-                  className="pt-3 col-sm-12 col-md-8 col-lg-5 mb-4"
+                  className="pt-2 col-sm-12 col-md-8 col-lg-5 mb-4"
                   onSubmit={event => {
                      submitClick(event);
                   }}
