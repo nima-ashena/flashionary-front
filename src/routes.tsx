@@ -22,6 +22,7 @@ import Setting from './pages/auth/Setting';
 import VocabGroups from './pages/vocabs/vocabGroup/VocabGroups';
 import EditVocabGroup from './pages/vocabs/vocabGroup/EditVideoGroup';
 import StorySentenceReview from './pages/story/review/StorySentenceReview';
+import VocabReview from './pages/vocabs/vocabReview/vocabReview';
 
 const RoutesHandle = () => {
    useEffect(() => {}, []);
@@ -41,6 +42,7 @@ const RoutesHandle = () => {
                <Route path="vocabs" element={<Vocabs />} />
                <Route path="/vocabs/edit/:vocabId" element={<EditVocab />} />
                <Route path="/vocabs/dict" element={<VocabDict />} />
+               <Route path="/vocabs/review" element={<VocabReview />} />
                <Route path="/vocabs/groups" element={<VocabGroups />} />
                <Route
                   path="/vocabs/groups/edit/:vocabGroupId"
