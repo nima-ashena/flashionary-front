@@ -23,12 +23,10 @@
 }
 
 .flip-card-front {
-   background-color: #d7fbda;
-   color: green;
+   background-color: #d4e9fc;
 }
 
 .flip-card-back {
-   background-color: #fbd7f8;
-   color: blue;
+   background-color: #d7fbda;
    transform: rotateY(180deg);
 }

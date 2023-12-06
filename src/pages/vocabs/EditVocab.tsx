@@ -66,11 +66,12 @@ const EditVocab = () => {
       const t = toast.loading('Editing Vocab...');
       const formData = new FormData();
       formData.append('title', vocab.title);
-      formData.append('meaning', vocab.meaning);
-      formData.append('phonetics', vocab.phonetics);
-      formData.append('definition', vocab.definition);
-      formData.append('example', vocab.example);
-      formData.append('type', vocab.type);
+      if (vocab.note) formData.append('note', vocab.note);
+      if (vocab.meaning) formData.append('meaning', vocab.meaning);
+      if (vocab.phonetics) formData.append('phonetics', vocab.phonetics);
+      if (vocab.definition) formData.append('definition', vocab.definition);
+      if (vocab.example) formData.append('example', vocab.example);
+      if (vocab.type) formData.append('type', vocab.type);
       formData.append('compoundType', vocab.compoundType);
       formData.append(
          'reviewTrueGuessCount',
@@ -224,8 +225,8 @@ const EditVocab = () => {
                >
                   <div className="mb-3">
                      <label className="form-label">Title</label>
-                     <input
-                        type="text"
+                     <textarea
+                        rows={1}
                         className="form-control"
                         onChange={e => {
                            setVocab({ ...vocab, title: e.target.value });
@@ -235,8 +236,8 @@ const EditVocab = () => {
                   </div>
                   <div className="mb-3">
                      <label className="form-label">Note</label>
-                     <input
-                        type="text"
+                     <textarea
+                        rows={1}
                         className="form-control"
                         onChange={e => {
                            setVocab({ ...vocab, note: e.target.value });
@@ -246,8 +247,8 @@ const EditVocab = () => {
                   </div>
                   <div className="mb-3">
                      <label className="form-label">Meaning (Persian)</label>
-                     <input
-                        type="text"
+                     <textarea
+                        rows={1}
                         style={{ direction: 'rtl' }}
                         className="form-control"
                         onChange={e => {

@@ -13,6 +13,7 @@ const AddVocab = () => {
       definition: '',
       example: '',
       meaning: '',
+      note: '',
       phonetics: '',
       type: 'noun',
       dictionaryApi: true,
@@ -69,15 +70,15 @@ const AddVocab = () => {
                />
             </div>
             <div className="mb-3">
-               <label className="form-label">Definition</label>
+               <label className="form-label">Note</label>
                <textarea
+                  rows={2}
                   className="form-control"
                   onChange={e => {
-                     setVocab({ ...vocab, definition: e.target.value });
+                     setVocab({ ...vocab, note: e.target.value });
                   }}
-                  value={vocab.definition}
-                  rows={3}
-               ></textarea>
+                  value={vocab.note}
+               />
             </div>
             <div className="mb-3">
                <label className="form-label">Meaning (Persian)</label>
@@ -89,6 +90,17 @@ const AddVocab = () => {
                   }}
                   value={vocab.meaning}
                />
+            </div>
+            <div className="mb-3">
+               <label className="form-label">Definition</label>
+               <textarea
+                  className="form-control"
+                  onChange={e => {
+                     setVocab({ ...vocab, definition: e.target.value });
+                  }}
+                  value={vocab.definition}
+                  rows={3}
+               ></textarea>
             </div>
             <div className="mb-3">
                <label className="form-label">Type</label>

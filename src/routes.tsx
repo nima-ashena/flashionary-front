@@ -20,7 +20,7 @@ import SignIn from './pages/auth/SignIn';
 import Test from './pages/test/Test';
 import Setting from './pages/auth/Setting';
 import VocabGroups from './pages/vocabs/vocabGroup/VocabGroups';
-import EditVocabGroup from './pages/vocabs/vocabGroup/EditVideoGroup';
+import EditVocabGroup from './pages/vocabs/vocabGroup/EditVocabGroup';
 import StorySentenceReview from './pages/story/review/StorySentenceReview';
 import VocabReview from './pages/vocabs/vocabReview/vocabReview';
 

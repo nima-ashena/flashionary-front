@@ -35,7 +35,7 @@ const EditVocabModal = props => {
             title: vocab.title,
             note: vocab.note,
             meaning: vocab.meaning,
-            dictTrueGuessCount: vocab.dictTrueGuessCount,
+            reviewTrueGuessCount: vocab.reviewTrueGuessCount,
             phonetics: vocab.phonetics,
             reviewImportance: vocab.reviewImportance,
             dictImportance: vocab.dictImportance,
@@ -169,17 +169,17 @@ const EditVocabModal = props => {
                </div>
 
                <div className="mb-3 col-lg-6">
-                  <label className="form-label">Dict TrueGuessCount</label>
+                  <label className="form-label">Review TrueGuessCount</label>
                   <input
                      type="number"
                      className="form-control"
                      onChange={e => {
                         setVocab({
                            ...vocab,
-                           dictTrueGuessCount: Number(e.target.value),
+                           reviewTrueGuessCount: Number(e.target.value),
                         });
                      }}
-                     value={vocab.dictTrueGuessCount}
+                     value={vocab.reviewTrueGuessCount}
                   />
                </div>
 

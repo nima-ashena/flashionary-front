@@ -41,7 +41,7 @@ const VocabDict = () => {
    const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(true);
 
    // finish modal
-   const [showModal, setShowModal] = useState(false);
+   const [showFinishModal, setShowFinishModal] = useState(false);
    const [showDeleteVocabModal, setShowDeleteVocabModal] = useState(false);
 
    useEffect(() => {
@@ -92,7 +92,7 @@ const VocabDict = () => {
 
       // Check Finish
       if (counterState === vocabs.length) {
-         return setShowModal(true);
+         return setShowFinishModal(true);
       }
 
       if (hardMode) setP('Hard Mode');
@@ -125,14 +125,14 @@ const VocabDict = () => {
    };
 
    const handleModalClose = () => {
-      setShowModal(false);
+      setShowFinishModal(false);
       setPanel(0);
       navigate('/vocabs');
    };
 
    const againClick = () => {
       setPanel(0);
-      setShowModal(false);
+      setShowFinishModal(false);
       setAgain(!again);
    };
 
@@ -470,8 +470,9 @@ const VocabDict = () => {
                </Button>
             </Modal.Footer>
          </Modal>
-         {/* Modal */}
-         <Modal show={showModal} onHide={handleModalClose}>
+
+         {/* Finish Modal */}
+         <Modal show={showFinishModal} onHide={handleModalClose}>
             <Modal.Header closeButton>
                <Modal.Title>
                   Review done. Do you want to do it again?

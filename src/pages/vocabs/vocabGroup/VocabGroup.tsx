@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { deleteVocabGroupApi } from '../../../api/vocabGroup.service';
 import { IVocabGroup } from '../../../interface/vocabGroup.interface';
-import ShowVocabGroupModal from './ShowVideoGroupModal';
+import ShowVocabGroupModal from './ShowVocabGroupModal';
 
 const VocabGroup = (props: any) => {
    const vocabGroup: IVocabGroup = props.vocabGroup;

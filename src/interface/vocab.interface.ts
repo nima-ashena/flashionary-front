@@ -1,6 +1,7 @@
 export interface IAddVocab {
    user: string;
    title: string;
+   note: string;
    meaning: string;
    type: string;
    compoundType?: string;
