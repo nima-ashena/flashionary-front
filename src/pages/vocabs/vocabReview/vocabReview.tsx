@@ -10,6 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import EditVocabModal from './EditVocabModal';
 import './style.css';
+import { ISentence } from '../../../interface/sentence.interface';
 
 const VocabReview = () => {
    const navigate = useNavigate();
@@ -298,7 +299,7 @@ const VocabReview = () => {
                   <div className={`flip-card ${isFlipped ? 'flipped' : ''}`}>
                      <div
                         className="flip-card-inner mb-2"
-                        style={{ height: '70vh' }}
+                        style={{ height: '66vh' }}
                      >
                         <div className={`flip-card-front`}>
                            <div
@@ -312,31 +313,32 @@ const VocabReview = () => {
                               }}
                            >
                               {!reverseMode && (
-                                 <div
-                                    className="alert text-dark"
-                                    style={{
-                                       fontSize: 20,
-                                    }}
-                                 >
-                                    {vocabs[counterState] &&
-                                       vocabs[counterState].title}{' '}
-                                    <button
-                                       type="button"
-                                       className="btn btn-lg btn-success m-1"
-                                       onClick={() => {
-                                          audioRef.current?.play();
+                                 <>
+                                    <div
+                                       className="alert text-dark"
+                                       style={{
+                                          fontSize: 20,
                                        }}
                                     >
-                                       <i className="bi bi-play" />
-                                    </button>
-                                 </div>
+                                       <button
+                                          type="button"
+                                          className="btn btn-success m-1"
+                                          onClick={() => {
+                                             audioRef.current?.play();
+                                          }}
+                                       >
+                                          <i className="bi bi-play" />
+                                       </button>
+                                       {vocabs[counterState] &&
+                                          vocabs[counterState].title}{' '}
+                                    </div>
+                                 </>
                               )}
                               {reverseMode && (
                                  <>
                                     <div
                                        className="alert text-dark"
                                        style={{
-                                          // backgroundColor: '#E9ECEF',
                                           fontSize: 20,
                                           direction: 'rtl',
                                        }}
@@ -344,17 +346,24 @@ const VocabReview = () => {
                                        {vocabs[counterState] &&
                                           vocabs[counterState].meaning}
                                     </div>
-
                                     <div
                                        className="alert text-dark"
                                        style={{
                                           fontSize: 20,
-                                          // backgroundColor: '#E9ECEF',
                                        }}
                                     >
                                        {vocabs[counterState] &&
                                           vocabs[counterState].note}
                                     </div>
+                                    {vocabs[counterState]?.sentences.map(
+                                       item => {
+                                          return (
+                                             <SentenceItemReview
+                                                sentence={item}
+                                             />
+                                          );
+                                       },
+                                    )}
                                  </>
                               )}
                               <audio
@@ -388,7 +397,6 @@ const VocabReview = () => {
                                        {vocabs[counterState] &&
                                           vocabs[counterState].meaning}
                                     </div>
-
                                     <div
                                        className="alert text-dark"
                                        style={{
@@ -398,6 +406,15 @@ const VocabReview = () => {
                                        {vocabs[counterState] &&
                                           vocabs[counterState].note}
                                     </div>
+                                    {vocabs[counterState]?.sentences.map(
+                                       item => {
+                                          return (
+                                             <SentenceItemReview
+                                                sentence={item}
+                                             />
+                                          );
+                                       },
+                                    )}
                                  </>
                               )}
                               {reverseMode && !hidden && (
@@ -440,7 +457,7 @@ const VocabReview = () => {
                   <div>
                      <button
                         style={{ width: '48%', fontSize: 18 }}
-                        className="btn btn-danger mx-1 mb-2"
+                        className="btn btn-danger me-1 mb-2"
                         onClick={againClick}
                      >
                         Again
@@ -538,15 +555,37 @@ const VocabReview = () => {
 
 export default VocabReview;
 
-const calculateAccuracy = (inputValue: string, answer: string) => {
-   inputValue = inputValue.toLowerCase();
-   answer = answer.toLowerCase();
+const SentenceItemReview = (props: any) => {
+   const sentence: ISentence = props.sentence;
+   const audioRef = useRef<HTMLAudioElement>(null);
 
-   let n = 0;
-   for (let i = 0; i < answer.length; i++) {
-      if (answer[i] === inputValue[i]) {
-         n++;
-      }
-   }
-   return Math.round((n / answer.length) * 100);
+   useEffect(() => {
+      audioRef.current.src = sentence.audio;
+   }, []);
+
+   return (
+      <div
+         className="alert text-dark"
+         style={{
+            fontSize: 15,
+         }}
+      >
+         <button
+            type="button"
+            className="btn btn-info m-1"
+            onClick={() => {
+               audioRef.current?.play();
+            }}
+         >
+            <i className="bi bi-play" />
+         </button>
+         {sentence.context}{' '}
+         <audio
+            hidden
+            className="mb-2 w-100 rounded-2"
+            controls
+            ref={audioRef}
+         ></audio>
+      </div>
+   );
 };

@@ -66,11 +66,13 @@ const EditVocab = () => {
       const t = toast.loading('Editing Vocab...');
       const formData = new FormData();
       formData.append('title', vocab.title);
-      if (vocab.note) formData.append('note', vocab.note);
-      if (vocab.meaning) formData.append('meaning', vocab.meaning);
-      if (vocab.phonetics) formData.append('phonetics', vocab.phonetics);
-      if (vocab.definition) formData.append('definition', vocab.definition);
-      if (vocab.example) formData.append('example', vocab.example);
+      if (vocab.note != undefined) formData.append('note', vocab.note);
+      if (vocab.meaning != undefined) formData.append('meaning', vocab.meaning);
+      if (vocab.phonetics != undefined)
+         formData.append('phonetics', vocab.phonetics);
+      if (vocab.definition != undefined)
+         formData.append('definition', vocab.definition);
+      if (vocab.example != undefined) formData.append('example', vocab.example);
       if (vocab.type) formData.append('type', vocab.type);
       formData.append('compoundType', vocab.compoundType);
       formData.append(
@@ -135,26 +137,32 @@ const EditVocab = () => {
    ) => {
       e.preventDefault();
       const id = toast.loading('Adding Sentence...');
-      addSentenceToVocabApi({ vocabId, context: sentence }, (isOk, result) => {
-         if (isOk) {
-            setRender(!render);
-            setSentence('');
-            toast.update(id, {
-               render: 'sentence added successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
-            // setSentences(result.story.sentences.reverse());
-         } else {
-            toast.update(id, {
-               render: result.response.data.message,
-               type: 'error',
-               isLoading: false,
-               autoClose: 2000,
-            });
-         }
-      });
+      addSentenceToVocabApi(
+         {
+            vocabId,
+            context: sentence,
+            TTSEngine: localStorage.getItem('defaultTTSEngine'),
+         },
+         (isOk, result) => {
+            if (isOk) {
+               setRender(!render);
+               setSentence('');
+               toast.update(id, {
+                  render: 'sentence added successfully',
+                  type: 'success',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            } else {
+               toast.update(id, {
+                  render: result.response.data.message,
+                  type: 'error',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            }
+         },
+      );
    };
 
    const cloneVocabClick = () => {
@@ -501,8 +509,7 @@ const EditVocab = () => {
                         {sentences.map(item => (
                            <SentenceItem
                               vocabId={vocabId}
-                              type={'vocab'}
-                              item={item}
+                              sentence={item}
                               key={item._id}
                               render={render}
                               setRender={setRender}

@@ -24,7 +24,7 @@ function App() {
    const [query, setQuery] = useState<string>('');
    const [paginationPage, setPaginationPage] = useState<number>(1);
    const [sort, setSort] = useState<string>('-created_at');
-   const [type, setType] = useState<string>('');
+   const [type, setType] = useState<string>('all');
 
    useEffect(() => {
       getUserApi((isOk: boolean, result) => {

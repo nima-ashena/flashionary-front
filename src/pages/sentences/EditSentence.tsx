@@ -62,8 +62,8 @@ const EditSentence = () => {
       const t = toast.loading('Editing Sentence...');
       const formData = new FormData();
       formData.append('context', sentence.context);
-      formData.append('meaning', sentence.meaning);
-      formData.append('note', sentence.note);
+      if(sentence.meaning != undefined) formData.append('meaning', sentence.meaning);
+      if(sentence.note != undefined ) formData.append('note', sentence.note);
       formData.append('type', sentence.type);
       formData.append(
          'reviewTrueGuessCount',

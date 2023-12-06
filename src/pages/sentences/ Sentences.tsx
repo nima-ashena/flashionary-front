@@ -171,8 +171,9 @@ const Sentences = () => {
                <select
                   className="form-select mb-3"
                   aria-label="Default select example"
+                  value={type}
                   onChange={e => {
-                     if (e.target.value == 'all') return setType('');
+                     if (e.target.value == 'all') return setType('all');
                      setType(e.target.value);
                   }}
                >
@@ -186,6 +187,7 @@ const Sentences = () => {
                <select
                   className="form-select mb-3"
                   aria-label="Default select example"
+                  value={userC}
                   onChange={e => {
                      setUserC(Number(e.target.value));
                   }}

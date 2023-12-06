@@ -136,6 +136,7 @@ const Sentence = (props: any) => {
                            <i className="bi bi-trash" />
                         </Link>
                      )}
+                     
                      <Modal
                         show={showDeleteModal}
                         onHide={() => {

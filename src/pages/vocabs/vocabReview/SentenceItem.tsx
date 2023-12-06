@@ -6,9 +6,12 @@ import { deleteSentenceOfVocabApi } from '../../../api/vocab.service';
 import { useNavigate } from 'react-router-dom';
 import EditSentenceModal from './EditSentenceModal';
 import { ISentence } from '../../../interface/sentence.interface';
+import { IVocab } from '../../../interface/vocab.interface';
 
 const SentenceItem = (props: any) => {
    const sentence: ISentence = props.sentence;
+   const vocabs: IVocab[] = props.vocabs;
+   const setVocabs = props.setVocabs;
    const vocabId = props.vocabId;
    const render = props.render;
    const setRender = props.setRender;
