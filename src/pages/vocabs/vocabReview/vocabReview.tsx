@@ -446,7 +446,7 @@ const VocabReview = () => {
             <div>
                {reviewPanel === 1 && (
                   <button
-                     style={{ fontSize: 18 }}
+                     style={{ fontSize: 18, padding: '10px 0 10px 0' }}
                      className="btn btn-primary w-100 mb-2"
                      onClick={showAnswer}
                   >
@@ -454,21 +454,33 @@ const VocabReview = () => {
                   </button>
                )}
                {reviewPanel === 2 && (
-                  <div>
-                     <button
-                        style={{ width: '48%', fontSize: 18 }}
-                        className="btn btn-danger me-1 mb-2"
-                        onClick={againClick}
-                     >
-                        Again
-                     </button>
-                     <button
-                        style={{ width: '48%', fontSize: 18 }}
-                        className="btn btn-success mx-1 mb-2"
-                        onClick={nextClick}
-                     >
-                        Next
-                     </button>
+                  <div className="row">
+                     <div className="col-6" style={{ paddingRight: 2 }}>
+                        <button
+                           style={{
+                              fontSize: 18,
+                              width: '100%',
+                              padding: '10px 0 10px 0',
+                           }}
+                           className="btn btn-danger mb-2"
+                           onClick={againClick}
+                        >
+                           Again
+                        </button>
+                     </div>
+                     <div className="col-6" style={{ paddingLeft: 2 }}>
+                        <button
+                           style={{
+                              fontSize: 18,
+                              width: '100%',
+                              padding: '10px 0 10px 0',
+                           }}
+                           className="btn btn-success mb-2"
+                           onClick={nextClick}
+                        >
+                           Next
+                        </button>
+                     </div>
                   </div>
                )}
             </div>

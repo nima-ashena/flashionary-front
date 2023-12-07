@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import EditSentenceModal from './EditSentenceModal';
 import './style.css';
 import { ISentence } from '../../../interface/sentence.interface';
+import { SentenceTypes } from '../../../utils/constants';
 
 const SentenceReview = () => {
    const navigate = useNavigate();
@@ -25,6 +26,7 @@ const SentenceReview = () => {
    const [sliderLimitValue, setSliderLimitValue] = useState(10);
    const [limitMode, setLimitMode] = useState(false);
    const [reverseMode, setReverseMode] = useState(false);
+   const [type, setType] = useState('all');
 
    // Panel 1
    const [counterState, setStateCounter] = useState<number>(0);
@@ -58,17 +60,23 @@ const SentenceReview = () => {
                   setPanel(0);
                   return toast.info('There is no Sentences to review');
                }
-               let vs: ISentence[] = result.sentences;
-               if (limitMode) {
-                  vs = vs.slice(0, sliderLimitValue);
-                  setSentences(vs);
-               } else {
-                  setSentences(vs);
+               // setPanel(1);
+               let ss: ISentence[] = result.sentences;
+               console.log(ss);
+               if (ss.length === 0) {
+                  setPanel(0);
+                  return toast.info('There is no Sentences to review');
                }
-               setLeft(vs.length - counterState);
+               if (limitMode) {
+                  ss = ss.slice(0, sliderLimitValue);
+                  setSentences(ss);
+               } else {
+                  setSentences(ss);
+               }
+               setLeft(ss.length - counterState);
                setAhead(counterState);
                if (audioRef.current) {
-                  audioRef.current.src = vs[counterState].audio;
+                  audioRef.current.src = ss[counterState].audio;
                   setReviewPanel(1);
                   audioRef.current.onended = () => {};
                }
@@ -82,6 +90,7 @@ const SentenceReview = () => {
             { name: 'sort', value: 'reviewTrueGuessCount' },
             { name: 'user', value: localStorage.getItem('userId') },
             { name: 'reviewMode', value: true },
+            { name: 'type', value: type },
          ],
       );
    }, [again]);
@@ -236,6 +245,22 @@ const SentenceReview = () => {
                      }}
                      label="Limit Mode"
                   />
+
+                  <label className="form-label">Type:</label>
+                  <select
+                     className="form-select mb-3"
+                     aria-label="Default select example"
+                     value={type}
+                     onChange={e => {
+                        if (e.target.value == 'all') return setType('all');
+                        setType(e.target.value);
+                     }}
+                  >
+                     <option value={'all'}>All Types</option>
+                     {SentenceTypes.map(item => {
+                        return <option value={item}>{item}</option>;
+                     })}
+                  </select>
                   {limitMode && (
                      <>
                         <label className="form-label">
@@ -329,7 +354,9 @@ const SentenceReview = () => {
                                           <i className="bi bi-play" />
                                        </button>
                                        {sentences[counterState] &&
-                                          sentences[counterState].context}{' '}
+                                          sentences[counterState].context
+                                             .split('\n')
+                                             .map(item => <p>{item}</p>)}
                                     </div>
                                  </>
                               )}
@@ -343,7 +370,9 @@ const SentenceReview = () => {
                                        }}
                                     >
                                        {sentences[counterState] &&
-                                          sentences[counterState].meaning}
+                                          sentences[counterState].meaning
+                                             .split('\n')
+                                             .map(item => <p>{item}</p>)}
                                     </div>
                                     <div
                                        className="alert text-dark"
@@ -352,7 +381,9 @@ const SentenceReview = () => {
                                        }}
                                     >
                                        {sentences[counterState] &&
-                                          sentences[counterState].note}
+                                          sentences[counterState].note
+                                             .split('\n')
+                                             .map(item => <p>{item}</p>)}
                                     </div>
                                  </>
                               )}
@@ -385,7 +416,9 @@ const SentenceReview = () => {
                                        }}
                                     >
                                        {sentences[counterState] &&
-                                          sentences[counterState].meaning}
+                                          sentences[counterState].meaning
+                                             .split('\n')
+                                             .map(item => <p>{item}</p>)}
                                     </div>
                                     <div
                                        className="alert text-dark"
@@ -394,7 +427,9 @@ const SentenceReview = () => {
                                        }}
                                     >
                                        {sentences[counterState] &&
-                                          sentences[counterState].note}
+                                          sentences[counterState].note
+                                             .split('\n')
+                                             .map(item => <p>{item}</p>)}
                                     </div>
                                  </>
                               )}
@@ -405,8 +440,6 @@ const SentenceReview = () => {
                                        fontSize: 20,
                                     }}
                                  >
-                                    {sentences[counterState] &&
-                                       sentences[counterState].context}{' '}
                                     <button
                                        type="button"
                                        className="btn btn-lg btn-success m-1"
@@ -416,6 +449,10 @@ const SentenceReview = () => {
                                     >
                                        <i className="bi bi-play" />
                                     </button>
+                                    {sentences[counterState] &&
+                                       sentences[counterState].context
+                                          .split('\n')
+                                          .map(item => <p>{item}</p>)}
                                  </div>
                               )}
                            </div>
@@ -427,7 +464,7 @@ const SentenceReview = () => {
             <div>
                {reviewPanel === 1 && (
                   <button
-                     style={{ fontSize: 18 }}
+                     style={{ fontSize: 18, padding: '10px 0 10px 0' }}
                      className="btn btn-primary w-100 mb-2"
                      onClick={showAnswer}
                   >
@@ -435,27 +472,39 @@ const SentenceReview = () => {
                   </button>
                )}
                {reviewPanel === 2 && (
-                  <div>
-                     <button
-                        style={{ width: '48%', fontSize: 18 }}
-                        className="btn btn-danger me-1 mb-2"
-                        onClick={againClick}
-                     >
-                        Again
-                     </button>
-                     <button
-                        style={{ width: '48%', fontSize: 18 }}
-                        className="btn btn-success mx-1 mb-2"
-                        onClick={nextClick}
-                     >
-                        Next
-                     </button>
+                  <div className="row">
+                     <div className="col-6" style={{ paddingRight: 2 }}>
+                        <button
+                           style={{
+                              fontSize: 18,
+                              width: '100%',
+                              padding: '10px 0 10px 0',
+                           }}
+                           className="btn btn-danger mb-2"
+                           onClick={againClick}
+                        >
+                           Again
+                        </button>
+                     </div>
+                     <div className="col-6" style={{ paddingLeft: 2 }}>
+                        <button
+                           style={{
+                              fontSize: 18,
+                              width: '100%',
+                              padding: '10px 0 10px 0',
+                           }}
+                           className="btn btn-success mb-2"
+                           onClick={nextClick}
+                        >
+                           Next
+                        </button>
+                     </div>
                   </div>
                )}
             </div>
          </div>
 
-         {/* {counterState < sentences.length && (
+         {counterState < sentences.length && (
             <EditSentenceModal
                sentences={sentences}
                setSentences={setSentences}
@@ -463,7 +512,7 @@ const SentenceReview = () => {
                showEditModal={showEditModal}
                setShowEditModal={setShowEditModal}
             />
-         )} */}
+         )}
 
          {/* Delete Modal */}
          {counterState < sentences.length && (
@@ -535,4 +584,3 @@ const SentenceReview = () => {
 };
 
 export default SentenceReview;
-

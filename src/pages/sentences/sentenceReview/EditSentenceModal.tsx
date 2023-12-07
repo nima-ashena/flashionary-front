@@ -10,8 +10,8 @@ import { toast } from 'react-toastify';
 import { SentenceTypes } from '../../../utils/constants';
 
 const EditSentenceModal = props => {
-   const { render, setRender, sentenceId, showEditModal, setShowEditModal } =
-      props;
+   const sentences: ISentence[] = props.sentences;
+   const { sentenceId, setSentences, showEditModal, setShowEditModal } = props;
    const [sentence, setSentence] = useState<ISentence>({ context: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -24,7 +24,7 @@ const EditSentenceModal = props => {
             toast.error(result.message);
          }
       });
-   }, []);
+   }, [showEditModal]);
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
@@ -45,13 +45,21 @@ const EditSentenceModal = props => {
             if (isOk) {
                setSentence(result.sentence);
                setShowEditModal(false);
-               setRender(!render);
                toast.update(t, {
                   render: 'sentence edited successfully',
                   type: 'success',
                   isLoading: false,
                   autoClose: 2000,
                });
+               let ss: ISentence[] = [];
+               sentences.forEach(item => {
+                  if (item._id === sentenceId) {
+                     ss.push(result.sentence);
+                  } else {
+                     ss.push(item);
+                  }
+               });
+               setSentences(ss);
             } else {
                console.log(result.message);
                toast.update(t, {
@@ -191,38 +199,36 @@ const EditSentenceModal = props => {
                   </label>
                </div>
 
-
-                  <div className="mb-3">
-                     <label className="form-label">Review TrueGuessCount</label>
-                     <input
-                        type="number"
-                        className="form-control"
-                        onChange={e => {
-                           setSentence({
-                              ...sentence,
-                              reviewTrueGuessCount: Number(e.target.value),
-                           });
-                        }}
-                        value={sentence.reviewTrueGuessCount}
-                     />
-                  </div>
-                  <div className="mb-3">
-                     <label className="form-label">
-                        Replacement TrueGuessCount
-                     </label>
-                     <input
-                        type="number"
-                        className="form-control"
-                        onChange={e => {
-                           setSentence({
-                              ...sentence,
-                              replacementTrueGuessCount: Number(e.target.value),
-                           });
-                        }}
-                        value={sentence.replacementTrueGuessCount}
-                     />
-                  </div>
-
+               <div className="mb-3">
+                  <label className="form-label">Review TrueGuessCount</label>
+                  <input
+                     type="number"
+                     className="form-control"
+                     onChange={e => {
+                        setSentence({
+                           ...sentence,
+                           reviewTrueGuessCount: Number(e.target.value),
+                        });
+                     }}
+                     value={sentence.reviewTrueGuessCount}
+                  />
+               </div>
+               <div className="mb-3">
+                  <label className="form-label">
+                     Replacement TrueGuessCount
+                  </label>
+                  <input
+                     type="number"
+                     className="form-control"
+                     onChange={e => {
+                        setSentence({
+                           ...sentence,
+                           replacementTrueGuessCount: Number(e.target.value),
+                        });
+                     }}
+                     value={sentence.replacementTrueGuessCount}
+                  />
+               </div>
 
                <audio
                   className="mb-2 w-100"
