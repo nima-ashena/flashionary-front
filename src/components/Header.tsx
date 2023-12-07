@@ -104,6 +104,9 @@ const Header = () => {
                <Link to={'/sentences/review'} onClick={closeSidebar}>
                   Sentence Review
                </Link>
+               <Link to={'/sentences/replacement'} onClick={closeSidebar}>
+                  Sentence Replacement
+               </Link>
                <Link to={'/stories'} onClick={closeSidebar}>
                   Story
                </Link>

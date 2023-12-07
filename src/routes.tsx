@@ -8,7 +8,6 @@ import Home from './pages/Home';
 import AddSentence from './pages/sentences/AddSentence';
 import Sentences from './pages/sentences/ Sentences';
 import EditSentence from './pages/sentences/EditSentence';
-import SentenceReview from './pages/sentences/SentenceReview';
 import Story from './pages/story/Stories';
 import ShowStory from './pages/story/ShowStory';
 import EditStory from './pages/story/EditStory';
@@ -23,6 +22,8 @@ import VocabGroups from './pages/vocabs/vocabGroup/VocabGroups';
 import EditVocabGroup from './pages/vocabs/vocabGroup/EditVocabGroup';
 import StorySentenceReview from './pages/story/review/StorySentenceReview';
 import VocabReview from './pages/vocabs/vocabReview/vocabReview';
+import SentenceReview from './pages/sentences/sentenceReview/sentenceReview';
+import SentenceReplacement from './pages/sentences/SentenceReplacement';
 
 const RoutesHandle = () => {
    useEffect(() => {}, []);
@@ -59,6 +60,10 @@ const RoutesHandle = () => {
                   path="/sentences/review"
                   element={<SentenceReview />}
                />
+               <Route
+                  path="/sentences/replacement"
+                  element={<SentenceReplacement />}
+               />
 
                <Route path="/stories" element={<Story />} />
                <Route path="/stories/show/:storyId" element={<ShowStory />} />
@@ -67,7 +72,7 @@ const RoutesHandle = () => {
                   path="/stories/review/:storyId"
                   element={<StorySentenceReview />}
                />
-               
+
                <Route path="/user/setting" element={<Setting />} />
                <Route path="/test" element={<Test />} />
             </Routes>

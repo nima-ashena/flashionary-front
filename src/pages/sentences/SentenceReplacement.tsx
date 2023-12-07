@@ -13,7 +13,7 @@ import SentenceItem from './components/SentenceItem';
 import { SentenceTypes } from '../../utils/constants';
 import EditSentenceModal from './components/EditSentenceModal';
 
-const SentenceReview = () => {
+const SentenceReplacement = () => {
    const navigate = useNavigate();
 
    const [sentences, setSentences] = useState<ISentence[]>([]);
@@ -595,4 +595,4 @@ const SentenceReview = () => {
    );
 };
 
-export default SentenceReview;
+export default SentenceReplacement;
