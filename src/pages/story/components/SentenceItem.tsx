@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { deleteSentenceOfStoryApi } from '../../../api/story.service';
 import { deleteSentenceOfVocabApi } from '../../../api/vocab.service';
 import { useNavigate } from 'react-router-dom';
-import Sentence from '../../sentences/components/Sentence';
+import Sentence from '../../sentences/Sentence';
 import { ISentence } from '../../../interface/sentence.interface';
 import EditSentenceModal from './EditSentenceModal';
 
@@ -98,7 +98,7 @@ const SentenceItem = (props: any) => {
                      className="btn btn-secondary m-1"
                      onClick={() => {
                         // navigate(`/sentences/edit/${sentence._id}`);
-                        setShowEditModal(true)
+                        setShowEditModal(true);
                      }}
                   >
                      <i className="bi bi-pen" />

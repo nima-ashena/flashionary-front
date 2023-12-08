@@ -19,4 +19,7 @@ export const UserContext = createContext({
    setSortC: (data: number) => {},
    type: '',
    setType: any => {},
+   compoundType: '',
+   setCompoundType: (data: string) => {},
+
 });

@@ -11,6 +11,7 @@ import { IPaginationItem } from '../../interface/common.interface';
 import { IVocab } from '../../interface/vocab.interface';
 import { UserContext } from '../../context/common';
 import { getUsersApi } from '../../api/auth.service';
+import { compoundTypes } from '../../utils/constants';
 
 const Vocabs = () => {
    const [loading, setLoading] = useState(true);
@@ -27,10 +28,10 @@ const Vocabs = () => {
       setQuery,
       paginationPage,
       setPaginationPage,
-      sort,
-      setSort,
       sortC,
       setSortC,
+      compoundType,
+      setCompoundType,
    } = useContext(UserContext);
 
    const [pages, setPages] = useState<number>(1);
@@ -40,14 +41,20 @@ const Vocabs = () => {
    );
 
    const sortValues = [
-      {value: '-created_at', name: 'Date - Descending'},
-      {value: 'created_at', name: 'Date - Ascending'},
-      {value: 'reviewTrueGuessCount', name: 'Review TrueGuessCount - Descending'},
-      {value: '-reviewTrueGuessCount', name: 'Review TrueGuessCount - Ascending'},
-      {value: 'dictTrueGuessCount', name: 'Dict TrueGuessCount - Descending'},
-      {value: '-dictTrueGuessCount', name: 'Dict TrueGuessCount - Ascending'},
-      {value: 'title', name: 'Name - Ascending'},
-      {value: '-title', name: 'Name - Descending'},
+      { value: '-created_at', name: 'Date - Descending' },
+      { value: 'created_at', name: 'Date - Ascending' },
+      {
+         value: 'reviewTrueGuessCount',
+         name: 'Review TrueGuessCount - Descending',
+      },
+      {
+         value: '-reviewTrueGuessCount',
+         name: 'Review TrueGuessCount - Ascending',
+      },
+      { value: 'dictTrueGuessCount', name: 'Dict TrueGuessCount - Descending' },
+      { value: '-dictTrueGuessCount', name: 'Dict TrueGuessCount - Ascending' },
+      { value: 'title', name: 'Name - Ascending' },
+      { value: '-title', name: 'Name - Descending' },
    ];
 
    useEffect(() => {
@@ -167,6 +174,25 @@ const Vocabs = () => {
                   >
                      {users.map((item, index) => (
                         <option value={index}>{item.username}</option>
+                     ))}
+                  </select>
+               </div>
+
+               <div className="mb-3">
+                  <label className="form-label">Compound Type</label>
+                  <select
+                     className="form-select"
+                     aria-label="Default select example"
+                     value={compoundType}
+                     onChange={e => {
+                        if (e.target.value == 'all')
+                           return setCompoundType('all');
+                        setCompoundType(e.target.value);
+                     }}
+                  >
+                     <option value={'all'}>All</option>
+                     {compoundTypes.map(item => (
+                        <option value={item}>{item}</option>
                      ))}
                   </select>
                </div>

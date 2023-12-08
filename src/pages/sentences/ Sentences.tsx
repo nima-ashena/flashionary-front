@@ -7,7 +7,7 @@ import { getStoriesApi } from '../../api/story.service';
 import PaginationN, {
    generatePaginationItems,
 } from '../../components/pagination/Pagination';
-import Sentence from './components/Sentence';
+import Sentence from './Sentence';
 import { IPaginationItem } from '../../interface/common.interface';
 import { ISentence } from '../../interface/sentence.interface';
 import { IStory } from '../../interface/story.interface';
@@ -47,10 +47,22 @@ const Sentences = () => {
    const sortValues = [
       { value: '-created_at', name: 'Date - Descending' },
       { value: 'created_at', name: 'Date - Ascending' },
-      {value: 'reviewTrueGuessCount', name: 'Review TrueGuessCount - Descending'},
-      {value: '-reviewTrueGuessCount', name: 'Review TrueGuessCount - Ascending'},
-      {value: 'replacementTrueGuessCount', name: 'Replacement TrueGuessCount - Descending'},
-      {value: '-replacementTrueGuessCount', name: 'Replacement TrueGuessCount - Ascending'},
+      {
+         value: 'reviewTrueGuessCount',
+         name: 'Review TrueGuessCount - Descending',
+      },
+      {
+         value: '-reviewTrueGuessCount',
+         name: 'Review TrueGuessCount - Ascending',
+      },
+      {
+         value: 'replacementTrueGuessCount',
+         name: 'Replacement TrueGuessCount - Descending',
+      },
+      {
+         value: '-replacementTrueGuessCount',
+         name: 'Replacement TrueGuessCount - Ascending',
+      },
       { value: 'title', name: 'Name - Ascending' },
       { value: '-title', name: 'Name - Descending' },
    ];

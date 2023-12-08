@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { deleteVocabOfVocabGroupApi } from '../../../../api/vocabGroup.service';
 import { useNavigate } from 'react-router-dom';
 import { IVocab } from '../../../../interface/vocab.interface';
-import EditVocabModal from '../../components/EditVocabModal';
+import EditVocabModal from './EditVocabModal';
 
 const VocabItem = (props: any) => {
    const vocab: IVocab = props.vocab;

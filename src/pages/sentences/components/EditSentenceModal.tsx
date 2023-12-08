@@ -39,6 +39,9 @@ const EditSentenceModal = props => {
             meaning: sentence.meaning,
             type: sentence.type,
             replacementTrueGuessCount: sentence.replacementTrueGuessCount,
+            reviewTrueGuessCount: sentence.reviewTrueGuessCount,
+            reviewImportance: sentence.reviewImportance,
+            replacementImportance: sentence.replacementImportance,
          },
          (isOk: boolean, result) => {
             if (isOk) {
@@ -197,9 +200,53 @@ const EditSentenceModal = props => {
                </div>
 
                <div className="mb-3 col-lg-6">
-                  <label className="form-label">
-                     Replacement TrueGuessCount
-                  </label>
+                  <div className="form-check">
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              reviewImportance: e.target.checked,
+                           });
+                        }}
+                        checked={sentence.reviewImportance}
+                     />
+                     <label className="form-check-label">
+                        Review Importance
+                     </label>
+                  </div>
+                  <input
+                     type="number"
+                     className="form-control"
+                     onChange={e => {
+                        setSentence({
+                           ...sentence,
+                           reviewTrueGuessCount: Number(e.target.value),
+                        });
+                     }}
+                     value={sentence.reviewTrueGuessCount}
+                  />
+               </div>
+
+               <div className="mb-3 col-lg-6">
+                  <div className="form-check">
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              replacementImportance: e.target.checked,
+                           });
+                        }}
+                        checked={sentence.replacementImportance}
+                     />
+                     <label className="form-check-label">
+                        Replacement Importance
+                     </label>
+                  </div>
+
                   <input
                      type="number"
                      className="form-control"

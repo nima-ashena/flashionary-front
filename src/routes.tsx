@@ -23,7 +23,7 @@ import EditVocabGroup from './pages/vocabs/vocabGroup/EditVocabGroup';
 import StorySentenceReview from './pages/story/review/StorySentenceReview';
 import VocabReview from './pages/vocabs/vocabReview/vocabReview';
 import SentenceReview from './pages/sentences/sentenceReview/sentenceReview';
-import SentenceReplacement from './pages/sentences/SentenceReplacement';
+import SentenceReplacement from './pages/sentences/replacement/SentenceReplacement';
 
 const RoutesHandle = () => {
    useEffect(() => {}, []);
@@ -56,10 +56,7 @@ const RoutesHandle = () => {
                   path="/sentences/edit/:sentenceId"
                   element={<EditSentence />}
                />
-               <Route
-                  path="/sentences/review"
-                  element={<SentenceReview />}
-               />
+               <Route path="/sentences/review" element={<SentenceReview />} />
                <Route
                   path="/sentences/replacement"
                   element={<SentenceReplacement />}

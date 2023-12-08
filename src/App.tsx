@@ -26,6 +26,7 @@ function App() {
    const [paginationPage, setPaginationPage] = useState<number>(1);
    const [sort, setSort] = useState<string>('-created_at');
    const [type, setType] = useState<string>('all');
+   const [compoundType, setCompoundType] = useState('all');
 
    useEffect(() => {
       getUserApi((isOk: boolean, result) => {
@@ -82,6 +83,8 @@ function App() {
                setSortC,
                type,
                setType,
+               compoundType,
+               setCompoundType,
             }}
          >
             <RoutesHandle />

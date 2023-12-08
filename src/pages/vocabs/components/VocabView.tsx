@@ -64,21 +64,21 @@ const VocabViewModal = props => {
                   </div>
                )}
                <div className="mb-3">
-                  <label className="form-label">Definition</label>
-                  <div
-                     className="alert text-dark"
-                     style={{ backgroundColor: '#E9ECEF' }}
-                  >
-                     {vocab.definition}
-                  </div>
-               </div>
-               <div className="mb-3">
                   <label className="form-label">Meaning (Persian)</label>
                   <div
                      className="alert text-dark"
                      style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
                   >
                      {vocab.meaning}
+                  </div>
+               </div>
+               <div className="mb-3">
+                  <label className="form-label">Definition</label>
+                  <div
+                     className="alert text-dark"
+                     style={{ backgroundColor: '#E9ECEF' }}
+                  >
+                     {vocab.definition}
                   </div>
                </div>
                <div className="row">

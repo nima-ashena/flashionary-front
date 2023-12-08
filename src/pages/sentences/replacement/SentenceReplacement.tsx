@@ -6,12 +6,12 @@ import {
    deleteSentenceApi,
    getSentencesApi,
    plusTrueSentenceApi,
-} from '../../api/sentence.service';
-import { ISentence } from '../../interface/sentence.interface';
-import { shuffleArray } from '../../utils/utils';
-import SentenceItem from './components/SentenceItem';
-import { SentenceTypes } from '../../utils/constants';
-import EditSentenceModal from './components/EditSentenceModal';
+} from '../../../api/sentence.service';
+import { ISentence } from '../../../interface/sentence.interface';
+import { shuffleArray } from '../../../utils/utils';
+import SentenceItem from '../components/SentenceItem';
+import { SentenceTypes } from '../../../utils/constants';
+import EditSentenceModal from './EditSentenceModal';
 
 const SentenceReplacement = () => {
    const navigate = useNavigate();

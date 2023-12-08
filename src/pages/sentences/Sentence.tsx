@@ -5,9 +5,10 @@ import { toast } from 'react-toastify';
 import {
    cloneSentenceApi,
    deleteSentenceApi,
-} from '../../../api/sentence.service';
-import { ISentence } from '../../../interface/sentence.interface';
-import SentenceViewModal from './SentenceView';
+} from '../../api/sentence.service';
+import { ISentence } from '../../interface/sentence.interface';
+import SentenceViewModal from './components/SentenceView';
+import EditSentenceModal from './components/EditSentenceModal';
 
 // const Sentence = ({ sentence }: { sentence: ISentence }, renderValue: boolean) => {
 const Sentence = (props: any) => {
@@ -20,6 +21,7 @@ const Sentence = (props: any) => {
    const userId = localStorage.getItem('userId');
    const [bgColor, setBgColor] = useState('dark');
 
+   const [showEditModal, setShowEditModal] = useState(false);
    const [showDeleteModal, setShowDeleteModal] = useState(false);
    const [showCloneModal, setShowCloneModal] = useState(false);
    const [showModal, setShowModal] = useState(false);
@@ -61,7 +63,7 @@ const Sentence = (props: any) => {
          if (isOk) {
             setRender(!render);
          } else {
-            toast.error(result.response.data.message)
+            toast.error(result.response.data.message);
          }
       });
    };
@@ -114,9 +116,12 @@ const Sentence = (props: any) => {
                         </Link>
                      )}
                      <Link
-                        to={`/sentences/edit/${sentence._id}`}
+                        to={''}
                         className="btn my-1"
                         style={{ color: '#fff' }}
+                        onClick={() => {
+                           setShowEditModal(true)
+                        }}
                      >
                         <i className="bi bi-pen" />
                      </Link>
@@ -132,70 +137,70 @@ const Sentence = (props: any) => {
                            <i className="bi bi-trash" />
                         </Link>
                      )}
-                     
-                     <Modal
-                        show={showDeleteModal}
-                        onHide={() => {
-                           setShowDeleteModal(false);
-                        }}
-                     >
-                        <Modal.Header closeButton>
-                           <Modal.Title>Delete Sentence: ?</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>{sentence.context}</Modal.Body>
-                        <Modal.Footer>
-                           <Button
-                              variant="secondary"
-                              onClick={() => {
-                                 setShowDeleteModal(false);
-                              }}
-                           >
-                              Close
-                           </Button>
-                           <Button
-                              variant="danger"
-                              onClick={deleteSentenceClick}
-                           >
-                              Yes
-                           </Button>
-                        </Modal.Footer>
-                     </Modal>
-                     {/* Clone Modal */}
-                     <Modal
-                        show={showCloneModal}
-                        onHide={() => {
-                           setShowCloneModal(false);
-                        }}
-                     >
-                        <Modal.Header closeButton>
-                           <Modal.Title>Cloning: </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>{sentence.context}</Modal.Body>
-                        <Modal.Footer>
-                           <Button
-                              variant="secondary"
-                              onClick={() => {
-                                 setShowCloneModal(false);
-                              }}
-                           >
-                              Close
-                           </Button>
-                           <Button
-                              variant="danger"
-                              onClick={cloneSentenceClick}
-                           >
-                              Yes
-                           </Button>
-                        </Modal.Footer>
-                     </Modal>
-                     <SentenceViewModal
-                        sentenceId={sentence._id}
-                        showModal={showModal}
-                        setShowModal={setShowModal}
-                     />
                   </div>
                </div>
             </div>
+
+            <EditSentenceModal
+               sentenceId={sentence._id}
+               showEditModal={showEditModal}
+               setShowEditModal={setShowEditModal}
+            />
+
+            <Modal
+               show={showDeleteModal}
+               onHide={() => {
+                  setShowDeleteModal(false);
+               }}
+            >
+               <Modal.Header closeButton>
+                  <Modal.Title>Delete Sentence: ?</Modal.Title>
+               </Modal.Header>
+               <Modal.Body>{sentence.context}</Modal.Body>
+               <Modal.Footer>
+                  <Button
+                     variant="secondary"
+                     onClick={() => {
+                        setShowDeleteModal(false);
+                     }}
+                  >
+                     Close
+                  </Button>
+                  <Button variant="danger" onClick={deleteSentenceClick}>
+                     Yes
+                  </Button>
+               </Modal.Footer>
+            </Modal>
+            {/* Clone Modal */}
+            <Modal
+               show={showCloneModal}
+               onHide={() => {
+                  setShowCloneModal(false);
+               }}
+            >
+               <Modal.Header closeButton>
+                  <Modal.Title>Cloning: </Modal.Title>
+               </Modal.Header>
+               <Modal.Body>{sentence.context}</Modal.Body>
+               <Modal.Footer>
+                  <Button
+                     variant="secondary"
+                     onClick={() => {
+                        setShowCloneModal(false);
+                     }}
+                  >
+                     Close
+                  </Button>
+                  <Button variant="danger" onClick={cloneSentenceClick}>
+                     Yes
+                  </Button>
+               </Modal.Footer>
+            </Modal>
+            <SentenceViewModal
+               sentenceId={sentence._id}
+               showModal={showModal}
+               setShowModal={setShowModal}
+            />
          </div>
       </>
    );

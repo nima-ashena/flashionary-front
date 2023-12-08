@@ -21,18 +21,17 @@ const SentenceItem = (props: any) => {
 
    const trashClick = () => {
       setShow(false);
-         deleteSentenceOfVocabApi(
-            { vocabId, sentenceId: sentence._id },
-            (isOk, result) => {
-               if (isOk) {
-                  setRender(!render);
-                  toast.success(result.message);
-               } else {
-                  toast.error(result.response.data.message);
-               }
-            },
-         );
-      
+      deleteSentenceOfVocabApi(
+         { vocabId, sentenceId: sentence._id },
+         (isOk, result) => {
+            if (isOk) {
+               setRender(!render);
+               toast.success(result.message);
+            } else {
+               toast.error(result.response.data.message);
+            }
+         },
+      );
    };
 
    return (
@@ -61,7 +60,7 @@ const SentenceItem = (props: any) => {
                      type="button"
                      className="btn btn-secondary m-1"
                      onClick={() => {
-                        setShowEditModal(true)
+                        setShowEditModal(true);
                      }}
                   >
                      <i className="bi bi-pen" />
@@ -92,7 +91,7 @@ const SentenceItem = (props: any) => {
             sentenceId={sentence._id}
             showEditModal={showEditModal}
             setShowEditModal={setShowEditModal}
-         /> 
+         />
          <Modal
             show={show}
             onHide={() => {

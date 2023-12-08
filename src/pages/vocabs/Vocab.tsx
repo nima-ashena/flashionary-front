@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { cloneVocabApi, deleteVocabApi } from '../../api/vocab.service';
 import { IVocab } from '../../interface/vocab.interface';
 import VocabViewModal from './components/VocabView';
+import EditVocabModal from './components/EditVocabModal';
 
 // const Vocab = ({ vocab }: { vocab: IVocab }, renderValue: boolean) => {
 const Vocab = (props: any) => {
@@ -16,6 +17,8 @@ const Vocab = (props: any) => {
    const [isThisUserOwnVocab, setIsThisUserOwnVocab] = useState<boolean>(true);
    const userId = localStorage.getItem('userId');
    const [bgColor, setBgColor] = useState('dark');
+
+   const [showEditModal, setShowEditModal] = useState(false);
 
    useEffect(() => {
       if (userId !== vocab.user) {
@@ -104,7 +107,7 @@ const Vocab = (props: any) => {
                   >
                      {vocab.meaning ? vocab.meaning : 'x'}
                   </p>
-                  <div className='mb-2'>
+                  <div className="mb-2">
                      <Link
                         to={``}
                         className="btn my-1"
@@ -116,9 +119,12 @@ const Vocab = (props: any) => {
                         <i className="bi bi-eye" />
                      </Link>
                      <Link
-                        to={`/vocabs/edit/${vocab._id}`}
+                        to={''}
                         className="btn my-1"
                         style={{ color: '#fff' }}
+                        onClick={() => {
+                           setShowEditModal(true);
+                        }}
                      >
                         <i className="bi bi-pen" />
                      </Link>
@@ -146,6 +152,14 @@ const Vocab = (props: any) => {
                         </Link>
                      )}
 
+                     <EditVocabModal
+                        vocabId={vocab._id}
+                        showEditModal={showEditModal}
+                        setShowEditModal={setShowEditModal}
+                        render={render}
+                        setRender={setRender}
+                     />
+
                      {/* Delete Modal */}
                      <Modal
                         show={showDeleteModal}
@@ -159,22 +173,37 @@ const Vocab = (props: any) => {
                            </Modal.Title>
                         </Modal.Header>
                         <Modal.Footer>
-                           <Button
-                              style={{ width: '48%' }}
-                              variant="secondary"
-                              onClick={() => {
-                                 setShowDeleteModal(false);
-                              }}
-                           >
-                              Close
-                           </Button>
-                           <Button
-                              style={{ width: '48%' }}
-                              variant="danger"
-                              onClick={deleteVocabClick}
-                           >
-                              Yes
-                           </Button>
+                           <div className="row w-100">
+                              <div
+                                 className="col-6"
+                                 style={{ paddingRight: 2 }}
+                              >
+                                 <button
+                                    style={{
+                                       fontSize: 18,
+                                       width: '100%',
+                                    }}
+                                    className="btn btn-danger mb-2"
+                                    onClick={() => {
+                                       setShowDeleteModal(false);
+                                    }}
+                                 >
+                                    Close
+                                 </button>
+                              </div>
+                              <div className="col-6" style={{ paddingLeft: 2 }}>
+                                 <button
+                                    style={{
+                                       fontSize: 18,
+                                       width: '100%',
+                                    }}
+                                    className="btn btn-success mb-2"
+                                    onClick={deleteVocabClick}
+                                 >
+                                    Yes
+                                 </button>
+                              </div>
+                           </div>
                         </Modal.Footer>
                      </Modal>
 
@@ -213,7 +242,7 @@ const Vocab = (props: any) => {
                         setShowModal={setShowModal}
                      />
                   </div>
-                  <div style={{position: 'absolute', bottom: 4, right: 8}}>
+                  <div style={{ position: 'absolute', bottom: 4, right: 8 }}>
                      {vocab.user?.name}
                   </div>
                </div>

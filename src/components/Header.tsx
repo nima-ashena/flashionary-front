@@ -1,4 +1,3 @@
-
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -79,35 +78,75 @@ const Header = () => {
                <button className="btn-close mx-auto" onClick={closeSidebar}>
                   &times;
                </button>
-               <Link to={'/vocabs/add'} onClick={closeSidebar}>
+               <Link
+                  to={'/vocabs/add'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
                   Add Vocab
                </Link>
-               <Link to={'/vocabs'} onClick={closeSidebar}>
+               <Link
+                  to={'/vocabs'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
                   Vocabs
                </Link>
-               <Link to={'/vocabs/groups'} onClick={closeSidebar}>
-                  Vocab Groups 
+               <Link
+                  to={'/vocabs/groups'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
+                  Vocab Groups
                </Link>
-               <Link to={'/vocabs/review'} onClick={closeSidebar}>
+               <Link
+                  to={'/vocabs/review'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
                   Review
                </Link>
-               <Link to={'/vocabs/dict'} onClick={closeSidebar}>
-                  Dict 
+               <Link
+                  to={'/vocabs/dict'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
+                  Dict
                </Link>
                <hr style={{ color: '#fff' }} />
-               <Link to={'/sentences/add'} onClick={closeSidebar}>
+               <Link
+                  to={'/sentences/add'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
                   Add Sentence
                </Link>
-               <Link to={'/sentences'} onClick={closeSidebar}>
+               <Link
+                  to={'/sentences'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
                   Sentences
                </Link>
-               <Link to={'/sentences/review'} onClick={closeSidebar}>
+               <Link
+                  to={'/sentences/review'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
                   Review
                </Link>
-               <Link to={'/sentences/replacement'} onClick={closeSidebar}>
+               <Link
+                  to={'/sentences/replacement'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
                   Replacement
                </Link>
-               <Link to={'/stories'} onClick={closeSidebar}>
+               <Link
+                  to={'/stories'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
                   Story
                </Link>
             </Offcanvas.Body>
