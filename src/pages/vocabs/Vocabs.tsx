@@ -20,6 +20,8 @@ const Vocabs = () => {
    const limit = 24;
    const [vocabs, setVocabs] = useState<IVocab[]>([]);
    const [render, setRender] = useState<boolean>(false);
+   const [renderForDelete, setRenderForDelete] = useState<boolean>(false);
+
    const {
       users,
       userC,
@@ -83,7 +85,7 @@ const Vocabs = () => {
             { name: 'user', value: users[userC]._id },
          ],
       );
-   }, [paginationPage, render]);
+   }, [paginationPage, render, renderForDelete]);
 
    return (
       <>
@@ -125,6 +127,8 @@ const Vocabs = () => {
                      render={render}
                      setRender={setRender}
                      key={item._id}
+                     renderForDelete={renderForDelete}
+                     setRenderForDelete={setRenderForDelete}
                   />
                ))}
             </div>

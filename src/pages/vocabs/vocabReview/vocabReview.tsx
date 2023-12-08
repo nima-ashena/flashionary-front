@@ -363,8 +363,8 @@ const VocabReview = () => {
                                           direction: 'rtl',
                                        }}
                                     >
-                                       {vocabs[counterState] &&
-                                          vocabs[counterState].meaning}
+                                       {vocabs[counterState]?.meaning &&
+                                          vocabs[counterState]?.meaning}
                                     </div>
                                     <div
                                        className="alert text-dark"
@@ -414,8 +414,8 @@ const VocabReview = () => {
                                           direction: 'rtl',
                                        }}
                                     >
-                                       {vocabs[counterState] &&
-                                          vocabs[counterState].meaning}
+                                       {vocabs[counterState]?.meaning &&
+                                          vocabs[counterState]?.meaning}
                                     </div>
                                     <div
                                        className="alert text-dark"

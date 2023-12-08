@@ -12,7 +12,9 @@ const Vocab = (props: any) => {
    const vocab: IVocab = props.vocab;
    const render: boolean = props.render;
    const setRender: React.Dispatch<React.SetStateAction<boolean>> =
-      props.setRender;
+   props.setRender;
+   const renderForDelete: boolean = props.renderForDelete;
+   const setRenderForDelete = props.setRenderForDelete;
 
    const [isThisUserOwnVocab, setIsThisUserOwnVocab] = useState<boolean>(true);
    const userId = localStorage.getItem('userId');
@@ -34,23 +36,24 @@ const Vocab = (props: any) => {
    const deleteVocabClick = () => {
       setShowDeleteModal(false);
       deleteVocabApi(vocab._id, (isOk, result) => {
-         const t = toast.loading('Deleting Vocab...');
+         // const t = toast.loading('Deleting Vocab...');
          if (isOk) {
-            setRender(!render);
-            toast.update(t, {
-               render: 'vocab deleted successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
+            setRenderForDelete(!renderForDelete);
+            // toast.update(t, {
+            //    render: 'vocab deleted successfully',
+            //    type: 'success',
+            //    isLoading: false,
+            //    autoClose: 2000,
+            // });
          } else {
             console.log(result.message);
-            toast.update(t, {
-               render: result.message,
-               type: 'error',
-               isLoading: false,
-               autoClose: 2000,
-            });
+            toast.error(result.message)
+            // toast.update(t, {
+            //    render: result.message,
+            //    type: 'error',
+            //    isLoading: false,
+            //    autoClose: 2000,
+            // });
          }
       });
    };

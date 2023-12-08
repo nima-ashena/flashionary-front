@@ -16,6 +16,8 @@ const Sentence = (props: any) => {
    const render: boolean = props.render;
    const setRender: React.Dispatch<React.SetStateAction<boolean>> =
       props.setRender;
+   const renderForDelete: boolean = props.renderForDelete;
+   const setRenderForDelete = props.setRenderForDelete;
 
    const [isThisUserOwnVocab, setIsThisUserOwnVocab] = useState<boolean>(true);
    const userId = localStorage.getItem('userId');
@@ -38,7 +40,7 @@ const Sentence = (props: any) => {
       deleteSentenceApi(sentence._id, (isOk, result) => {
          const t = toast.loading('Deleting Sentence...');
          if (isOk) {
-            setRender(!render);
+            setRenderForDelete(!renderForDelete);
             toast.update(t, {
                render: 'sentence deleted successfully',
                type: 'success',

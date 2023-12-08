@@ -1,17 +1,13 @@
-import { time } from 'console';
 import { useContext, useEffect, useState } from 'react';
-import { Button, Dropdown, Modal, Pagination, Spinner } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import { Button, Modal, Spinner } from 'react-bootstrap';
 import { getSentencesApi } from '../../api/sentence.service';
-import { getStoriesApi } from '../../api/story.service';
+
 import PaginationN, {
    generatePaginationItems,
 } from '../../components/pagination/Pagination';
 import Sentence from './Sentence';
 import { IPaginationItem } from '../../interface/common.interface';
 import { ISentence } from '../../interface/sentence.interface';
-import { IStory } from '../../interface/story.interface';
-import { getUsersApi } from '../../api/auth.service';
 import { SentenceTypes } from '../../utils/constants';
 import { UserContext } from '../../context/common';
 
@@ -22,6 +18,7 @@ const Sentences = () => {
    const limit = 32;
    const [sentences, setSentences] = useState<ISentence[]>([]);
    const [render, setRender] = useState<boolean>(false);
+   const [renderForDelete, setRenderForDelete] = useState<boolean>(false);
    const {
       users,
       userC,
@@ -85,7 +82,7 @@ const Sentences = () => {
             }
          },
          [
-            { name: 'sort', value: sort },
+            { name: 'sort', value: sortValues[sortC].value },
             { name: 'limit', value: limit },
             { name: 'page', value: paginationPage },
             { name: 'query', value: query },
@@ -94,7 +91,7 @@ const Sentences = () => {
             { name: 'story', value: 'free' },
          ],
       );
-   }, [paginationPage, render]);
+   }, [paginationPage, render, renderForDelete]);
 
    return (
       <>
@@ -135,6 +132,8 @@ const Sentences = () => {
                      sentence={item}
                      render={render}
                      setRender={setRender}
+                     renderForDelete={renderForDelete}
+                     setRenderForDelete={setRenderForDelete}
                      key={item._id}
                   />
                ))}
