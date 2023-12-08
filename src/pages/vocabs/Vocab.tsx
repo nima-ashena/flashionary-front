@@ -160,6 +160,13 @@ const Vocab = (props: any) => {
                         setRender={setRender}
                      />
 
+                     <VocabViewModal
+                        vocabId={vocab._id}
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                        render={render}
+                     />
+
                      {/* Delete Modal */}
                      <Modal
                         show={showDeleteModal}
@@ -235,12 +242,6 @@ const Vocab = (props: any) => {
                            </Button>
                         </Modal.Footer>
                      </Modal>
-
-                     <VocabViewModal
-                        vocabId={vocab._id}
-                        showModal={showModal}
-                        setShowModal={setShowModal}
-                     />
                   </div>
                   <div style={{ position: 'absolute', bottom: 4, right: 8 }}>
                      {vocab.user?.name}

@@ -10,8 +10,8 @@ import { toast } from 'react-toastify';
 import { SentenceTypes } from '../../../utils/constants';
 
 const EditSentenceModal = props => {
-   const sentences: ISentence[] = props.sentences;
-   const { setSentences, sentenceId, showEditModal, setShowEditModal } = props;
+   const { sentenceId, showEditModal, setShowEditModal, render, setRender } =
+      props;
    const [sentence, setSentence] = useState<ISentence>({ context: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -24,7 +24,7 @@ const EditSentenceModal = props => {
             toast.error(result.message);
          }
       });
-   }, [showEditModal]);
+   }, [showEditModal, render]);
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
@@ -53,15 +53,7 @@ const EditSentenceModal = props => {
                   isLoading: false,
                   autoClose: 2000,
                });
-               let ss: ISentence[] = [];
-               sentences.forEach(item => {
-                  if (item._id === sentenceId) {
-                     ss.push(result.sentence);
-                  } else {
-                     ss.push(item);
-                  }
-               });
-               setSentences(ss);
+               setRender(!render);
             } else {
                console.log(result.message);
                toast.update(t, {

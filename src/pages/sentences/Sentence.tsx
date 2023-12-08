@@ -120,7 +120,7 @@ const Sentence = (props: any) => {
                         className="btn my-1"
                         style={{ color: '#fff' }}
                         onClick={() => {
-                           setShowEditModal(true)
+                           setShowEditModal(true);
                         }}
                      >
                         <i className="bi bi-pen" />
@@ -145,6 +145,8 @@ const Sentence = (props: any) => {
                sentenceId={sentence._id}
                showEditModal={showEditModal}
                setShowEditModal={setShowEditModal}
+               render={render}
+               setRender={setRender}
             />
 
             <Modal
@@ -200,6 +202,7 @@ const Sentence = (props: any) => {
                sentenceId={sentence._id}
                showModal={showModal}
                setShowModal={setShowModal}
+               render={render}
             />
          </div>
       </>

@@ -42,7 +42,7 @@ const VocabGroup = (props: any) => {
 
    return (
       <>
-         <div className="col-6 col-sm-4 col-md-4 col-lg-3">
+         <div className="col-12 col-sm-6 col-md-4 col-lg-3">
             <div className="card bg-dark text-light" id="vocabGroup">
                <div className="card-body text-center">
                   <p className="card-title mb-3">{vocabGroup.title}</p>

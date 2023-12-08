@@ -12,7 +12,8 @@ import { ISentence } from '../../../interface/sentence.interface';
 import SentenceItem from '../components/SentenceItem';
 
 const EditVocabModal = props => {
-   const { vocabId, showEditModal, setShowEditModal, render, setRender } = props;
+   const { vocabId, showEditModal, setShowEditModal, render, setRender } =
+      props;
    const [vocab, setVocab] = useState<IVocab>({ title: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -51,7 +52,6 @@ const EditVocabModal = props => {
          },
          (isOk: boolean, result) => {
             if (isOk) {
-               console.log(result.vocab);
                setVocab(result.vocab);
                setShowEditModal(false);
                toast.update(t, {
@@ -60,6 +60,7 @@ const EditVocabModal = props => {
                   isLoading: false,
                   autoClose: 2000,
                });
+               setRender(!render);
             } else {
                console.log(result.message);
                toast.update(t, {
@@ -305,7 +306,7 @@ const EditVocabModal = props => {
                         type="button"
                         className="btn btn-info mb-2"
                         onClick={() => {
-                           setShowEditModal(false)
+                           setShowEditModal(false);
                            setShowSentencesModal(true);
                         }}
                      >
@@ -328,13 +329,11 @@ const EditVocabModal = props => {
             show={showSentencesModal}
             onHide={() => {
                setShowSentencesModal(false);
-               setShowEditModal(true)
+               setShowEditModal(true);
             }}
          >
             <Modal.Header closeButton>
-               <Modal.Title>
-                  Sentences
-               </Modal.Title>
+               <Modal.Title>Sentences</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                <div className="col-12">

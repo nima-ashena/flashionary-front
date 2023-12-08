@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Modal } from 'react-bootstrap';
 
 const VocabViewModal = props => {
-   const { vocabId, showModal, setShowModal } = props;
+   const { vocabId, showModal, setShowModal, render } = props;
    const [vocab, setVocab] = useState<IVocab>({ title: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -18,7 +18,7 @@ const VocabViewModal = props => {
             toast.error(result.message);
          }
       });
-   }, []);
+   }, [render]);
 
    return (
       <Modal

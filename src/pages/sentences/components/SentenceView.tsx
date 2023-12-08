@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Alert, Modal } from 'react-bootstrap';
 
 const SentenceViewModal = props => {
-   const { sentenceId, showModal, setShowModal } = props;
+   const { sentenceId, showModal, setShowModal, render } = props;
    const [sentence, setSentence] = useState<ISentence>({ context: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -18,7 +18,7 @@ const SentenceViewModal = props => {
             toast.error(result.message);
          }
       });
-   }, []);
+   }, [render]);
 
    return (
       <Modal
