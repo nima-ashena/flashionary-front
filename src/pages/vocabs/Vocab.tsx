@@ -79,9 +79,15 @@ const Vocab = (props: any) => {
       <>
          <div className="col-sm-4 col-md-4 col-lg-3">
             <div className={`card bg-${bgColor} text-light`} id="vocab">
-               <div className="card-body text-center">
+               <div
+                  className="card-body text-center"
+                  style={{ position: 'relative' }}
+               >
                   <p className="card-title mb-3">
-                     <span className="badge bg-primary mx-2">
+                     <span className="badge bg-info me-1">
+                        {vocab.reviewTrueGuessCount?.toString()}
+                     </span>
+                     <span className="badge bg-primary me-2">
                         {vocab.dictTrueGuessCount?.toString()}
                      </span>
                      {vocab.title}
@@ -98,16 +104,23 @@ const Vocab = (props: any) => {
                   >
                      {vocab.meaning ? vocab.meaning : 'x'}
                   </p>
-                  <div>
+                  <div className='mb-2'>
                      <Link
                         to={``}
                         className="btn my-1"
-                        style={{ color: 'green', backgroundColor: 'yellow' }}
+                        style={{ color: 'black', backgroundColor: 'yellow' }}
                         onClick={() => {
                            setShowModal(true);
                         }}
                      >
                         <i className="bi bi-eye" />
+                     </Link>
+                     <Link
+                        to={`/vocabs/edit/${vocab._id}`}
+                        className="btn my-1"
+                        style={{ color: '#fff' }}
+                     >
+                        <i className="bi bi-pen" />
                      </Link>
                      {!isThisUserOwnVocab && (
                         <Link
@@ -120,13 +133,6 @@ const Vocab = (props: any) => {
                            <i className="bi bi-arrow-down-square-fill"></i>
                         </Link>
                      )}
-                     <Link
-                        to={`/vocabs/edit/${vocab._id}`}
-                        className="btn my-1"
-                        style={{ color: '#fff' }}
-                     >
-                        <i className="bi bi-pen" />
-                     </Link>
                      {isThisUserOwnVocab && (
                         <Link
                            to={``}
@@ -206,6 +212,9 @@ const Vocab = (props: any) => {
                         showModal={showModal}
                         setShowModal={setShowModal}
                      />
+                  </div>
+                  <div style={{position: 'absolute', bottom: 4, right: 8}}>
+                     {vocab.user?.name}
                   </div>
                </div>
             </div>

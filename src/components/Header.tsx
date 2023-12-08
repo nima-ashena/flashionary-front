@@ -89,10 +89,10 @@ const Header = () => {
                   Vocab Groups 
                </Link>
                <Link to={'/vocabs/review'} onClick={closeSidebar}>
-                  Vocab Review
+                  Review
                </Link>
                <Link to={'/vocabs/dict'} onClick={closeSidebar}>
-                  Dict Review
+                  Dict 
                </Link>
                <hr style={{ color: '#fff' }} />
                <Link to={'/sentences/add'} onClick={closeSidebar}>
@@ -102,17 +102,17 @@ const Header = () => {
                   Sentences
                </Link>
                <Link to={'/sentences/review'} onClick={closeSidebar}>
-                  Sentence Review
+                  Review
                </Link>
                <Link to={'/sentences/replacement'} onClick={closeSidebar}>
-                  Sentence Replacement
+                  Replacement
                </Link>
                <Link to={'/stories'} onClick={closeSidebar}>
                   Story
                </Link>
             </Offcanvas.Body>
             <Offcanvas.Header className="bg-dark text-light">
-               Version 1.4.1 (Nima)
+               Version 2.0.1 (Nima)
             </Offcanvas.Header>
          </Offcanvas>
       </>

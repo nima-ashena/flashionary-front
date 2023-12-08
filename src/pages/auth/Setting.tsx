@@ -81,6 +81,17 @@ const Setting = () => {
                   value={userData.username}
                />
             </div>
+            <div className="mb-3 col-lg-6">
+               <label className="form-label">Name: </label>
+               <input
+                  type="text"
+                  className="form-control"
+                  onChange={e => {
+                     setUserData({ ...userData, name: e.target.value });
+                  }}
+                  value={userData.name}
+               />
+            </div>
             <div className="mb-3">
                <label className="form-check-label">
                   Default TTS:{' '}

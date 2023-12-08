@@ -15,6 +15,8 @@ export const UserContext = createContext({
    setPaginationPage: (data: number) => {},
    sort: '',
    setSort: any => {},
+   sortC: 0,
+   setSortC: (data: number) => {},
    type: '',
    setType: any => {},
 });

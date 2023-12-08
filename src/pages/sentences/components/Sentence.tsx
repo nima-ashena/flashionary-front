@@ -58,15 +58,8 @@ const Sentence = (props: any) => {
    const cloneSentenceClick = () => {
       setShowCloneModal(false);
       cloneSentenceApi({ sentenceId: sentence._id }, (isOk, result) => {
-         // const t = toast.loading('Cloning Sentence...');
          if (isOk) {
             setRender(!render);
-            // toast.update(t, {
-            //    render: 'Sentence cloned successfully',
-            //    type: 'success',
-            //    isLoading: false,
-            //    autoClose: 2000,
-            // });
          } else {
             toast.error(result.response.data.message)
          }
@@ -79,7 +72,10 @@ const Sentence = (props: any) => {
             <div className={`card bg-${bgColor} text-light`} id="sentence">
                <div className="card-body text-center">
                   <p className="card-title mb-2">
-                     <span className="badge bg-primary mx-2">
+                     <span className="badge bg-info me-2">
+                        {sentence.reviewTrueGuessCount?.toString()}
+                     </span>
+                     <span className="badge bg-primary me-1">
                         {sentence.replacementTrueGuessCount?.toString()}
                      </span>
                   </p>

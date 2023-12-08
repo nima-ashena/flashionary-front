@@ -62,7 +62,6 @@ const SentenceReview = () => {
                }
                // setPanel(1);
                let ss: ISentence[] = result.sentences;
-               console.log(ss);
                if (ss.length === 0) {
                   setPanel(0);
                   return toast.info('There is no Sentences to review');
@@ -380,8 +379,8 @@ const SentenceReview = () => {
                                           fontSize: 20,
                                        }}
                                     >
-                                       {sentences[counterState] &&
-                                          sentences[counterState].note
+                                       {sentences[counterState]?.note &&
+                                          sentences[counterState]?.note
                                              .split('\n')
                                              .map(item => <p>{item}</p>)}
                                     </div>
@@ -426,8 +425,8 @@ const SentenceReview = () => {
                                           fontSize: 20,
                                        }}
                                     >
-                                       {sentences[counterState] &&
-                                          sentences[counterState].note
+                                       {sentences[counterState]?.note &&
+                                          sentences[counterState]?.note
                                              .split('\n')
                                              .map(item => <p>{item}</p>)}
                                     </div>

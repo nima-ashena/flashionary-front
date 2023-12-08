@@ -28,7 +28,7 @@ export interface ISentence {
    vocab?: string;
    completed?: Boolean;
    type?: string;
-   user?: string;
+   user?: any;
    storyFlag?: boolean,
    storyTough?: boolean,
 }

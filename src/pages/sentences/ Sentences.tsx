@@ -32,16 +32,28 @@ const Sentences = () => {
       setPaginationPage,
       sort,
       setSort,
+      sortC,
+      setSortC,
       type,
       setType,
    } = useContext(UserContext);
 
    const [pages, setPages] = useState<number>(1);
-   const [page, setPage] = useState<number>(1);
 
    const [paginationItems, setPaginationItems] = useState<IPaginationItem[]>(
       [],
    );
+
+   const sortValues = [
+      { value: '-created_at', name: 'Date - Descending' },
+      { value: 'created_at', name: 'Date - Ascending' },
+      {value: 'reviewTrueGuessCount', name: 'Review TrueGuessCount - Descending'},
+      {value: '-reviewTrueGuessCount', name: 'Review TrueGuessCount - Ascending'},
+      {value: 'replacementTrueGuessCount', name: 'Replacement TrueGuessCount - Descending'},
+      {value: '-replacementTrueGuessCount', name: 'Replacement TrueGuessCount - Ascending'},
+      { value: 'title', name: 'Name - Ascending' },
+      { value: '-title', name: 'Name - Descending' },
+   ];
 
    useEffect(() => {
       getSentencesApi(
@@ -50,7 +62,10 @@ const Sentences = () => {
                setSentences(result.sentences);
                setPages(result.responseFilter.pages);
                setPaginationItems(
-                  generatePaginationItems(result.responseFilter.pages, page),
+                  generatePaginationItems(
+                     result.responseFilter.pages,
+                     paginationPage,
+                  ),
                );
                setLoading(false);
             } else {
@@ -60,14 +75,14 @@ const Sentences = () => {
          [
             { name: 'sort', value: sort },
             { name: 'limit', value: limit },
-            { name: 'page', value: page },
+            { name: 'page', value: paginationPage },
             { name: 'query', value: query },
             { name: 'type', value: type },
             { name: 'user', value: users[userC]._id },
             { name: 'story', value: 'free' },
          ],
       );
-   }, [page, render]);
+   }, [paginationPage, render]);
 
    return (
       <>
@@ -115,8 +130,8 @@ const Sentences = () => {
 
             <div className="my-4 d-flex justify-content-center">
                <PaginationN
-                  page={page}
-                  setPage={setPage}
+                  page={paginationPage}
+                  setPage={setPaginationPage}
                   pages={pages}
                   paginationItems={paginationItems}
                   setPaginationItems={setPaginationItems}
@@ -145,57 +160,57 @@ const Sentences = () => {
                      }}
                   />
                </div>
-               <label className="form-label">Sort By</label>
-               <select
-                  className="form-select mb-3"
-                  aria-label="Default select example"
-                  onChange={e => {
-                     let t = Number(e.target.value);
-                     if (t === 1) setSort('-created_at');
-                     if (t === 2) setSort('created_at');
-                     if (t === 3) setSort('true_guess_count');
-                     if (t === 4) setSort('-true_guess_count');
-                     if (t === 5) setSort('title');
-                     if (t === 6) setSort('-title');
-                  }}
-               >
-                  <option value="1">Date - Descending</option>
-                  <option value="2">Date - ascending</option>
-                  <option value="3">True Guess Count - Descending</option>
-                  <option value="4">True Guess Count - Ascending</option>
-                  <option value="5">Name - ascending</option>
-                  <option value="6">Name - Descending</option>
-               </select>
 
-               <label className="form-label">Type:</label>
-               <select
-                  className="form-select mb-3"
-                  aria-label="Default select example"
-                  value={type}
-                  onChange={e => {
-                     if (e.target.value == 'all') return setType('all');
-                     setType(e.target.value);
-                  }}
-               >
-                  <option value={'all'}>All Types</option>
-                  {SentenceTypes.map(item => {
-                     return <option value={item}>{item}</option>;
-                  })}
-               </select>
+               <div>
+                  <label className="form-label">Sort By</label>
+                  <select
+                     className="form-select mb-3"
+                     aria-label="Default select example"
+                     value={sortC}
+                     onChange={e => {
+                        setSortC(Number(e.target.value));
+                     }}
+                  >
+                     {sortValues.map((item, index) => (
+                        <option value={index}>{item.name}</option>
+                     ))}
+                  </select>
+               </div>
 
-               <label className="form-label">User</label>
-               <select
-                  className="form-select mb-3"
-                  aria-label="Default select example"
-                  value={userC}
-                  onChange={e => {
-                     setUserC(Number(e.target.value));
-                  }}
-               >
-                  {users.map((item, index) => (
-                     <option value={index}>{item.username}</option>
-                  ))}
-               </select>
+               <div>
+                  <label className="form-label">Type:</label>
+                  <select
+                     className="form-select mb-3"
+                     aria-label="Default select example"
+                     value={type}
+                     onChange={e => {
+                        if (e.target.value == 'all') return setType('all');
+                        setType(e.target.value);
+                     }}
+                  >
+                     <option value={'all'}>All Types</option>
+                     {SentenceTypes.map(item => {
+                        return <option value={item}>{item}</option>;
+                     })}
+                  </select>
+               </div>
+
+               <div>
+                  <label className="form-label">User</label>
+                  <select
+                     className="form-select mb-3"
+                     aria-label="Default select example"
+                     value={userC}
+                     onChange={e => {
+                        setUserC(Number(e.target.value));
+                     }}
+                  >
+                     {users.map((item, index) => (
+                        <option value={index}>{item.username}</option>
+                     ))}
+                  </select>
+               </div>
+
                <button
                   type="submit"
                   className="btn btn-primary btn-lg w-100"

@@ -28,13 +28,7 @@ const Story = (props: any) => {
                      )}
                   </p>
                   <div>
-                     <Link
-                        to={`/stories/show/${story._id}`}
-                        className="btn my-1"
-                        style={{ color: '#fff', backgroundColor: '#198754' }}
-                     >
-                        <i className="bi bi-eye" />
-                     </Link>
+                  string
                      <Link
                         to={`/stories/edit/${story._id}`}
                         className="btn my-1 mx-1"

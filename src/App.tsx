@@ -21,6 +21,7 @@ function App() {
       },
    ]);
    const [userC, setUserC] = useState<number>(0);
+   const [sortC, setSortC] = useState<number>(0);
    const [query, setQuery] = useState<string>('');
    const [paginationPage, setPaginationPage] = useState<number>(1);
    const [sort, setSort] = useState<string>('-created_at');
@@ -77,6 +78,8 @@ function App() {
                setPaginationPage,
                sort,
                setSort,
+               sortC,
+               setSortC,
                type,
                setType,
             }}

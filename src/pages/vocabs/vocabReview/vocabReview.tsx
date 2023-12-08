@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import EditVocabModal from './EditVocabModal';
 import './style.css';
 import { ISentence } from '../../../interface/sentence.interface';
+import { compoundTypes } from '../../../utils/constants';
 
 const VocabReview = () => {
    const navigate = useNavigate();
@@ -24,6 +25,7 @@ const VocabReview = () => {
    const [sliderCountValueMax, setSliderCountValueMax] = useState(15);
    const [sliderCountValueMin, setSliderCountValueMin] = useState(0);
    const [sliderLimitValue, setSliderLimitValue] = useState(10);
+   const [compoundType, setCompoundType] = useState('all');
    const [limitMode, setLimitMode] = useState(false);
    const [reverseMode, setReverseMode] = useState(false);
 
@@ -83,6 +85,7 @@ const VocabReview = () => {
             { name: 'sort', value: 'reviewTrueGuessCount' },
             { name: 'user', value: localStorage.getItem('userId') },
             { name: 'reviewMode', value: true },
+            { name: 'compoundType', value: compoundType },
          ],
       );
    }, [again]);
@@ -219,6 +222,23 @@ const VocabReview = () => {
                         setSliderCountValueMin(Number(e.target.value));
                      }}
                   ></input>
+                  <div className="mb-3">
+                     <label className="form-label">Compound Type</label>
+                     <select
+                        className="form-select"
+                        aria-label="Default select example"
+                        value={compoundType}
+                        onChange={e => {
+                           if (e.target.value == 'all') return setCompoundType('all');
+                           setCompoundType(e.target.value);
+                        }}
+                     >
+                        <option value={'all'}>All</option>
+                        {compoundTypes.map(item => (
+                           <option value={item}>{item}</option>
+                        ))}
+                     </select>
+                  </div>
                   <Form.Check
                      className="mb-3"
                      type="switch"

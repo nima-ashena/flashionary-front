@@ -35,5 +35,5 @@ export interface IVocab {
    dictImportance?: boolean;
    completed?: boolean;
    note?: string;
-   user?: string;
+   user?: any;
 }
