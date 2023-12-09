@@ -10,6 +10,7 @@ const VocabViewModal = props => {
    const audioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
+      if(!showModal) return
       getVocabApi(vocabId, (isOk: boolean, result) => {
          if (isOk) {
             setVocab(result.vocab);
@@ -18,7 +19,7 @@ const VocabViewModal = props => {
             toast.error(result.message);
          }
       });
-   }, [render]);
+   }, [showModal, render]);
 
    return (
       <Modal

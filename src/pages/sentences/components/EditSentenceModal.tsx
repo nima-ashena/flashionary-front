@@ -16,6 +16,7 @@ const EditSentenceModal = props => {
    const audioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
+      if(!showEditModal) return
       getSentenceApi(sentenceId, (isOk: boolean, result) => {
          if (isOk) {
             setSentence(result.sentence);

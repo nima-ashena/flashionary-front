@@ -10,6 +10,7 @@ const SentenceViewModal = props => {
    const audioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
+      if(!showModal) return
       getSentenceApi(sentenceId, (isOk: boolean, result) => {
          if (isOk) {
             setSentence(result.sentence);
@@ -18,7 +19,7 @@ const SentenceViewModal = props => {
             toast.error(result.message);
          }
       });
-   }, [render]);
+   }, [showModal, render]);
 
    return (
       <Modal

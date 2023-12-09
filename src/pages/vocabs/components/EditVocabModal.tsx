@@ -22,6 +22,7 @@ const EditVocabModal = props => {
    const [sentences, setSentences] = useState<ISentence[]>([]);
 
    useEffect(() => {
+      if(!showEditModal) return
       getVocabApi(vocabId, (isOk: boolean, result) => {
          if (isOk) {
             setVocab(result.vocab);

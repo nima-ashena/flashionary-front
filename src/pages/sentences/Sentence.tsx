@@ -143,6 +143,13 @@ const Sentence = (props: any) => {
                </div>
             </div>
 
+            <SentenceViewModal
+               sentenceId={sentence._id}
+               showModal={showModal}
+               setShowModal={setShowModal}
+               render={render}
+            />
+
             <EditSentenceModal
                sentenceId={sentence._id}
                showEditModal={showEditModal}
@@ -200,12 +207,7 @@ const Sentence = (props: any) => {
                   </Button>
                </Modal.Footer>
             </Modal>
-            <SentenceViewModal
-               sentenceId={sentence._id}
-               showModal={showModal}
-               setShowModal={setShowModal}
-               render={render}
-            />
+           
          </div>
       </>
    );
