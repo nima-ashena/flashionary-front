@@ -16,13 +16,14 @@ const EditVocabModal = props => {
       props;
    const [vocab, setVocab] = useState<IVocab>({ title: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
+   const noteAudioRef = useRef<HTMLAudioElement>(null);
 
    const [showSentencesModal, setShowSentencesModal] = useState(false);
    const [sentence, setSentence] = useState<string>(''); // context
    const [sentences, setSentences] = useState<ISentence[]>([]);
 
    useEffect(() => {
-      if(!showEditModal) return
+      if (!showEditModal) return;
       getVocabApi(vocabId, (isOk: boolean, result) => {
          if (isOk) {
             setVocab(result.vocab);
@@ -75,12 +76,13 @@ const EditVocabModal = props => {
       );
    };
 
-   const syncAudioClick = () => {
+   const syncAudioClick = (type: string) => {
       const t = toast.loading('Syncing Audio Vocab...');
       syncVocabAudioApi(
          {
             _id: vocabId,
             TTSEngine: localStorage.getItem('defaultTTSEngine'),
+            type,
          },
          (isOk: boolean, result) => {
             if (isOk) {
@@ -179,7 +181,16 @@ const EditVocabModal = props => {
                      />
                   </div>
                   <div className="mb-3">
-                     <label className="form-label">Note</label>
+                     <label className="form-label me-2">Note</label>
+                     <button
+                        type="button"
+                        className="btn btn-info mb-1"
+                        onClick={() => {
+                           noteAudioRef.current?.play();
+                        }}
+                     >
+                        <i className="bi bi-play" />
+                     </button>
                      <textarea
                         className="form-control"
                         onChange={e => {
@@ -295,13 +306,31 @@ const EditVocabModal = props => {
                      ref={audioRef}
                      src={`${vocab.audio}`}
                   ></audio>
+                  <audio
+                     className="mb-2 w-100"
+                     controls
+                     hidden
+                     ref={noteAudioRef}
+                     src={`${vocab.noteAudio}`}
+                  ></audio>
                   <div>
                      <button
                         type="button"
                         className="btn btn-secondary mb-2 me-2"
-                        onClick={syncAudioClick}
+                        onClick={() => {
+                           syncAudioClick('title');
+                        }}
                      >
                         Sync Audio
+                     </button>
+                     <button
+                        type="button"
+                        className="btn btn-secondary mb-2 me-2"
+                        onClick={() => {
+                           syncAudioClick('note');
+                        }}
+                     >
+                        Sync Note Audio
                      </button>
                      <button
                         type="button"

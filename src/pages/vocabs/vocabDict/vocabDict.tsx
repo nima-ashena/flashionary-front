@@ -10,7 +10,7 @@ import {
 import { log } from 'console';
 import { useNavigate } from 'react-router-dom';
 import SentenceItemVocab from './SentenceItem';
-import EditVocabModal from '../components/EditVocabModal';
+import EditVocabModal from './EditVocabModal';
 
 const VocabDict = () => {
    const navigate = useNavigate();

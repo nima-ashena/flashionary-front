@@ -8,6 +8,7 @@ export interface IStory {
    sentences?: any[];
    cat?: string;
    note?: string;
+   noteAudio?: string;
    category?: string;
    counterState?: number;
    translateApi?: boolean;
