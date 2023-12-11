@@ -22,7 +22,10 @@ const EditVocabModal = props => {
    const [sentences, setSentences] = useState<ISentence[]>([]);
    const [render, setRender] = useState(false);
 
+   const [localRender, setLocalRender] = useState(false)
+
    useEffect(() => {
+      if (!showEditModal) return;
       getVocabApi(vocabId, (isOk: boolean, result) => {
          if (isOk) {
             setVocab(result.vocab);
@@ -33,6 +36,19 @@ const EditVocabModal = props => {
          }
       });
    }, [showEditModal, render]);
+
+   useEffect(() => {
+      if (!showSentencesModal) return;
+      getVocabApi(vocabId, (isOk: boolean, result) => {
+         if (isOk) {
+            setVocab(result.vocab);
+            setSentences(result.vocab.sentences.reverse());
+         } else {
+            console.log(result.message);
+            toast.error(result.message);
+         }
+      });
+   }, [localRender]);
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();

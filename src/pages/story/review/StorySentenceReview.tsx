@@ -532,25 +532,30 @@ const StorySentenceReview = () => {
                         sentences[counterState].context}
                   </div>
                </div>
-               <div className="mb-1">
-                  <label className="form-label">Note</label>
-                  <div
-                     className="alert text-dark"
-                     style={{ backgroundColor: '#E9ECEF' }}
-                  >
-                     {sentences[counterState] && sentences[counterState].note}
+               {sentences[counterState]?.note && (
+                  <div className="mb-1">
+                     <label className="form-label">Note</label>
+                     <div
+                        className="alert text-dark"
+                        style={{ backgroundColor: '#E9ECEF' }}
+                     >
+                        {sentences[counterState] &&
+                           sentences[counterState].note}
+                     </div>
                   </div>
-               </div>
-               <div className="mb-1">
-                  <label className="form-label">Meaning (Persian)</label>
-                  <div
-                     className="alert text-dark"
-                     style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
-                  >
-                     {sentences[counterState] &&
-                        sentences[counterState].meaning}
+               )}
+               {sentences[counterState]?.meaning && (
+                  <div className="mb-1">
+                     <label className="form-label">Meaning (Persian)</label>
+                     <div
+                        className="alert text-dark"
+                        style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
+                     >
+                        {sentences[counterState] &&
+                           sentences[counterState].meaning}
+                     </div>
                   </div>
-               </div>
+               )}
                <audio
                   className="mb-2 w-100 rounded-2"
                   controls

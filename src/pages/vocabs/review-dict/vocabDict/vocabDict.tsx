@@ -33,6 +33,7 @@ const VocabDict = () => {
    const [p, setP] = useState<string>('-');
    const [input, setInput] = useState<string>('');
    const audioRef = useRef<HTMLAudioElement>(null);
+   const noteAudioRef = useRef<HTMLAudioElement>(null);
    const [isShowAnswerUsed, setIsShowAnswerUsed] = useState(false);
    const [hardMode, setHardMode] = useState<boolean>(false);
 
@@ -382,7 +383,23 @@ const VocabDict = () => {
                </div>
                {vocabs[counterState].note && (
                   <div className="mb-1">
+                     <audio
+                        hidden
+                        className="mb-2 w-100 rounded-2"
+                        controls
+                        ref={noteAudioRef}
+                        src={vocabs[counterState]?.noteAudio}
+                     ></audio>
                      <label className="form-label">Note</label>
+                     <button
+                        type="button"
+                        className="btn btn-success m-1"
+                        onClick={() => {
+                           noteAudioRef.current?.play();
+                        }}
+                     >
+                        <i className="bi bi-play" />
+                     </button>
                      <div
                         className="alert text-dark"
                         style={{ backgroundColor: '#E9ECEF' }}
@@ -391,15 +408,17 @@ const VocabDict = () => {
                      </div>
                   </div>
                )}
-               <div className="mb-1">
-                  <label className="form-label">Meaning (Persian)</label>
-                  <div
-                     className="alert text-dark"
-                     style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
-                  >
-                     {vocabs[counterState] && vocabs[counterState].meaning}
+               {vocabs[counterState].meaning && (
+                  <div className="mb-1">
+                     <label className="form-label">Meaning (Persian)</label>
+                     <div
+                        className="alert text-dark"
+                        style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
+                     >
+                        {vocabs[counterState] && vocabs[counterState].meaning}
+                     </div>
                   </div>
-               </div>
+               )}
 
                <audio
                   className="mb-2 w-100 rounded-2"

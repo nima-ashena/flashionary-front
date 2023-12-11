@@ -35,6 +35,7 @@ const VocabReview = () => {
    const [ahead, setAhead] = useState<number>(0);
    const [vocabs, setVocabs] = useState<IVocab[]>([]);
    const audioRef = useRef<HTMLAudioElement>(null);
+   const noteAudioRef = useRef<HTMLAudioElement>(null);
 
    // Panel 2
    const [hidden, setHidden] = useState(false);
@@ -229,7 +230,8 @@ const VocabReview = () => {
                         aria-label="Default select example"
                         value={compoundType}
                         onChange={e => {
-                           if (e.target.value == 'all') return setCompoundType('all');
+                           if (e.target.value == 'all')
+                              return setCompoundType('all');
                            setCompoundType(e.target.value);
                         }}
                      >
@@ -297,7 +299,6 @@ const VocabReview = () => {
                            type="button"
                            className="btn btn-secondary mx-1"
                            onClick={() => {
-                              // navigate(`/sentences/edit/${sentence._id}`);
                               setShowEditModal(true);
                            }}
                         >
@@ -372,7 +373,16 @@ const VocabReview = () => {
                                           fontSize: 20,
                                        }}
                                     >
-                                       {vocabs[counterState] &&
+                                       <button
+                                          type="button"
+                                          className="btn btn-success m-1"
+                                          onClick={() => {
+                                             noteAudioRef.current?.play();
+                                          }}
+                                       >
+                                          <i className="bi bi-play" />
+                                       </button>
+                                       {vocabs[counterState]?.note &&
                                           vocabs[counterState].note}
                                     </div>
                                     {vocabs[counterState]?.sentences.map(
@@ -386,14 +396,9 @@ const VocabReview = () => {
                                     )}
                                  </>
                               )}
-                              <audio
-                                 hidden
-                                 className="mb-2 w-100 rounded-2"
-                                 controls
-                                 ref={audioRef}
-                              ></audio>
                            </div>
                         </div>
+
                         <div className="flip-card-back">
                            <div
                               className="card-content"
@@ -423,7 +428,16 @@ const VocabReview = () => {
                                           fontSize: 20,
                                        }}
                                     >
-                                       {vocabs[counterState] &&
+                                       <button
+                                          type="button"
+                                          className="btn btn-success m-1"
+                                          onClick={() => {
+                                             noteAudioRef.current?.play();
+                                          }}
+                                       >
+                                          <i className="bi bi-play" />
+                                       </button>
+                                       {vocabs[counterState]?.note &&
                                           vocabs[counterState].note}
                                     </div>
                                     {vocabs[counterState]?.sentences.map(
@@ -460,6 +474,19 @@ const VocabReview = () => {
                            </div>
                         </div>
                      </div>
+                     <audio
+                        hidden
+                        className="mb-2 w-100 rounded-2"
+                        controls
+                        ref={audioRef}
+                     ></audio>
+                     <audio
+                        hidden
+                        className="mb-2 w-100 rounded-2"
+                        controls
+                        ref={noteAudioRef}
+                        src={vocabs[counterState]?.noteAudio}
+                     ></audio>
                   </div>
                </div>
             )}
@@ -599,7 +626,7 @@ const SentenceItemReview = (props: any) => {
       <div
          className="alert text-dark"
          style={{
-            fontSize: 15,
+            fontSize: 18,
          }}
       >
          <button
