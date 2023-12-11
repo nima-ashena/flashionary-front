@@ -17,6 +17,7 @@ import {
    deleteStoryApi,
    editStoryApi,
    getStoryApi,
+   syncStoryAudioApi,
 } from '../../api/story.service';
 import { IAddSentence, ISentence } from '../../interface/sentence.interface';
 import { IStory } from '../../interface/story.interface';
@@ -129,6 +130,36 @@ const EditStory = () => {
                // setSentences(result.story.sentences.reverse())
             } else {
                toast.error(result.message);
+            }
+         },
+      );
+   };
+
+   const syncAudioClick = () => {
+      const t = toast.loading('Syncing Audio...');
+      syncStoryAudioApi(
+         {
+            _id: storyId,
+            TTSEngine: localStorage.getItem('defaultTTSEngine'),
+         },
+         (isOk: boolean, result) => {
+            if (isOk) {
+               setStory(result.story);
+               toast.update(t, {
+                  render:
+                     'Audio sync done successfully, Please reload the page',
+                  type: 'success',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
+            } else {
+               console.log(result.message);
+               toast.update(t, {
+                  render: result.message,
+                  type: 'error',
+                  isLoading: false,
+                  autoClose: 2000,
+               });
             }
          },
       );
@@ -402,10 +433,17 @@ const EditStory = () => {
                   </div>
                   <button
                      type="submit"
-                     className="btn btn-secondary btn-lg w-100 add-btn mb-2"
+                     className="btn btn-primary btn-lg w-100 add-btn mb-2"
                      onClick={editStoryClick}
                   >
                      Save
+                  </button>
+                  <button
+                     type="button"
+                     className="btn btn-secondary btn-lg w-100 add-btn mb-2"
+                     onClick={syncAudioClick}
+                  >
+                     Sync Note Audio
                   </button>
                   <button
                      type="button"

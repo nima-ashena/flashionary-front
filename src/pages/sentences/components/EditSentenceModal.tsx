@@ -10,13 +10,19 @@ import { toast } from 'react-toastify';
 import { SentenceTypes } from '../../../utils/constants';
 
 const EditSentenceModal = props => {
+   const mode = props.mode;
+
    const { sentenceId, showEditModal, setShowEditModal, render, setRender } =
       props;
+
+   const { sentences, setSentences } = props;
+
    const [sentence, setSentence] = useState<ISentence>({ context: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
+   const noteAudioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
-      if(!showEditModal) return
+      if (!showEditModal) return;
       getSentenceApi(sentenceId, (isOk: boolean, result) => {
          if (isOk) {
             setSentence(result.sentence);
@@ -54,7 +60,18 @@ const EditSentenceModal = props => {
                   isLoading: false,
                   autoClose: 2000,
                });
-               setRender(!render);
+               if (mode === 'simple') setRender(!render);
+               else if (mode === 'review') {
+                  let ss: ISentence[] = [];
+                  sentences.forEach(item => {
+                     if (item._id === sentenceId) {
+                        ss.push(result.sentence);
+                     } else {
+                        ss.push(item);
+                     }
+                  });
+                  setSentences(ss);
+               }
             } else {
                console.log(result.message);
                toast.update(t, {
@@ -68,12 +85,13 @@ const EditSentenceModal = props => {
       );
    };
 
-   const syncAudioClick = () => {
+   const syncAudioClick = (type: string) => {
       const t = toast.loading('Syncing Audio Sentence...');
       syncSentenceAudioApi(
          {
             _id: sentenceId,
             TTSEngine: localStorage.getItem('defaultTTSEngine'),
+            type,
          },
          (isOk: boolean, result) => {
             if (isOk) {
@@ -139,7 +157,16 @@ const EditSentenceModal = props => {
                </div>
 
                <div className="mb-3">
-                  <label className="form-label">Note</label>
+                  <label className="form-label me-1">Note</label>
+                  <button
+                     type="button"
+                     className="btn btn-info mb-1"
+                     onClick={() => {
+                        noteAudioRef.current?.play();
+                     }}
+                  >
+                     <i className="bi bi-play" />
+                  </button>
                   <textarea
                      className="form-control"
                      onChange={e => {
@@ -260,13 +287,31 @@ const EditSentenceModal = props => {
                   ref={audioRef}
                   src={`${sentence.audio}`}
                ></audio>
+               <audio
+                  className="mb-2 w-100"
+                  controls
+                  hidden
+                  ref={noteAudioRef}
+                  src={`${sentence.noteAudio}`}
+               ></audio>
                <div>
                   <button
                      type="button"
-                     className="btn btn-secondary mb-2"
-                     onClick={syncAudioClick}
+                     className="btn btn-secondary mb-2 me-1"
+                     onClick={() => {
+                        syncAudioClick('context');
+                     }}
                   >
                      Sync Audio
+                  </button>
+                  <button
+                     type="button"
+                     className="btn btn-secondary mb-2"
+                     onClick={() => {
+                        syncAudioClick('note');
+                     }}
+                  >
+                     Sync Note Audio
                   </button>
 
                   <button

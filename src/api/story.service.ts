@@ -129,11 +129,11 @@ export const deleteSentenceOfStoryApi = (data: any, callBack: ApiFunction) => {
 };
 
 // sync story audio
-export const syncStoryAudioApi = (storyId: any, callBack: ApiFunction) => {
+export const syncStoryAudioApi = (data: any, callBack: ApiFunction) => {
    axios
       .post(
-         `${BASEURL}/Stories/sync-story-audio/${storyId}`,
-         {},
+         `${BASEURL}/stories/sync-story-audio`,
+         data,
          {
             headers: {
                Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,
@@ -147,3 +147,4 @@ export const syncStoryAudioApi = (storyId: any, callBack: ApiFunction) => {
          callBack(false, err);
       });
 };
+

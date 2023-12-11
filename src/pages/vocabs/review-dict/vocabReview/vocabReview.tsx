@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { IVocab } from '../../../interface/vocab.interface';
+import { IVocab } from '../../../../interface/vocab.interface';
 import { Button, Form, Modal, ProgressBar } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import {
    deleteVocabApi,
    getVocabsApi,
    plusTrueVocabApi,
-} from '../../../api/vocab.service';
+} from '../../../../api/vocab.service';
 import { useNavigate } from 'react-router-dom';
-import EditVocabModal from './EditVocabModal';
+import EditVocabModal from '../components/EditVocabModal';
 import './style.css';
-import { ISentence } from '../../../interface/sentence.interface';
-import { compoundTypes } from '../../../utils/constants';
+import { ISentence } from '../../../../interface/sentence.interface';
+import { compoundTypes } from '../../../../utils/constants';
 
 const VocabReview = () => {
    const navigate = useNavigate();

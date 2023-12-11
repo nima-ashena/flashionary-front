@@ -5,9 +5,9 @@ import {
    editVocabApi,
    getVocabApi,
    syncVocabAudioApi,
-} from '../../../api/vocab.service';
+} from '../../../../api/vocab.service';
 import { toast } from 'react-toastify';
-import { IVocab } from '../../../interface/vocab.interface';
+import { IVocab } from '../../../../interface/vocab.interface';
 
 const DeleteVocabModal = props => {
    const vocabs: IVocab[] = props.vocabs;

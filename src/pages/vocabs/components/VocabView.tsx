@@ -8,6 +8,7 @@ const VocabViewModal = props => {
    const { vocabId, showModal, setShowModal, render } = props;
    const [vocab, setVocab] = useState<IVocab>({ title: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
+   const noteAudioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
       if(!showModal) return
@@ -55,7 +56,16 @@ const VocabViewModal = props => {
                </div>
                {vocab.note && (
                   <div className="mb-3">
-                     <label className="form-label">Note</label>
+                     <label className="form-label me-1">Note</label>
+                     <button
+                        type="button"
+                        className="btn btn-info mb-1"
+                        onClick={() => {
+                           noteAudioRef.current?.play();
+                        }}
+                     >
+                        <i className="bi bi-play" />
+                     </button>
                      <div
                         className="alert text-dark"
                         style={{ backgroundColor: '#E9ECEF' }}
@@ -121,6 +131,14 @@ const VocabViewModal = props => {
                   ref={audioRef}
                   hidden
                ></audio>
+               <audio
+                  className="mb-2 w-100"
+                  controls
+                  src={`${vocab.noteAudio}`}
+                  ref={noteAudioRef}
+                  hidden
+               ></audio>
+
             </form>
          </Modal.Body>
       </Modal>

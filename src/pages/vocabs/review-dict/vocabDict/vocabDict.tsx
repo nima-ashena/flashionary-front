@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { IVocab } from '../../../interface/vocab.interface';
+import { IVocab } from '../../../../interface/vocab.interface';
 import { Button, Form, Modal, ProgressBar } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import {
    deleteVocabApi,
    getVocabsApi,
    plusTrueVocabApi,
-} from '../../../api/vocab.service';
+} from '../../../../api/vocab.service';
 import { log } from 'console';
 import { useNavigate } from 'react-router-dom';
 import SentenceItemVocab from './SentenceItem';
-import EditVocabModal from './EditVocabModal';
+import EditVocabModal from '../components/EditVocabModal';
 
 const VocabDict = () => {
    const navigate = useNavigate();

@@ -11,7 +11,7 @@ import { ISentence } from '../../../interface/sentence.interface';
 import { shuffleArray } from '../../../utils/utils';
 import SentenceItem from '../components/SentenceItem';
 import { SentenceTypes } from '../../../utils/constants';
-import EditSentenceModal from './EditSentenceModal';
+import EditSentenceModal from '../components/EditSentenceModal';
 
 const SentenceReplacement = () => {
    const navigate = useNavigate();

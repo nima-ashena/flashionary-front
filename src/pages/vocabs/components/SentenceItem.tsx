@@ -1,9 +1,7 @@
 import { useRef, useState } from 'react';
 import { Button, ListGroup, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { deleteSentenceOfStoryApi } from '../../../api/story.service';
 import { deleteSentenceOfVocabApi } from '../../../api/vocab.service';
-import { useNavigate } from 'react-router-dom';
 import EditSentenceModal from './EditSentenceModal';
 import { ISentence } from '../../../interface/sentence.interface';
 
@@ -12,12 +10,12 @@ const SentenceItem = (props: any) => {
    const vocabId = props.vocabId;
    const render = props.render;
    const setRender = props.setRender;
+   const localRender = props.localRender;
+   const setLocalRender = props.setLocalRender;
    const audioRef = useRef<HTMLAudioElement>(null);
 
    const [show, setShow] = useState(false);
    const [showEditModal, setShowEditModal] = useState(false);
-
-   const navigate = useNavigate();
 
    const trashClick = () => {
       setShow(false);
@@ -25,7 +23,8 @@ const SentenceItem = (props: any) => {
          { vocabId, sentenceId: sentence._id },
          (isOk, result) => {
             if (isOk) {
-               setRender(!render);
+               // setRender(!render);
+               setLocalRender(!localRender)
                toast.success(result.message);
             } else {
                toast.error(result.response.data.message);

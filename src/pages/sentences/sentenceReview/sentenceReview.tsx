@@ -7,7 +7,7 @@ import {
    plusTrueSentenceApi,
 } from '../../../api/sentence.service';
 import { useNavigate } from 'react-router-dom';
-import EditSentenceModal from './EditSentenceModal';
+import EditSentenceModal from '../components/EditSentenceModal';
 import './style.css';
 import { ISentence } from '../../../interface/sentence.interface';
 import { SentenceTypes } from '../../../utils/constants';
@@ -34,6 +34,7 @@ const SentenceReview = () => {
    const [ahead, setAhead] = useState<number>(0);
    const [sentences, setSentences] = useState<ISentence[]>([]);
    const audioRef = useRef<HTMLAudioElement>(null);
+   const noteAudioRef = useRef<HTMLAudioElement>(null);
 
    // Panel 2
    const [hidden, setHidden] = useState(false);
@@ -379,6 +380,15 @@ const SentenceReview = () => {
                                           fontSize: 20,
                                        }}
                                     >
+                                       <button
+                                          type="button"
+                                          className="btn btn-success m-1"
+                                          onClick={() => {
+                                             noteAudioRef.current?.play();
+                                          }}
+                                       >
+                                          <i className="bi bi-play" />
+                                       </button>
                                        {sentences[counterState]?.note &&
                                           sentences[counterState]?.note
                                              .split('\n')
@@ -391,6 +401,13 @@ const SentenceReview = () => {
                                  className="mb-2 w-100 rounded-2"
                                  controls
                                  ref={audioRef}
+                              ></audio>
+                              <audio
+                                 hidden
+                                 className="mb-2 w-100 rounded-2"
+                                 controls
+                                 ref={noteAudioRef}
+                                 src={sentences[counterState]?.noteAudio}
                               ></audio>
                            </div>
                         </div>
@@ -425,6 +442,15 @@ const SentenceReview = () => {
                                           fontSize: 20,
                                        }}
                                     >
+                                       <button
+                                          type="button"
+                                          className="btn btn-info mb-2 me-2"
+                                          onClick={() => {
+                                             noteAudioRef.current?.play();
+                                          }}
+                                       >
+                                          <i className="bi bi-play" />
+                                       </button>
                                        {sentences[counterState]?.note &&
                                           sentences[counterState]?.note
                                              .split('\n')

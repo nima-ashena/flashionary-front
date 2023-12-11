@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { getUserApi } from './api/auth.service';
 // import VocabDict from './pages/vocabs/VocabDict-old';
-import VocabDict from './pages/vocabs/vocabDict/vocabDict';
+import VocabDict from './pages/vocabs/review-dict/vocabDict/vocabDict';
 import Home from './pages/Home';
 import AddSentence from './pages/sentences/AddSentence';
 import Sentences from './pages/sentences/ Sentences';
@@ -21,7 +21,7 @@ import Setting from './pages/auth/Setting';
 import VocabGroups from './pages/vocabs/vocabGroup/VocabGroups';
 import EditVocabGroup from './pages/vocabs/vocabGroup/EditVocabGroup';
 import StorySentenceReview from './pages/story/review/StorySentenceReview';
-import VocabReview from './pages/vocabs/vocabReview/vocabReview';
+import VocabReview from './pages/vocabs/review-dict/vocabReview/vocabReview';
 import SentenceReview from './pages/sentences/sentenceReview/sentenceReview';
 import SentenceReplacement from './pages/sentences/replacement/SentenceReplacement';
 

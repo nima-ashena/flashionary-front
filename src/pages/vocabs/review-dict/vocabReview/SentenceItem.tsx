@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 import { Button, ListGroup, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { deleteSentenceOfStoryApi } from '../../../api/story.service';
-import { deleteSentenceOfVocabApi } from '../../../api/vocab.service';
+import { deleteSentenceOfStoryApi } from '../../../../api/story.service';
+import { deleteSentenceOfVocabApi } from '../../../../api/vocab.service';
 import { useNavigate } from 'react-router-dom';
-import EditSentenceModal from './EditSentenceModal';
-import { ISentence } from '../../../interface/sentence.interface';
-import { IVocab } from '../../../interface/vocab.interface';
+import EditSentenceModal from '../components/EditSentenceModal';
+import { ISentence } from '../../../../interface/sentence.interface';
+import { IVocab } from '../../../../interface/vocab.interface';
 
 const SentenceItem = (props: any) => {
    const sentence: ISentence = props.sentence;

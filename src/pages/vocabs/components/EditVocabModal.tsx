@@ -22,6 +22,8 @@ const EditVocabModal = props => {
    const [sentence, setSentence] = useState<string>(''); // context
    const [sentences, setSentences] = useState<ISentence[]>([]);
 
+   const [localRender, setLocalRender] = useState(false)
+
    useEffect(() => {
       if (!showEditModal) return;
       getVocabApi(vocabId, (isOk: boolean, result) => {
@@ -33,7 +35,20 @@ const EditVocabModal = props => {
             toast.error(result.message);
          }
       });
-   }, [showEditModal, render]);
+   }, [showEditModal, render, localRender]);
+
+   useEffect(() => {
+      if (!showSentencesModal) return;
+      getVocabApi(vocabId, (isOk: boolean, result) => {
+         if (isOk) {
+            setVocab(result.vocab);
+            setSentences(result.vocab.sentences.reverse());
+         } else {
+            console.log(result.message);
+            toast.error(result.message);
+         }
+      });
+   }, [localRender]);
 
    const editClick = function (e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault();
@@ -121,6 +136,7 @@ const EditVocabModal = props => {
          (isOk, result) => {
             if (isOk) {
                setRender(!render);
+               setLocalRender(!localRender);
                setSentence('');
                toast.update(id, {
                   render: 'sentence added successfully',
@@ -394,6 +410,8 @@ const EditVocabModal = props => {
                               key={item._id}
                               render={render}
                               setRender={setRender}
+                              localRender={localRender}
+                              setLocalRender={setLocalRender}
                            />
                         ))}
                      </ListGroup>

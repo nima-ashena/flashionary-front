@@ -29,6 +29,7 @@ const ShowStory = () => {
    const [sentences, setSentences] = useState<ISentence[]>([]);
    const [render, setRender] = useState(false);
    const [sentencesLoading, setSentencesLoading] = useState(true);
+   const noteAudioRef = useRef<HTMLAudioElement>(null);
 
    useEffect(() => {
       setSentencesLoading(true);
@@ -89,10 +90,29 @@ const ShowStory = () => {
                      ></i>
                   )}
                </div>
+
                {story.note && (
-                  <div className="alert alert-secondary">{story.note}</div>
+                  <div className="alert alert-secondary">
+                     <button
+                        type="button"
+                        className="btn btn-info mb-2 me-2"
+                        onClick={() => {
+                           noteAudioRef.current?.play();
+                        }}
+                     >
+                        <i className="bi bi-play" />
+                     </button>{' '}
+                     {story.note}
+                  </div>
                )}
             </div>
+            <audio
+               className="mb-2 w-100"
+               controls
+               hidden
+               ref={noteAudioRef}
+               src={`${story.noteAudio}`}
+            ></audio>
          </form>
 
          <div className="col-12 col-lg-8 mb-3">

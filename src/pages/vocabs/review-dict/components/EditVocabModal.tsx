@@ -5,11 +5,11 @@ import {
    editVocabApi,
    getVocabApi,
    syncVocabAudioApi,
-} from '../../../api/vocab.service';
+} from '../../../../api/vocab.service';
 import { toast } from 'react-toastify';
-import { IVocab } from '../../../interface/vocab.interface';
-import { ISentence } from '../../../interface/sentence.interface';
-import SentenceItem from '../components/SentenceItem';
+import { IVocab } from '../../../../interface/vocab.interface';
+import { ISentence } from '../../../../interface/sentence.interface';
+import SentenceItem from '../../components/SentenceItem';
 
 const EditVocabModal = props => {
    const vocabs: IVocab[] = props.vocabs;
@@ -83,12 +83,13 @@ const EditVocabModal = props => {
       );
    };
 
-   const syncAudioClick = () => {
+   const syncAudioClick = (type: string) => {
       const t = toast.loading('Syncing Audio Vocab...');
       syncVocabAudioApi(
          {
             _id: vocabId,
             TTSEngine: localStorage.getItem('defaultTTSEngine'),
+            type,
          },
          (isOk: boolean, result) => {
             if (isOk) {
@@ -293,15 +294,26 @@ const EditVocabModal = props => {
                      <button
                         type="button"
                         className="btn btn-secondary mb-2 me-2"
-                        onClick={syncAudioClick}
+                        onClick={() => {
+                           syncAudioClick('title');
+                        }}
                      >
                         Sync Audio
                      </button>
                      <button
                         type="button"
+                        className="btn btn-secondary mb-2 me-2"
+                        onClick={() => {
+                           syncAudioClick('note');
+                        }}
+                     >
+                        Sync Note Audio
+                     </button>
+                     <button
+                        type="button"
                         className="btn btn-info mb-2"
                         onClick={() => {
-                           setShowEditModal(false)
+                           setShowEditModal(false);
                            setShowSentencesModal(true);
                         }}
                      >
@@ -324,13 +336,11 @@ const EditVocabModal = props => {
             show={showSentencesModal}
             onHide={() => {
                setShowSentencesModal(false);
-               setShowEditModal(true)
+               setShowEditModal(true);
             }}
          >
             <Modal.Header closeButton>
-               <Modal.Title>
-                  Sentences
-               </Modal.Title>
+               <Modal.Title>Sentences</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                <div className="col-12">
