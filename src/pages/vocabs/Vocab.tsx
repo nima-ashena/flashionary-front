@@ -7,7 +7,6 @@ import { IVocab } from '../../interface/vocab.interface';
 import VocabViewModal from './components/VocabView';
 import EditVocabModal from './components/EditVocabModal';
 
-// const Vocab = ({ vocab }: { vocab: IVocab }, renderValue: boolean) => {
 const Vocab = (props: any) => {
    const vocab: IVocab = props.vocab;
    const render: boolean = props.render;
@@ -20,15 +19,14 @@ const Vocab = (props: any) => {
    const userId = localStorage.getItem('userId');
    const [bgColor, setBgColor] = useState('dark');
 
-   const [showEditModal, setShowEditModal] = useState(false);
-
    useEffect(() => {
       if (userId !== vocab.user) {
          setIsThisUserOwnVocab(false);
          setBgColor('secondary');
       }
    }, []);
-
+   
+   const [showEditModal, setShowEditModal] = useState(false);
    const [showDeleteModal, setShowDeleteModal] = useState(false);
    const [showCloneModal, setShowCloneModal] = useState(false);
    const [showModal, setShowModal] = useState(false);
@@ -36,24 +34,12 @@ const Vocab = (props: any) => {
    const deleteVocabClick = () => {
       setShowDeleteModal(false);
       deleteVocabApi(vocab._id, (isOk, result) => {
-         // const t = toast.loading('Deleting Vocab...');
          if (isOk) {
             setRenderForDelete(!renderForDelete);
-            // toast.update(t, {
-            //    render: 'vocab deleted successfully',
-            //    type: 'success',
-            //    isLoading: false,
-            //    autoClose: 2000,
-            // });
          } else {
             console.log(result.message);
             toast.error(result.message)
-            // toast.update(t, {
-            //    render: result.message,
-            //    type: 'error',
-            //    isLoading: false,
-            //    autoClose: 2000,
-            // });
+
          }
       });
    };

@@ -53,7 +53,7 @@ const EditSentenceModal = props => {
          (isOk: boolean, result) => {
             if (isOk) {
                setSentence(result.sentence);
-               setShowEditModal(false);
+               if (mode !== 'add') setShowEditModal(false);
                toast.update(t, {
                   render: 'sentence edited successfully',
                   type: 'success',
@@ -95,7 +95,6 @@ const EditSentenceModal = props => {
          },
          (isOk: boolean, result) => {
             if (isOk) {
-               setSentence(result);
                toast.update(t, {
                   render:
                      'sentence audio sync done successfully, Please reload the page',

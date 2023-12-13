@@ -2,9 +2,10 @@ import { stringify } from 'querystring';
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { addVocabApi } from '../../api/vocab.service';
-import { IAddVocab } from '../../interface/vocab.interface';
+import { IAddVocab, IVocab } from '../../interface/vocab.interface';
 import { compoundTypes } from '../../utils/constants';
 import { Form } from 'react-bootstrap';
+import EditVocabModal from './components/EditVocabModal';
 
 const AddVocab = () => {
    const primaryData: IAddVocab = {
@@ -17,12 +18,18 @@ const AddVocab = () => {
       phonetics: '',
       type: 'noun',
       dictionaryApi: true,
-      translateApi: false,
+      translateApi: true,
       dictImportance: true,
       reviewImportance: true,
       TTSEngine: localStorage.getItem('defaultTTSEngine'),
    };
+
    const [vocab, setVocab] = useState<IAddVocab>(primaryData);
+   
+   const [vocabResult, setVocabResult] = useState<IVocab>(primaryData);
+   const [showEditModal, setShowEditModal] = useState(false);
+   const [render, setRender] = useState(false)
+
 
    const addVocabClick = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -38,6 +45,8 @@ const AddVocab = () => {
                autoClose: 2000,
             });
             setVocab(primaryData);
+            setVocabResult(result.vocab)
+            setShowEditModal(true)
          } else {
             console.log(result.message);
             toast.update(id, {
@@ -92,17 +101,6 @@ const AddVocab = () => {
                />
             </div>
             <div className="mb-3">
-               <label className="form-label">Definition</label>
-               <textarea
-                  className="form-control"
-                  onChange={e => {
-                     setVocab({ ...vocab, definition: e.target.value });
-                  }}
-                  value={vocab.definition}
-                  rows={3}
-               ></textarea>
-            </div>
-            <div className="mb-3">
                <label className="form-label">Type</label>
                <select
                   className="form-select"
@@ -135,17 +133,6 @@ const AddVocab = () => {
                      <option value={item}>{item}</option>
                   ))}
                </select>
-            </div>
-            <div className="mb-3">
-               <label className="form-label">Phonetics</label>
-               <input
-                  type="text"
-                  className="form-control"
-                  onChange={e => {
-                     setVocab({ ...vocab, phonetics: e.target.value });
-                  }}
-                  value={vocab.phonetics}
-               />
             </div>
 
             <div className="d-flex justify-content-between mb-2">
@@ -211,6 +198,15 @@ const AddVocab = () => {
                Add Vocab
             </button>
          </form>
+
+         <EditVocabModal
+            vocabId={vocabResult._id}
+            showEditModal={showEditModal}
+            setShowEditModal={setShowEditModal}
+            render={render}
+            setRender={setRender}
+            mode={'add'}
+         />
       </div>
    );
 };

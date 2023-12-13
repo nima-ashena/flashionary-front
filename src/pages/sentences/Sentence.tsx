@@ -10,7 +10,6 @@ import { ISentence } from '../../interface/sentence.interface';
 import SentenceViewModal from './components/SentenceView';
 import EditSentenceModal from './components/EditSentenceModal';
 
-// const Sentence = ({ sentence }: { sentence: ISentence }, renderValue: boolean) => {
 const Sentence = (props: any) => {
    const sentence: ISentence = props.sentence;
    const render: boolean = props.render;

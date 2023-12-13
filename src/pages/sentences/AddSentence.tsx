@@ -2,9 +2,10 @@ import { stringify } from 'querystring';
 import React, { useState, useEffect, useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { addSentenceApi } from '../../api/sentence.service';
-import { IAddSentence } from '../../interface/sentence.interface';
+import { IAddSentence, ISentence } from '../../interface/sentence.interface';
 import { TTSTypes, SentenceTypes } from '../../utils/constants';
 import { Dropdown, Form } from 'react-bootstrap';
+import EditSentenceModal from './components/EditSentenceModal';
 
 const AddSentence = () => {
    const primaryData: IAddSentence = {
@@ -19,6 +20,10 @@ const AddSentence = () => {
       type: 'Simple',
    };
    const [sentence, setSentence] = useState<IAddSentence>(primaryData);
+   const [sentenceResult, setSentenceResult] = useState<ISentence>(primaryData);
+
+   const [showEditModal, setShowEditModal] = useState(false);
+   const [render, setRender] = useState(false)
 
    const addSentenceClick = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -33,7 +38,9 @@ const AddSentence = () => {
                isLoading: false,
                autoClose: 2000,
             });
+            setSentenceResult(result.sentence)
             setSentence({ ...sentence, context: '', meaning: '', note: '' });
+            setShowEditModal(true)
          } else {
             console.log(result.message);
             toast.update(id, {
@@ -153,12 +160,14 @@ const AddSentence = () => {
                      }}
                      checked={sentence.replacementImportance}
                   />
-                  <label className="form-check-label">Replacement Importance</label>
+                  <label className="form-check-label">
+                     Replacement Importance
+                  </label>
                </div>
             </div>
 
             <Form.Check
-               className='mb-3'
+               className="mb-3"
                type="switch"
                onChange={e => {
                   setSentence({
@@ -177,6 +186,16 @@ const AddSentence = () => {
                Add Sentence
             </button>
          </form>
+
+         <EditSentenceModal
+            sentenceId={sentenceResult._id}
+            showEditModal={showEditModal}
+            setShowEditModal={setShowEditModal}
+            render={render}
+            setRender={setRender}
+            mode={'add'}
+         />
+
       </div>
    );
 };

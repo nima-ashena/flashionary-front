@@ -12,7 +12,7 @@ import { ISentence } from '../../../interface/sentence.interface';
 import SentenceItem from '../components/SentenceItem';
 
 const EditVocabModal = props => {
-   const { vocabId, showEditModal, setShowEditModal, render, setRender } =
+   const { vocabId, showEditModal, setShowEditModal, render, setRender, mode } =
       props;
    const [vocab, setVocab] = useState<IVocab>({ title: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
@@ -22,7 +22,7 @@ const EditVocabModal = props => {
    const [sentence, setSentence] = useState<string>(''); // context
    const [sentences, setSentences] = useState<ISentence[]>([]);
 
-   const [localRender, setLocalRender] = useState(false)
+   const [localRender, setLocalRender] = useState(false);
 
    useEffect(() => {
       if (!showEditModal) return;
@@ -70,7 +70,7 @@ const EditVocabModal = props => {
          (isOk: boolean, result) => {
             if (isOk) {
                setVocab(result.vocab);
-               setShowEditModal(false);
+               if (mode !== 'add') setShowEditModal(false);
                toast.update(t, {
                   render: 'vocab edited successfully',
                   type: 'success',
