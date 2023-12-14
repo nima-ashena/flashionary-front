@@ -32,12 +32,7 @@ const AddSentence = () => {
       const id = toast.loading('Adding Sentence...');
       addSentenceApi(sentence, (isOk, result) => {
          if (isOk) {
-            toast.update(id, {
-               render: 'sentence added successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
+            toast.dismiss(id)
             setSentenceResult(result.sentence)
             setSentence({ ...sentence, context: '', meaning: '', note: '' });
             setShowEditModal(true)

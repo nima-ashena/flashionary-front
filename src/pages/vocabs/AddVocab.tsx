@@ -38,12 +38,7 @@ const AddVocab = () => {
       const id = toast.loading('Adding Vocab...');
       addVocabApi(vocab, (isOk, result) => {
          if (isOk) {
-            toast.update(id, {
-               render: 'vocab added successfully',
-               type: 'success',
-               isLoading: false,
-               autoClose: 2000,
-            });
+            toast.dismiss(id)
             setVocab(primaryData);
             setVocabResult(result.vocab)
             setShowEditModal(true)

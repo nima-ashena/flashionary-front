@@ -365,6 +365,17 @@ const EditVocabModal = props => {
                      >
                         Save
                      </button>
+                     {mode === 'add' && (
+                        <button
+                           type="button"
+                           className="btn btn-secondary btn-lg w-100 add-btn my-2"
+                           onClick={() => {
+                              setShowEditModal(false)
+                           }}
+                        >
+                           Close
+                        </button>
+                     )}
                   </div>
                </form>
             </Modal.Body>

@@ -319,6 +319,17 @@ const EditSentenceModal = props => {
                   >
                      Save
                   </button>
+                  {mode === 'add' && (
+                     <button
+                        type="button"
+                        className="btn btn-secondary btn-lg w-100 add-btn"
+                        onClick={() => {
+                           setShowEditModal(false)
+                        }}
+                     >
+                        Close
+                     </button>
+                  )}
                </div>
             </form>
          </Modal.Body>
