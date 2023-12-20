@@ -83,6 +83,7 @@ const VocabDict = () => {
             { name: 'trueGuessLimitMin', value: sliderCountValueMin },
             { name: 'sort', value: 'dictTrueGuessCount' },
             { name: 'user', value: localStorage.getItem('userId') },
+            { name: 'vocabGroup', value: 'free' },
             { name: 'dictMode', value: true },
          ],
       );

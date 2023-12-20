@@ -87,6 +87,7 @@ const VocabReview = () => {
             { name: 'user', value: localStorage.getItem('userId') },
             { name: 'reviewMode', value: true },
             { name: 'compoundType', value: compoundType },
+            { name: 'vocabGroup', value: 'free' },
          ],
       );
    }, [again]);

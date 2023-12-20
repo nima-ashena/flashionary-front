@@ -443,21 +443,23 @@ const SentenceReview = () => {
                                           fontSize: 20,
                                        }}
                                     >
-                                       {sentences[counterState]?.note && (
-                                          <button
-                                             type="button"
-                                             className="btn btn-info mb-2 me-2"
-                                             onClick={() => {
-                                                noteAudioRef.current?.play();
-                                             }}
-                                          >
-                                             <i className="bi bi-play" />
-                                          </button>
-                                       )}
-                                       {sentences[counterState]?.note &&
-                                          sentences[counterState]?.note
-                                             .split('\n')
-                                             .map(item => <p>{item}</p>)}
+                                       <div style={{height: '40vh', overflow: 'scroll'}}>
+                                          {sentences[counterState]?.note && (
+                                             <button
+                                                type="button"
+                                                className="btn btn-info mb-2 me-2"
+                                                onClick={() => {
+                                                   noteAudioRef.current?.play();
+                                                }}
+                                             >
+                                                <i className="bi bi-play" />
+                                             </button>
+                                          )}
+                                          {sentences[counterState]?.note &&
+                                             sentences[counterState]?.note
+                                                .split('\n')
+                                                .map(item => <p>{item}</p>)}
+                                       </div>
                                     </div>
                                  </>
                               )}
@@ -534,6 +536,7 @@ const SentenceReview = () => {
 
          {counterState < sentences.length && (
             <EditSentenceModal
+               mode={'review'}
                sentences={sentences}
                setSentences={setSentences}
                sentenceId={sentences[counterState]._id}

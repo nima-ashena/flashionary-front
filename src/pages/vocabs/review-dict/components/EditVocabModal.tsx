@@ -254,6 +254,20 @@ const EditVocabModal = props => {
                         value={vocab.reviewTrueGuessCount}
                      />
                   </div>
+                  <div className="mb-3 col-lg-6">
+                     <label className="form-label">Dict TrueGuessCount</label>
+                     <input
+                        type="number"
+                        className="form-control"
+                        onChange={e => {
+                           setVocab({
+                              ...vocab,
+                              dictTrueGuessCount: Number(e.target.value),
+                           });
+                        }}
+                        value={vocab.dictTrueGuessCount}
+                     />
+                  </div>
                   <div className="d-flex justify-content-between mb-2">
                      <div className="form-check">
                         <input
