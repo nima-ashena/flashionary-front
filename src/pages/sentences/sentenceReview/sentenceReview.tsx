@@ -89,7 +89,7 @@ const SentenceReview = () => {
             { name: 'trueGuessLimitMin', value: sliderCountValueMin },
             { name: 'sort', value: 'reviewTrueGuessCount' },
             { name: 'user', value: localStorage.getItem('userId') },
-            { name: 'reviewMode', value: true },
+            { name: 'mode', value: 'review' },
             { name: 'type', value: type },
          ],
       );
@@ -190,7 +190,8 @@ const SentenceReview = () => {
             });
          }
          setShowDeleteModal(false);
-         setReviewPanel(1);
+         if (reviewPanel === 2) setReviewPanel(1);
+         else if (reviewPanel === 1) setReviewPanel(2)
          setStateCounter(counterState + 1);
          setLeft(left - 1);
       });
@@ -443,7 +444,12 @@ const SentenceReview = () => {
                                           fontSize: 20,
                                        }}
                                     >
-                                       <div style={{height: '40vh', overflow: 'scroll'}}>
+                                       <div
+                                          style={{
+                                             height: '40vh',
+                                             overflow: 'scroll',
+                                          }}
+                                       >
                                           {sentences[counterState]?.note && (
                                              <button
                                                 type="button"

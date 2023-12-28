@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { IVocab } from '../../../../interface/vocab.interface';
 import { ISentence } from '../../../../interface/sentence.interface';
 import SentenceItem from '../../components/SentenceItem';
+import SentencesModal from '../../components/SentencesModal';
 
 const EditVocabModal = props => {
    const vocabs: IVocab[] = props.vocabs;
@@ -121,39 +122,6 @@ const EditVocabModal = props => {
                console.log(result.message);
                toast.update(t, {
                   render: result.message,
-                  type: 'error',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
-            }
-         },
-      );
-   };
-
-   const addSentenceClick = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-   ) => {
-      e.preventDefault();
-      const id = toast.loading('Adding Sentence...');
-      addSentenceToVocabApi(
-         {
-            vocabId,
-            context: sentence,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
-         },
-         (isOk, result) => {
-            if (isOk) {
-               setRender(!render);
-               setSentence('');
-               toast.update(id, {
-                  render: 'sentence added successfully',
-                  type: 'success',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
-            } else {
-               toast.update(id, {
-                  render: result.response.data.message,
                   type: 'error',
                   isLoading: false,
                   autoClose: 2000,
@@ -361,53 +329,17 @@ const EditVocabModal = props => {
             </Modal.Body>
          </Modal>
 
-         {/* Sentences Modal */}
-         <Modal
-            show={showSentencesModal}
-            onHide={() => {
-               setShowSentencesModal(false);
-               setShowEditModal(true);
-            }}
-         >
-            <Modal.Header closeButton>
-               <Modal.Title>Sentences</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-               <div className="col-12">
-                  <div className="mb-3">
-                     <label className="form-label">Context (*required)</label>
-                     <textarea
-                        className="form-control"
-                        onChange={e => {
-                           setSentence(e.target.value);
-                        }}
-                        value={sentence}
-                        rows={4}
-                     />
-                  </div>
-                  <button
-                     type="button"
-                     className="btn btn-primary btn-lg w-100 add-btn mb-3"
-                     onClick={addSentenceClick}
-                  >
-                     Add Sentence
-                  </button>
-                  <div className="col-12">
-                     <ListGroup as="ol">
-                        {sentences.map(item => (
-                           <SentenceItem
-                              sentence={item}
-                              vocabId={vocabId}
-                              key={item._id}
-                              render={render}
-                              setRender={setRender}
-                           />
-                        ))}
-                     </ListGroup>
-                  </div>
-               </div>
-            </Modal.Body>
-         </Modal>
+         <SentencesModal
+            vocabId={vocabId}
+            showSentencesModal={showSentencesModal}
+            setShowSentencesModal={setShowSentencesModal}
+            setShowEditModal={setShowEditModal}
+            sentences={sentences}
+            render={render}
+            setRender={setRender}
+            localRender={localRender}
+            setLocalRender={setLocalRender}
+         />
       </>
    );
 };

@@ -10,6 +10,8 @@ import { toast } from 'react-toastify';
 import { IVocab } from '../../../interface/vocab.interface';
 import { ISentence } from '../../../interface/sentence.interface';
 import SentenceItem from '../components/SentenceItem';
+import SentencesModal from './SentencesModal';
+import VocabsModal from './VocabsModal';
 
 const EditVocabModal = props => {
    const { vocabId, showEditModal, setShowEditModal, render, setRender, mode } =
@@ -19,8 +21,9 @@ const EditVocabModal = props => {
    const noteAudioRef = useRef<HTMLAudioElement>(null);
 
    const [showSentencesModal, setShowSentencesModal] = useState(false);
-   const [sentence, setSentence] = useState<string>(''); // context
+   const [showVocabsModal, setShowVocabsModal] = useState(false);
    const [sentences, setSentences] = useState<ISentence[]>([]);
+   const [vocabs, setVocabs] = useState<IVocab[]>([]);
 
    const [localRender, setLocalRender] = useState(false);
 
@@ -30,6 +33,7 @@ const EditVocabModal = props => {
          if (isOk) {
             setVocab(result.vocab);
             setSentences(result.vocab.sentences.reverse());
+            setVocabs(result.vocab.vocabs.reverse());
          } else {
             console.log(result.message);
             toast.error(result.message);
@@ -38,11 +42,12 @@ const EditVocabModal = props => {
    }, [showEditModal, render, localRender]);
 
    useEffect(() => {
-      if (!showSentencesModal) return;
+      if (!showSentencesModal && !showVocabsModal) return;
       getVocabApi(vocabId, (isOk: boolean, result) => {
          if (isOk) {
             setVocab(result.vocab);
             setSentences(result.vocab.sentences.reverse());
+            setVocabs(result.vocab.vocabs.reverse());
          } else {
             console.log(result.message);
             toast.error(result.message);
@@ -113,40 +118,6 @@ const EditVocabModal = props => {
                console.log(result.message);
                toast.update(t, {
                   render: result.message,
-                  type: 'error',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
-            }
-         },
-      );
-   };
-
-   const addSentenceClick = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-   ) => {
-      e.preventDefault();
-      const id = toast.loading('Adding Sentence...');
-      addSentenceToVocabApi(
-         {
-            vocabId,
-            context: sentence,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
-         },
-         (isOk, result) => {
-            if (isOk) {
-               setRender(!render);
-               setLocalRender(!localRender);
-               setSentence('');
-               toast.update(id, {
-                  render: 'sentence added successfully',
-                  type: 'success',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
-            } else {
-               toast.update(id, {
-                  render: result.response.data.message,
                   type: 'error',
                   isLoading: false,
                   autoClose: 2000,
@@ -330,34 +301,48 @@ const EditVocabModal = props => {
                      src={`${vocab.noteAudio}`}
                   ></audio>
                   <div>
-                     <button
-                        type="button"
-                        className="btn btn-secondary mb-2 me-2"
-                        onClick={() => {
-                           syncAudioClick('title');
-                        }}
-                     >
-                        Sync Audio
-                     </button>
-                     <button
-                        type="button"
-                        className="btn btn-secondary mb-2 me-2"
-                        onClick={() => {
-                           syncAudioClick('note');
-                        }}
-                     >
-                        Sync Note Audio
-                     </button>
-                     <button
-                        type="button"
-                        className="btn btn-info mb-2"
-                        onClick={() => {
-                           setShowEditModal(false);
-                           setShowSentencesModal(true);
-                        }}
-                     >
-                        Sentences
-                     </button>
+                     <div>
+                        <button
+                           type="button"
+                           className="btn btn-secondary mb-2 me-2"
+                           onClick={() => {
+                              syncAudioClick('title');
+                           }}
+                        >
+                           Sync Audio
+                        </button>
+                        <button
+                           type="button"
+                           className="btn btn-secondary mb-2 me-2"
+                           onClick={() => {
+                              syncAudioClick('note');
+                           }}
+                        >
+                           Sync Note Audio
+                        </button>
+                     </div>
+                     <div>
+                        <button
+                           type="button"
+                           className="btn btn-info mb-2 me-1"
+                           onClick={() => {
+                              setShowEditModal(false);
+                              setShowSentencesModal(true);
+                           }}
+                        >
+                           Sentences
+                        </button>
+                        <button
+                           type="button"
+                           className="btn btn-info mb-2"
+                           onClick={() => {
+                              setShowEditModal(false);
+                              setShowVocabsModal(true);
+                           }}
+                        >
+                           Vocabs
+                        </button>
+                     </div>
 
                      <button
                         type="submit"
@@ -370,7 +355,7 @@ const EditVocabModal = props => {
                            type="button"
                            className="btn btn-secondary btn-lg w-100 add-btn my-2"
                            onClick={() => {
-                              setShowEditModal(false)
+                              setShowEditModal(false);
                            }}
                         >
                            Close
@@ -381,55 +366,29 @@ const EditVocabModal = props => {
             </Modal.Body>
          </Modal>
 
-         {/* Sentences Modal */}
-         <Modal
-            show={showSentencesModal}
-            onHide={() => {
-               setShowSentencesModal(false);
-               setShowEditModal(true);
-            }}
-         >
-            <Modal.Header closeButton>
-               <Modal.Title>Sentences</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-               <div className="col-12">
-                  <div className="mb-3">
-                     <label className="form-label">Context (*required)</label>
-                     <textarea
-                        className="form-control"
-                        onChange={e => {
-                           setSentence(e.target.value);
-                        }}
-                        value={sentence}
-                        rows={4}
-                     />
-                  </div>
-                  <button
-                     type="button"
-                     className="btn btn-primary btn-lg w-100 add-btn mb-3"
-                     onClick={addSentenceClick}
-                  >
-                     Add Sentence
-                  </button>
-                  <div className="col-12">
-                     <ListGroup as="ol">
-                        {sentences.map(item => (
-                           <SentenceItem
-                              sentence={item}
-                              vocabId={vocabId}
-                              key={item._id}
-                              render={render}
-                              setRender={setRender}
-                              localRender={localRender}
-                              setLocalRender={setLocalRender}
-                           />
-                        ))}
-                     </ListGroup>
-                  </div>
-               </div>
-            </Modal.Body>
-         </Modal>
+         <SentencesModal
+            vocabId={vocabId}
+            showSentencesModal={showSentencesModal}
+            setShowSentencesModal={setShowSentencesModal}
+            setShowEditModal={setShowEditModal}
+            sentences={sentences}
+            render={render}
+            setRender={setRender}
+            localRender={localRender}
+            setLocalRender={setLocalRender}
+         />
+
+         <VocabsModal
+            vocabId={vocabId}
+            showVocabsModal={showVocabsModal}
+            setShowVocabsModal={setShowVocabsModal}
+            setShowEditModal={setShowEditModal}
+            vocabs={vocabs}
+            render={render}
+            setRender={setRender}
+            localRender={localRender}
+            setLocalRender={setLocalRender}
+         />
       </>
    );
 };

@@ -95,7 +95,7 @@ const SentenceReplacement = () => {
             { name: 'sort', value: 'replacementTrueGuessCount' },
             { name: 'type', value: type },
             { name: 'user', value: localStorage.getItem('userId') },
-            { name: 'replacementMode', value: true },
+            { name: 'mode', value: 'replacement' },
             { name: 'story', value: 'free' },
          ],
       );

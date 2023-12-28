@@ -1,16 +1,17 @@
 export interface IAddVocab {
-   user: string;
    title: string;
-   note: string;
-   meaning: string;
-   type: string;
+   user?: string;
+   note?: string;
+   meaning?: string;
+   type?: string;
    compoundType?: string;
-   example: string;
-   definition: string;
-   phonetics: string;
-   dictionaryApi: boolean;
-   translateApi: boolean;
-   TTSEngine: string;
+   example?: string;
+   definition?: string;
+   phonetics?: string;
+   dictionaryApi?: boolean;
+   translateApi?: boolean;
+   noteApi?: boolean;
+   TTSEngine?: string;
    reviewImportance?: boolean;
    dictImportance?: boolean;
 }
@@ -27,6 +28,8 @@ export interface IVocab {
    definition?: string;
    example?: string;
    sentences?: any[];
+   vocabs?: any[];
+   synonyms?: any[];
    is_disable?: boolean;
    true_guess_count?: number;
    reviewTrueGuessCount?: number;

@@ -18,6 +18,7 @@ const AddVocab = () => {
       phonetics: '',
       type: 'noun',
       dictionaryApi: true,
+      noteApi: false,
       translateApi: true,
       dictImportance: true,
       reviewImportance: true,
@@ -88,6 +89,7 @@ const AddVocab = () => {
                <label className="form-label">Meaning (Persian)</label>
                <textarea
                   rows={1}
+                  style={{ direction: 'rtl' }}
                   className="form-control"
                   onChange={e => {
                      setVocab({ ...vocab, meaning: e.target.value });
@@ -161,7 +163,7 @@ const AddVocab = () => {
                </div>
             </div>
 
-            <div className="d-flex justify-content-between mb-3">
+            <div className="d-flex justify-content-between flex-wrap">
                <Form.Check
                   type="switch"
                   onChange={e => {
@@ -184,13 +186,25 @@ const AddVocab = () => {
                   checked={vocab.translateApi}
                   label="Translate Api"
                />
+                <Form.Check
+                  className="mb-3"
+                  type="switch"
+                  onChange={e => {
+                     setVocab({
+                        ...vocab,
+                        noteApi: e.target.checked,
+                     });
+                  }}
+                  checked={vocab.noteApi}
+                  label="Note Api"
+               />
             </div>
 
             <button
                type="submit"
                className="btn btn-primary btn-lg w-100 add-btn mb-3"
             >
-               Add Vocab
+               +Add Vocab
             </button>
          </form>
 

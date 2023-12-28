@@ -148,6 +148,22 @@ export const addSentenceToVocabApi = (data: any, callBack: ApiFunction) => {
       });
 };
 
+// Add Vocab to vocab
+export const addVocabToVocabApi = (data: any, callBack: ApiFunction) => {
+   axios
+      .post(`${BASEURL}/vocabs/add-vocab`, data, {
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,
+         },
+      })
+      .then(result => {
+         callBack(true, result.data);
+      })
+      .catch(err => {
+         callBack(false, err);
+      });
+};
+
 // Clone vocab
 export const cloneVocabApi = (data: any, callBack: ApiFunction) => {
    axios

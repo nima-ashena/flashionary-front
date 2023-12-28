@@ -4,6 +4,7 @@ export interface IAddSentence {
    user?: string;
    note?: string;
    translateApi?: boolean;
+   noteApi?: boolean;
    TTSEngine?: string;
    type?: string;
    storyFlag?: boolean,

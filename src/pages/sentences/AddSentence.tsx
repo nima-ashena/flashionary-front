@@ -13,6 +13,7 @@ const AddSentence = () => {
       context: '',
       meaning: '',
       translateApi: true,
+      noteApi: true,
       reviewImportance: true,
       replacementImportance: true,
       note: '',
@@ -23,7 +24,7 @@ const AddSentence = () => {
    const [sentenceResult, setSentenceResult] = useState<ISentence>(primaryData);
 
    const [showEditModal, setShowEditModal] = useState(false);
-   const [render, setRender] = useState(false)
+   const [render, setRender] = useState(false);
 
    const addSentenceClick = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -32,10 +33,10 @@ const AddSentence = () => {
       const id = toast.loading('Adding Sentence...');
       addSentenceApi(sentence, (isOk, result) => {
          if (isOk) {
-            toast.dismiss(id)
-            setSentenceResult(result.sentence)
+            toast.dismiss(id);
+            setSentenceResult(result.sentence);
             setSentence({ ...sentence, context: '', meaning: '', note: '' });
-            setShowEditModal(true)
+            setShowEditModal(true);
          } else {
             console.log(result.message);
             toast.update(id, {
@@ -161,24 +162,38 @@ const AddSentence = () => {
                </div>
             </div>
 
-            <Form.Check
-               className="mb-3"
-               type="switch"
-               onChange={e => {
-                  setSentence({
-                     ...sentence,
-                     translateApi: e.target.checked,
-                  });
-               }}
-               checked={sentence.translateApi}
-               label="Translate Api"
-            />
+            <div className="d-flex justify-content-between mb-2">
+               <Form.Check
+                  className="mb-3"
+                  type="switch"
+                  onChange={e => {
+                     setSentence({
+                        ...sentence,
+                        translateApi: e.target.checked,
+                     });
+                  }}
+                  checked={sentence.translateApi}
+                  label="Translate Api"
+               />
+               <Form.Check
+                  className="mb-3"
+                  type="switch"
+                  onChange={e => {
+                     setSentence({
+                        ...sentence,
+                        noteApi: e.target.checked,
+                     });
+                  }}
+                  checked={sentence.noteApi}
+                  label="Note Api"
+               />
+            </div>
 
             <button
                type="submit"
                className="btn btn-primary btn-lg w-100 add-btn mb-3"
             >
-               Add Sentence
+               +Add Sentence
             </button>
          </form>
 
@@ -190,7 +205,6 @@ const AddSentence = () => {
             setRender={setRender}
             mode={'add'}
          />
-
       </div>
    );
 };
