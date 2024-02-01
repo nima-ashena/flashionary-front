@@ -26,11 +26,10 @@ const AddVocab = () => {
    };
 
    const [vocab, setVocab] = useState<IAddVocab>(primaryData);
-   
+
    const [vocabResult, setVocabResult] = useState<IVocab>(primaryData);
    const [showEditModal, setShowEditModal] = useState(false);
-   const [render, setRender] = useState(false)
-
+   const [render, setRender] = useState(false);
 
    const addVocabClick = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -39,10 +38,10 @@ const AddVocab = () => {
       const id = toast.loading('Adding Vocab...');
       addVocabApi(vocab, (isOk, result) => {
          if (isOk) {
-            toast.dismiss(id)
-            setVocab(primaryData);
-            setVocabResult(result.vocab)
-            setShowEditModal(true)
+            toast.dismiss(id);
+            setVocab({ noteApi: vocab.noteApi, ...primaryData });
+            setVocabResult(result.vocab);
+            setShowEditModal(true);
          } else {
             console.log(result.message);
             toast.update(id, {
@@ -186,7 +185,7 @@ const AddVocab = () => {
                   checked={vocab.translateApi}
                   label="Translate Api"
                />
-                <Form.Check
+               <Form.Check
                   className="mb-3"
                   type="switch"
                   onChange={e => {

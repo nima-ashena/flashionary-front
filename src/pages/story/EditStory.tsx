@@ -212,6 +212,7 @@ const EditStory = () => {
                   <label className="form-label">Meaning</label>
                   <textarea
                      className="form-control"
+                     style={{direction: 'rtl'}}
                      onChange={e => {
                         setSentence({ ...sentence, meaning: e.target.value });
                      }}
