@@ -9,7 +9,7 @@ import {
 } from '../../../api/sentence.service';
 import { ISentence } from '../../../interface/sentence.interface';
 import { shuffleArray } from '../../../utils/utils';
-import SentenceItem from '../components/SentenceItem';
+import SentenceItem from './SentenceItem';
 import { SentenceTypes } from '../../../utils/constants';
 import EditSentenceModal from '../components/EditSentenceModal';
 

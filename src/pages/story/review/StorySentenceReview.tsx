@@ -10,7 +10,7 @@ import { getStoryApi } from '../../../api/story.service';
 import { ISentence } from '../../../interface/sentence.interface';
 import { IStory } from '../../../interface/story.interface';
 import { shuffleArray } from '../../../utils/utils';
-import SentenceItem from '../../sentences/components/SentenceItem';
+import SentenceItem from '../../sentences/replacement/SentenceItem';
 import { SentenceTypes } from '../../../utils/constants';
 import EditSentenceModal from './EditSentenceModal';
 

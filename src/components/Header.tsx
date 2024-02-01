@@ -150,9 +150,6 @@ const Header = () => {
                   Story
                </Link>
             </Offcanvas.Body>
-            <Offcanvas.Header className="bg-dark text-light">
-               Version 2.0.1 (Nima)
-            </Offcanvas.Header>
          </Offcanvas>
       </>
    );
