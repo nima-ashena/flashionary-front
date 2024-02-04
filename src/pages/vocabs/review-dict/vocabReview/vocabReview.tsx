@@ -412,7 +412,12 @@ const VocabReview = () => {
                               }}
                            >
                               {!reverseMode && !hidden && (
-                                 <>
+                                 <div
+                                    style={{
+                                       overflow: 'scroll',
+                                       height: '100%',
+                                    }}
+                                 >
                                     <div
                                        className="alert text-dark"
                                        style={{
@@ -450,7 +455,7 @@ const VocabReview = () => {
                                           );
                                        },
                                     )}
-                                 </>
+                                 </div>
                               )}
                               {reverseMode && !hidden && (
                                  <div

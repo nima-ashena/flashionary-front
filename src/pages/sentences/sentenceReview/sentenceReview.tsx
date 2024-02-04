@@ -191,7 +191,7 @@ const SentenceReview = () => {
          }
          setShowDeleteModal(false);
          if (reviewPanel === 2) setReviewPanel(1);
-         else if (reviewPanel === 1) setReviewPanel(2)
+         else if (reviewPanel === 1) setReviewPanel(2);
          setStateCounter(counterState + 1);
          setLeft(left - 1);
       });
@@ -425,31 +425,38 @@ const SentenceReview = () => {
                               }}
                            >
                               {!reverseMode && !hidden && (
-                                 <>
+                                 <div
+                                    style={{
+                                       overflow: 'scroll',
+                                       height: '100%',
+                                    }}
+                                 >
                                     <div
                                        className="alert text-dark"
                                        style={{
                                           fontSize: 20,
                                           direction: 'rtl',
+                                          marginBottom: 0,
                                        }}
                                     >
                                        {sentences[counterState]?.meaning &&
                                           sentences[counterState]?.meaning
                                              .split('\n')
-                                             .map(item => <p>{item}</p>)}
+                                             .map(item => (
+                                                <p style={{ marginBottom: 2 }}>
+                                                   {item}
+                                                </p>
+                                             ))}
                                     </div>
+
                                     <div
                                        className="alert text-dark"
                                        style={{
+                                          paddingTop: 4,
                                           fontSize: 20,
                                        }}
                                     >
-                                       <div
-                                          style={{
-                                             height: '40vh',
-                                             overflow: 'scroll',
-                                          }}
-                                       >
+                                       <>
                                           {sentences[counterState]?.note && (
                                              <button
                                                 type="button"
@@ -465,9 +472,9 @@ const SentenceReview = () => {
                                              sentences[counterState]?.note
                                                 .split('\n')
                                                 .map(item => <p>{item}</p>)}
-                                       </div>
+                                       </>
                                     </div>
-                                 </>
+                                 </div>
                               )}
                               {reverseMode && !hidden && (
                                  <div
