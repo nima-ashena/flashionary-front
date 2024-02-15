@@ -422,6 +422,18 @@ const VocabReview = () => {
                                        className="alert text-dark"
                                        style={{
                                           fontSize: 20,
+                                          marginBottom: 0,
+                                          paddingTop: 0,
+                                          paddingBottom: 0,
+                                       }}
+                                    >
+                                       {vocabs[counterState]?.title &&
+                                          vocabs[counterState]?.title}
+                                    </div>
+                                    <div
+                                       className="alert text-dark"
+                                       style={{
+                                          fontSize: 20,
                                           direction: 'rtl',
                                        }}
                                     >

@@ -50,6 +50,13 @@ const SentenceReview = () => {
       setAgain(!again);
    };
 
+   const startExpressionsClick = () => {
+      setType('Expression')
+      setStateCounter(0);
+      setPanel(1);
+      setAgain(!again);
+   };
+
    useEffect(() => {
       if (panel === 0) return;
       const id = toast.loading('Loading...');
@@ -286,6 +293,13 @@ const SentenceReview = () => {
                   >
                      Start
                   </button>
+
+                  <button
+                     className="btn btn-success w-100"
+                     onClick={startExpressionsClick}
+                  >
+                     Start Expressions
+                  </button>
                </div>
             )}
             {panel === 1 && (
@@ -298,6 +312,15 @@ const SentenceReview = () => {
                         {ahead}
                      </span>
                      <div>
+                        <button
+                           type="button"
+                           className="btn btn-success"
+                           onClick={() => {
+                              audioRef.current?.play();
+                           }}
+                        >
+                           <i className="bi bi-play" />
+                        </button>
                         <button
                            type="button"
                            className="btn btn-secondary mx-1"
@@ -435,8 +458,20 @@ const SentenceReview = () => {
                                        className="alert text-dark"
                                        style={{
                                           fontSize: 20,
+                                          marginBottom: 0,
+                                          paddingBottom: 0,
+                                       }}
+                                    >
+                                       {sentences[counterState]?.context &&
+                                          sentences[counterState]?.context}
+                                    </div>
+                                    <div
+                                       className="alert text-dark"
+                                       style={{
+                                          fontSize: 20,
                                           direction: 'rtl',
                                           marginBottom: 0,
+                                          paddingBottom: 0,
                                        }}
                                     >
                                        {sentences[counterState]?.meaning &&

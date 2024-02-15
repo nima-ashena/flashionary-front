@@ -66,9 +66,17 @@ const Header = () => {
                      </Dropdown.Menu>
                   )}
                </Dropdown>
-               <Link to={'/'} className="navbar-brand">
-                  Flashionary
-               </Link>
+               <div
+                  className="navbar-brand hoverPointer"
+                  style={{
+                     borderStyle: 'solid',
+                     borderWidth: '2px',
+                     borderColor: 'gray',
+                     borderRadius: '10px',
+                  }}
+               >
+                  <img src={`/flashionary.png`} style={{ width: 30 }} alt="" />{' '}
+               </div>
             </div>
          </nav>
          <div style={{ width: '100%', height: '80px', display: 'block' }}></div>
