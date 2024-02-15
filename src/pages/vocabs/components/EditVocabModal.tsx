@@ -380,6 +380,7 @@ const EditVocabModal = props => {
 
          <VocabsModal
             vocabId={vocabId}
+            vocab={vocab}
             showVocabsModal={showVocabsModal}
             setShowVocabsModal={setShowVocabsModal}
             setShowEditModal={setShowEditModal}

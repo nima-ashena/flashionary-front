@@ -9,6 +9,7 @@ import VocabItem from './VocabItem';
 const VocabsModal = props => {
    const {
       vocabId,
+      vocab,
       showVocabsModal,
       setShowVocabsModal,
       setShowEditModal,
@@ -19,7 +20,7 @@ const VocabsModal = props => {
       setLocalRender,
    } = props;
 
-   const [vocab, setVocab] = useState<IAddVocab>({ title: '', meaning: '' });
+   const [addVocab, setAddVocab] = useState<IAddVocab>({ title: '', meaning: '' });
 
    const addVocabClick = (
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -29,16 +30,16 @@ const VocabsModal = props => {
       addVocabToVocabApi(
          {
             vocabId,
-            title: vocab.title,
-            meaning: vocab.meaning,
+            title: addVocab.title,
+            meaning: addVocab.meaning,
             TTSEngine: localStorage.getItem('defaultTTSEngine'),
-            translateApi: vocab.translateApi,
+            translateApi: addVocab.translateApi,
          },
          (isOk, result) => {
             if (isOk) {
                setRender(!render);
                setLocalRender(!localRender);
-               setVocab({ title: '', meaning: '' });
+               setAddVocab({ title: '', meaning: '' });
                toast.update(id, {
                   render: 'vocab added successfully',
                   type: 'success',
@@ -66,7 +67,7 @@ const VocabsModal = props => {
          }}
       >
          <Modal.Header closeButton>
-            <Modal.Title>Vocabs</Modal.Title>
+            <Modal.Title>{vocab.title}</Modal.Title>
          </Modal.Header>
          <Modal.Body>
             <div className="col-12">
@@ -75,9 +76,9 @@ const VocabsModal = props => {
                   <textarea
                      className="form-control"
                      onChange={e => {
-                        setVocab({ ...vocab, title: e.target.value });
+                        setAddVocab({ ...addVocab, title: e.target.value });
                      }}
-                     value={vocab.title}
+                     value={addVocab.title}
                      rows={1}
                   />
                </div>
@@ -86,9 +87,9 @@ const VocabsModal = props => {
                   <textarea
                      className="form-control"
                      onChange={e => {
-                        setVocab({ ...vocab, meaning: e.target.value });
+                        setAddVocab({ ...addVocab, meaning: e.target.value });
                      }}
-                     value={vocab.meaning}
+                     value={addVocab.meaning}
                      rows={1}
                   />
                </div>
@@ -96,12 +97,12 @@ const VocabsModal = props => {
                   className="mb-2"
                   type="switch"
                   onChange={e => {
-                     setVocab({
-                        ...vocab,
+                     setAddVocab({
+                        ...addVocab,
                         translateApi: e.target.checked,
                      });
                   }}
-                  checked={vocab.translateApi}
+                  checked={addVocab.translateApi}
                   label="Translate Api"
                />
                <button

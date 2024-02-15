@@ -11,19 +11,21 @@ import { IVocab } from '../../../../interface/vocab.interface';
 import { ISentence } from '../../../../interface/sentence.interface';
 import SentenceItem from '../../components/SentenceItem';
 import SentencesModal from '../../components/SentencesModal';
+import VocabsModal from '../../components/VocabsModal';
 
 const EditVocabModal = props => {
    const vocabs: IVocab[] = props.vocabs;
-   const { vocabId, setVocabs, showEditModal, setShowEditModal } = props;
+   const { vocabId, setVocabs, showEditModal, setShowEditModal, mode } = props;
    const [vocab, setVocab] = useState<IVocab>({ title: '' });
    const audioRef = useRef<HTMLAudioElement>(null);
 
    const [showSentencesModal, setShowSentencesModal] = useState(false);
-   const [sentence, setSentence] = useState<string>(''); // context
+   const [showVocabsModal, setShowVocabsModal] = useState(false);
    const [sentences, setSentences] = useState<ISentence[]>([]);
+   const [subVocabs, setSubVocabs] = useState<IVocab[]>([]);
    const [render, setRender] = useState(false);
 
-   const [localRender, setLocalRender] = useState(false)
+   const [localRender, setLocalRender] = useState(false);
 
    useEffect(() => {
       if (!showEditModal) return;
@@ -31,6 +33,7 @@ const EditVocabModal = props => {
          if (isOk) {
             setVocab(result.vocab);
             setSentences(result.vocab.sentences.reverse());
+            setSubVocabs(result.vocab.vocabs.reverse());
          } else {
             console.log(result.message);
             toast.error(result.message);
@@ -288,35 +291,49 @@ const EditVocabModal = props => {
                      ref={audioRef}
                      src={`${vocab.audio}`}
                   ></audio>
-                  <div>
-                     <button
-                        type="button"
-                        className="btn btn-secondary mb-2 me-2"
-                        onClick={() => {
-                           syncAudioClick('title');
-                        }}
-                     >
-                        Sync Audio
-                     </button>
-                     <button
-                        type="button"
-                        className="btn btn-secondary mb-2 me-2"
-                        onClick={() => {
-                           syncAudioClick('note');
-                        }}
-                     >
-                        Sync Note Audio
-                     </button>
-                     <button
-                        type="button"
-                        className="btn btn-info mb-2"
-                        onClick={() => {
-                           setShowEditModal(false);
-                           setShowSentencesModal(true);
-                        }}
-                     >
-                        Sentences
-                     </button>
+                   <div>
+                     <div>
+                        <button
+                           type="button"
+                           className="btn btn-secondary mb-2 me-2"
+                           onClick={() => {
+                              syncAudioClick('title');
+                           }}
+                        >
+                           Sync Audio
+                        </button>
+                        <button
+                           type="button"
+                           className="btn btn-secondary mb-2 me-2"
+                           onClick={() => {
+                              syncAudioClick('note');
+                           }}
+                        >
+                           Sync Note Audio
+                        </button>
+                     </div>
+                     <div>
+                        <button
+                           type="button"
+                           className="btn btn-info mb-2 me-1"
+                           onClick={() => {
+                              setShowEditModal(false);
+                              setShowSentencesModal(true);
+                           }}
+                        >
+                           Sentences
+                        </button>
+                        <button
+                           type="button"
+                           className="btn btn-info mb-2"
+                           onClick={() => {
+                              setShowEditModal(false);
+                              setShowVocabsModal(true);
+                           }}
+                        >
+                           Vocabs
+                        </button>
+                     </div>
 
                      <button
                         type="submit"
@@ -324,6 +341,17 @@ const EditVocabModal = props => {
                      >
                         Save
                      </button>
+                     {mode === 'add' && (
+                        <button
+                           type="button"
+                           className="btn btn-secondary btn-lg w-100 add-btn my-2"
+                           onClick={() => {
+                              setShowEditModal(false);
+                           }}
+                        >
+                           Close
+                        </button>
+                     )}
                   </div>
                </form>
             </Modal.Body>
@@ -335,6 +363,19 @@ const EditVocabModal = props => {
             setShowSentencesModal={setShowSentencesModal}
             setShowEditModal={setShowEditModal}
             sentences={sentences}
+            render={render}
+            setRender={setRender}
+            localRender={localRender}
+            setLocalRender={setLocalRender}
+         />
+
+         <VocabsModal
+            vocabId={vocabId}
+            vocab={vocab}
+            showVocabsModal={showVocabsModal}
+            setShowVocabsModal={setShowVocabsModal}
+            setShowEditModal={setShowEditModal}
+            vocabs={subVocabs}
             render={render}
             setRender={setRender}
             localRender={localRender}
