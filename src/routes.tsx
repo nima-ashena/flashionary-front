@@ -24,6 +24,7 @@ import StorySentenceReview from './pages/story/review/StorySentenceReview';
 import VocabReview from './pages/vocabs/review-dict/vocabReview/vocabReview';
 import SentenceReview from './pages/sentences/sentenceReview/sentenceReview';
 import SentenceReplacement from './pages/sentences/replacement/SentenceReplacement';
+import SentenceDict from './pages/sentences/dict/SentenceDict';
 
 const RoutesHandle = () => {
    useEffect(() => {}, []);
@@ -61,6 +62,7 @@ const RoutesHandle = () => {
                   path="/sentences/replacement"
                   element={<SentenceReplacement />}
                />
+               <Route path="/sentences/dict" element={<SentenceDict />} />
 
                <Route path="/stories" element={<Story />} />
                <Route path="/stories/show/:storyId" element={<ShowStory />} />

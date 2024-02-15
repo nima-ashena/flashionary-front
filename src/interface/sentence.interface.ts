@@ -24,8 +24,10 @@ export interface ISentence {
    true_guess_count?: number;
    reviewTrueGuessCount?: number;
    replacementTrueGuessCount?: number;
+   dictTrueGuessCount?: number;
    reviewImportance?: boolean;
    replacementImportance?: boolean;
+   dictImportance?: boolean;
    story?: string;
    vocab?: string;
    completed?: Boolean;

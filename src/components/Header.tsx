@@ -151,11 +151,18 @@ const Header = () => {
                   Replacement
                </Link>
                <Link
+                  to={'/sentences/dict'}
+                  onClick={closeSidebar}
+                  className="menu-item"
+               >
+                  Dict (Beta)
+               </Link>
+               <Link
                   to={'/stories'}
                   onClick={closeSidebar}
                   className="menu-item"
                >
-                  Story
+                  Story 
                </Link>
             </Offcanvas.Body>
          </Offcanvas>
