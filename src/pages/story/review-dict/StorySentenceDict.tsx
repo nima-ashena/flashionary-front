@@ -8,11 +8,11 @@ import {
 } from '../../../api/sentence.service';
 import { log } from 'console';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import EditSentenceModal from '../components/EditSentenceModal';
 import { SentenceTypes } from '../../../utils/constants';
 import { ISentence } from '../../../interface/sentence.interface';
 import { getStoryApi } from '../../../api/story.service';
 import { IStory } from '../../../interface/story.interface';
+import EditSentenceModal from './EditSentenceModal';
 
 const StorySentenceDict = () => {
    const navigate = useNavigate();
@@ -34,7 +34,7 @@ const StorySentenceDict = () => {
    const [answer, setAnswer] = useState<string>('');
 
    // Panel 1
-   const [counterState, setStateCounter] = useState<number>(0);
+   const [counterState, setCounterState] = useState<number>(0);
    const [left, setLeft] = useState<number>(0);
    const [ahead, setAhead] = useState<number>(0);
    const [accurate, setAccurate] = useState<number>(0);
@@ -200,7 +200,7 @@ const StorySentenceDict = () => {
 
    const nextClick = () => {
       if (panel !== 2) return;
-      setStateCounter(counterState + 1);
+      setCounterState(counterState + 1);
       setPanel(1);
    };
 
@@ -220,7 +220,7 @@ const StorySentenceDict = () => {
          }
       });
       setShowDeleteSentenceModal(false);
-      setStateCounter(counterState + 1);
+      setCounterState(counterState + 1);
       setPanel(1);
       setP('-');
    };
@@ -586,15 +586,17 @@ const StorySentenceDict = () => {
             )}
          </div>
 
-         {counterState < sentences.length && (
+         {counterState < storyLength && (
             <EditSentenceModal
+               storyId={storyId}
+               sentenceId={sentences[counterState]._id}
                sentences={sentences}
                setSentences={setSentences}
-               sentenceId={sentences[counterState]._id}
                showEditModal={showEditModal}
                setShowEditModal={setShowEditModal}
             />
          )}
+
 
          {/* Delete Modal */}
          <Modal
