@@ -7,13 +7,16 @@ import {
    plusTrueSentenceApi,
 } from '../../../api/sentence.service';
 import { log } from 'console';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import EditSentenceModal from '../components/EditSentenceModal';
 import { SentenceTypes } from '../../../utils/constants';
 import { ISentence } from '../../../interface/sentence.interface';
+import { getStoryApi } from '../../../api/story.service';
+import { IStory } from '../../../interface/story.interface';
 
-const SentenceDict = () => {
+const StorySentenceDict = () => {
    const navigate = useNavigate();
+   const { storyId } = useParams();
 
    const [panel, setPanel] = useState<number>(0);
    const [again, setAgain] = useState(false);
@@ -24,6 +27,18 @@ const SentenceDict = () => {
    const [sliderLimitValue, setSliderLimitValue] = useState(10);
    const [limitMode, setLimitMode] = useState(false);
    const [type, setType] = useState('all');
+   const [sliderFrom, setSliderFrom] = useState(1);
+   const [sliderTo, setSliderTo] = useState(0);
+   const [sentenceItems, setSentenceItems] = useState<any[]>([]);
+   const [answerItems, setAnswerItems] = useState<any[]>([]);
+   const [story, setStory] = useState<IStory>({
+      title: '',
+      sentences: [],
+   });
+   const [storyLength, setStoryLength] = useState<number>(0);
+   const [flagD, setFlagD] = useState({ from: 0, to: 0 });
+   const [flags, setFlags] = useState<any[]>([{ context: '', index: 0 }]);
+   const [answer, setAnswer] = useState<string>('');
 
    // Panel 1
    const [counterState, setStateCounter] = useState<number>(0);
@@ -31,22 +46,44 @@ const SentenceDict = () => {
    const [ahead, setAhead] = useState<number>(0);
    const [accurate, setAccurate] = useState<number>(0);
    const [sentences, setSentences] = useState<ISentence[]>([]);
-   const [p, setP] = useState<string>('-');
    const [input, setInput] = useState<string>('');
-   const audioRef = useRef<HTMLAudioElement>(null);
    const noteAudioRef = useRef<HTMLAudioElement>(null);
    const [isShowAnswerUsed, setIsShowAnswerUsed] = useState(false);
    const [matchCase, setMatchCase] = useState<boolean>(true);
    const [miss, setMiss] = useState<boolean>(false);
+   const [p, setP] = useState<string>('-');
+   const audioRef = useRef<HTMLAudioElement>(null);
+   const [autoPlayAudio1, setAutoPlayAudio1] = useState<boolean>(true);
 
    // Panel 2
-   const [showEditModal, setShowEditModal] = useState(false);
    const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(true);
+   const [showEditModal, setShowEditModal] = useState(false);
+
+
 
    // finish modal
    const [showFinishModal, setShowFinishModal] = useState(false);
    const [showDeleteSentenceModal, setShowDeleteSentenceModal] =
       useState(false);
+
+   useEffect(() => {
+      getStoryApi(storyId, (isOk, result) => {
+         if (isOk) {
+            if (result.story.sentences.length === 0) {
+               setPanel(0);
+               return toast.info('There is no Sentences to review');
+            }
+            setStory(result.story);
+            setSentences(result.story.sentences);
+            setSliderTo(result.story.sentences.length);
+            setStoryLength(result.story.sentences.length);
+            let flagsTs = calculateFlags(result.story.sentences);
+            setFlags(flagsTs);
+            if (flagsTs.length > 0)
+               setFlagD({ from: 0, to: flagsTs[flagsTs.length - 1].index });
+         } else toast.error(result.message);
+      });
+   }, []);
 
    useEffect(() => {
       if (panel === 0) return;
@@ -125,6 +162,32 @@ const SentenceDict = () => {
       setStateCounter(0);
       setPanel(1);
       setAgain(!again);
+   };
+
+   const reviewToughs = () => {
+      clearClick();
+      let ss: any[] = story.toughs;
+      setStoryLength(ss.length);
+      setSentences(ss);
+      setLeft(ss.length - counterState);
+      setAhead(counterState);
+      if (audioRef.current) {
+         audioRef.current.src = ss[counterState].audio;
+      }
+      setPanel(1);
+   };
+
+   const reviewFlags = () => {
+      if (flagD.from >= flagD.to) return toast.warn('Control your entries');
+      let ss: any[] = sentences.slice(flagD.from, flagD.to + 1);
+      setStoryLength(ss.length);
+      setSentences(ss);
+      setLeft(ss.length - counterState);
+      setAhead(counterState);
+      if (audioRef.current) {
+         audioRef.current.src = ss[counterState].audio;
+      }
+      setPanel(1);
    };
 
    const handleModalClose = () => {
@@ -207,127 +270,163 @@ const SentenceDict = () => {
       setP('-');
    };
 
-   const goNextClick = () => {
-      plusTrueSentenceApi(
-         { sentenceId: sentences[counterState]._id, plusType: 'dict' },
-         isOk => {
-            if (!isOk) toast.error('Plus counter failed');
-         },
-      );
-      setAhead(ahead + 1);
-      setLeft(left - 1);
-      setPanel(2);
+   const calculateFlags = (sentences: ISentence[]) => {
+      let tt: any[] = [];
+      sentences.forEach((item, index) => {
+         if (item.storyFlag === true) {
+            tt.push({ context: item.context, index });
+         }
+      });
+      return tt;
    };
 
-   const ignoreClick = () => {
+   const goNextClick = () => {
       setAhead(ahead + 1);
       setLeft(left - 1);
       setPanel(2);
-   };
+   }
 
    return (
       <div className="container">
          <div className="pt-3 col-12 col-md-8 col-lg-6">
             {panel === 0 && (
-               <div className="">
-                  <label className="form-label">
-                     Select count of true guess (Max): {sliderCountValueMax}
-                  </label>
-                  <input
-                     type="range"
-                     className="form-range mb-2"
-                     min="0"
-                     max="20"
-                     value={sliderCountValueMax}
-                     onChange={e => {
-                        setSliderCountValueMax(Number(e.target.value));
-                     }}
-                  ></input>
-                  <label className="form-label">
-                     Select count of true guess (Min): {sliderCountValueMin}
-                  </label>
-                  <input
-                     type="range"
-                     className="form-range mb-2"
-                     min="0"
-                     max="20"
-                     value={sliderCountValueMin}
-                     onChange={e => {
-                        setSliderCountValueMin(Number(e.target.value));
-                     }}
-                  ></input>
-
-                  <div className="d-flex justify-content-between">
-                     <Form.Check
-                        className="mb-1"
-                        type="switch"
-                        checked={matchCase}
-                        onChange={e => {
-                           setMatchCase(e.target.checked);
-                        }}
-                        label="MatchCase"
-                     />
-
-                     <Form.Check
-                        className="mb-1"
-                        type="switch"
-                        checked={autoPlayAudio}
-                        onChange={e => {
-                           setAutoPlayAudio(e.target.checked);
-                        }}
-                        label="AutoPlay"
-                     />
+               <div>
+                  <div className="d-flex justify-content-between pt-2">
+                     <label className="form-label">
+                        Length Of Story: {sentences.length}
+                     </label>
+                     <div>
+                        <Link
+                           to={`/stories/show/${story._id}`}
+                           className="btn mx-1"
+                           style={{ color: '#fff', backgroundColor: '#198754' }}
+                        >
+                           <i className="bi bi-eye" />
+                        </Link>
+                        <Link
+                           to={`/stories/edit/${story._id}`}
+                           className="btn my-1 mx-1"
+                           style={{ color: '#fff', backgroundColor: 'orange' }}
+                        >
+                           <i className="bi bi-pen" />
+                        </Link>
+                     </div>
                   </div>
 
-                  <label className="form-label">Type:</label>
-                  <select
-                     className="form-select mb-3"
-                     aria-label="Default select example"
-                     value={type}
+                  <label className="form-label">From: {sliderFrom}</label>
+                  <input
+                     type="range"
+                     className="form-range mb-2"
+                     min={1}
+                     max={storyLength}
+                     value={sliderFrom}
                      onChange={e => {
-                        if (e.target.value == 'all') return setType('all');
-                        setType(e.target.value);
+                        setSliderFrom(Number(e.target.value));
                      }}
-                  >
-                     <option value={'all'}>All Types</option>
-                     {SentenceTypes.map(item => {
-                        return <option value={item}>{item}</option>;
-                     })}
-                  </select>
-
+                  ></input>
+                  <label className="form-label w-100">To: {sliderTo}</label>
+                  <input
+                     type="range"
+                     className="form-range mb-2"
+                     min={1}
+                     max={storyLength}
+                     value={sliderTo}
+                     onChange={e => {
+                        setSliderTo(Number(e.target.value));
+                     }}
+                  ></input>
                   <Form.Check
-                     className="mb-1"
                      type="switch"
-                     checked={limitMode}
+                     className="mb-2"
+                     label="Auto Play"
+                     checked={autoPlayAudio1}
                      onChange={e => {
-                        setLimitMode(e.target.checked);
+                        setAutoPlayAudio1(e.target.checked);
                      }}
-                     label="Limit Mode"
                   />
-                  {limitMode && (
-                     <>
-                        <label className="form-label">
-                           Select the limit of sentences: {sliderLimitValue}
-                        </label>
-                        <input
-                           type="range"
-                           className="form-range mb-2"
-                           min="5"
-                           max="20"
-                           value={sliderLimitValue}
-                           onChange={e => {
-                              setSliderLimitValue(Number(e.target.value));
-                           }}
-                        ></input>
-                     </>
-                  )}
-
                   <button
-                     className="btn btn-primary w-100 my-2"
+                     className="btn btn-primary w-100"
                      onClick={startClick}
                   >
                      Start
                   </button>
+                  <hr />
+                  <button
+                     className="btn btn-danger w-100"
+                     onClick={reviewToughs}
+                  >
+                     Review Toughs
+                  </button>
+                  {flags.length > 0 && (
+                     <div>
+                        <hr />
+                        {flags.map((item, index) => (
+                           <div className="mb-1">
+                              <i
+                                 className="bi bi-flag-fill"
+                                 style={{
+                                    color: '#fc4b08',
+                                 }}
+                              ></i>{' '}
+                              Number {index}, Index: {item.index}
+                              <p>{item.context}</p>
+                           </div>
+                        ))}
+                        <div className="row mb-3">
+                           <div className="col-6">
+                              <label className="form-label">From</label>
+                              <select
+                                 className="form-select"
+                                 aria-label="Default select example"
+                                 value={flagD.from}
+                                 onChange={e => {
+                                    setFlagD({
+                                       ...flagD,
+                                       from: Number(e.target.value),
+                                    });
+                                 }}
+                              >
+                                 <option value={0}>Beginning</option>
+                                 {flags.map((item, index) => (
+                                    <option value={item.index}>
+                                       Flag: {index}
+                                    </option>
+                                 ))}
+                              </select>
+                           </div>
+                           <div className="col-6">
+                              <label className="form-label">To</label>
+                              <select
+                                 className="form-select"
+                                 aria-label="Default select example"
+                                 value={flagD.to}
+                                 onChange={e => {
+                                    setFlagD({
+                                       ...flagD,
+                                       to: Number(e.target.value),
+                                    });
+                                 }}
+                              >
+                                 {flags.map((item, index) => (
+                                    <option value={item.index}>
+                                       Flag: {index}
+                                    </option>
+                                 ))}
+                                 <option value={story.sentences.length}>
+                                    End
+                                 </option>
+                              </select>
+                           </div>
+                        </div>
+                        <button
+                           className="btn w-100"
+                           style={{ color: '#fff', backgroundColor: '#fc4b08' }}
+                           onClick={reviewFlags}
+                        >
+                           Review Flags
+                        </button>
+                     </div>
+                  )}
                </div>
             )}
 
@@ -413,13 +512,6 @@ const SentenceDict = () => {
                      onClick={goNextClick}
                   >
                      Go Next!
-                  </button>
-
-                  <button
-                     className="btn btn-warning w-100 mb-2"
-                     onClick={ignoreClick}
-                  >
-                     Ignore
                   </button>
                </div>
             )}
@@ -597,7 +689,7 @@ const SentenceDict = () => {
    );
 };
 
-export default SentenceDict;
+export default StorySentenceDict;
 
 const calculateAccuracy = (
    inputValue: string,

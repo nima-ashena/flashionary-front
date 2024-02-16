@@ -25,6 +25,7 @@ import VocabReview from './pages/vocabs/review-dict/vocabReview/vocabReview';
 import SentenceReview from './pages/sentences/sentenceReview/sentenceReview';
 import SentenceReplacement from './pages/sentences/replacement/SentenceReplacement';
 import SentenceDict from './pages/sentences/dict/SentenceDict';
+import StorySentenceDict from './pages/story/review-dict/StorySentenceDict';
 
 const RoutesHandle = () => {
    useEffect(() => {}, []);
@@ -70,6 +71,10 @@ const RoutesHandle = () => {
                <Route
                   path="/stories/review/:storyId"
                   element={<StorySentenceReview />}
+               />
+               <Route
+                  path="/stories/dict/:storyId"
+                  element={<StorySentenceDict />}
                />
 
                <Route path="/user/setting" element={<Setting />} />
