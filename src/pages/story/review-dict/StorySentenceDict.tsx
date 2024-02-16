@@ -59,8 +59,6 @@ const StorySentenceDict = () => {
    const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(true);
    const [showEditModal, setShowEditModal] = useState(false);
 
-
-
    // finish modal
    const [showFinishModal, setShowFinishModal] = useState(false);
    const [showDeleteSentenceModal, setShowDeleteSentenceModal] =
@@ -173,6 +171,7 @@ const StorySentenceDict = () => {
       setAhead(counterState);
       if (audioRef.current) {
          audioRef.current.src = ss[counterState].audio;
+         audioRef.current.play();
       }
       setPanel(1);
    };
@@ -186,6 +185,7 @@ const StorySentenceDict = () => {
       setAhead(counterState);
       if (audioRef.current) {
          audioRef.current.src = ss[counterState].audio;
+         audioRef.current.play();
       }
       setPanel(1);
    };
@@ -284,7 +284,7 @@ const StorySentenceDict = () => {
       setAhead(ahead + 1);
       setLeft(left - 1);
       setPanel(2);
-   }
+   };
 
    return (
       <div className="container">
@@ -298,7 +298,7 @@ const StorySentenceDict = () => {
                      <div>
                         <Link
                            to={`/stories/show/${story._id}`}
-                           className="btn mx-1"
+                           className="btn"
                            style={{ color: '#fff', backgroundColor: '#198754' }}
                         >
                            <i className="bi bi-eye" />
@@ -309,6 +309,12 @@ const StorySentenceDict = () => {
                            style={{ color: '#fff', backgroundColor: 'orange' }}
                         >
                            <i className="bi bi-pen" />
+                        </Link>
+                        <Link
+                           to={`/stories/review/${story._id}`}
+                           className="btn my-1 text-light bg-primary"
+                        >
+                           <i className="bi bi-arrow-repeat" />
                         </Link>
                      </div>
                   </div>

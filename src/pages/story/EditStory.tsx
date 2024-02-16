@@ -212,7 +212,7 @@ const EditStory = () => {
                   <label className="form-label">Meaning</label>
                   <textarea
                      className="form-control"
-                     style={{direction: 'rtl'}}
+                     style={{ direction: 'rtl' }}
                      onChange={e => {
                         setSentence({ ...sentence, meaning: e.target.value });
                      }}
@@ -381,6 +381,12 @@ const EditStory = () => {
                      className="btn my-1 text-light bg-primary"
                   >
                      <i className="bi bi-arrow-repeat" />
+                  </Link>
+                  <Link
+                     to={`/stories/dict/${story._id}`}
+                     className="btn my-1 mx-1 bg-info"
+                  >
+                     <i className="bi bi-pencil" />
                   </Link>
                </Modal.Title>
             </Modal.Header>

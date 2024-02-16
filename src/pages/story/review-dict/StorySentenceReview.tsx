@@ -310,7 +310,7 @@ const StorySentenceReview = () => {
                   <div>
                      <Link
                         to={`/stories/show/${story._id}`}
-                        className="btn mx-1"
+                        className="btn"
                         style={{ color: '#fff', backgroundColor: '#198754' }}
                      >
                         <i className="bi bi-eye" />
@@ -321,6 +321,12 @@ const StorySentenceReview = () => {
                         style={{ color: '#fff', backgroundColor: 'orange' }}
                      >
                         <i className="bi bi-pen" />
+                     </Link>
+                     <Link
+                        to={`/stories/dict/${story._id}`}
+                        className="btn my-1 bg-info"
+                     >
+                        <i className="bi bi-pencil" />
                      </Link>
                   </div>
                </div>

@@ -78,6 +78,12 @@ const ShowStory = () => {
                   >
                      <i className="bi bi-arrow-repeat" />
                   </Link>
+                  <Link
+                     to={`/stories/dict/${story._id}`}
+                     className="btn my-1 mx-1 bg-info"
+                  >
+                     <i className="bi bi-pencil" />
+                  </Link>
                </div>
             </div>
             <div className="mb-3">
