@@ -22,15 +22,8 @@ const StorySentenceDict = () => {
    const [again, setAgain] = useState(false);
 
    // Panel 0
-   const [sliderCountValueMax, setSliderCountValueMax] = useState(15);
-   const [sliderCountValueMin, setSliderCountValueMin] = useState(0);
-   const [sliderLimitValue, setSliderLimitValue] = useState(10);
-   const [limitMode, setLimitMode] = useState(false);
-   const [type, setType] = useState('all');
    const [sliderFrom, setSliderFrom] = useState(1);
    const [sliderTo, setSliderTo] = useState(0);
-   const [sentenceItems, setSentenceItems] = useState<any[]>([]);
-   const [answerItems, setAnswerItems] = useState<any[]>([]);
    const [story, setStory] = useState<IStory>({
       title: '',
       sentences: [],
@@ -81,50 +74,8 @@ const StorySentenceDict = () => {
                setFlagD({ from: 0, to: flagsTs[flagsTs.length - 1].index });
          } else toast.error(result.message);
       });
-   }, []);
-
-   useEffect(() => {
-      if (panel === 0) return;
-      const id = toast.loading('Loading...');
-      getSentencesApi(
-         (isOk: boolean, result) => {
-            if (isOk) {
-               toast.dismiss(id);
-               if (result.sentences.length === 0) {
-                  setPanel(0);
-                  return toast.info('There is no Sentences to review');
-               }
-               let ss: ISentence[] = result.sentences;
-               if (ss.length === 0) {
-                  setPanel(0);
-                  return toast.info('There is no Sentences to review');
-               }
-               if (limitMode) {
-                  ss = ss.slice(0, sliderLimitValue);
-                  setSentences(ss);
-               } else {
-                  setSentences(ss);
-               }
-               setLeft(ss.length - counterState);
-               setAhead(counterState);
-               if (audioRef.current) {
-                  audioRef.current.src = ss[counterState].audio;
-                  audioRef.current.play();
-               }
-            } else {
-               toast.error(result.message);
-            }
-         },
-         [
-            { name: 'trueGuessLimitMax', value: sliderCountValueMax },
-            { name: 'trueGuessLimitMin', value: sliderCountValueMin },
-            { name: 'sort', value: 'dictTrueGuessCount' },
-            { name: 'user', value: localStorage.getItem('userId') },
-            { name: 'mode', value: 'dict' },
-            { name: 'type', value: type },
-         ],
-      );
    }, [again]);
+
 
    useEffect(() => {
       if (counterState === 0 || panel === 0) return;
@@ -140,7 +91,7 @@ const StorySentenceDict = () => {
    useEffect(() => {
       if (
          panel === 1 &&
-         counterState !== 0 &&
+         // counterState !== 0 &&
          counterState !== sentences.length
       ) {
          if (audioRef.current) {
@@ -157,9 +108,15 @@ const StorySentenceDict = () => {
    }, [panel]);
 
    const startClick = () => {
-      setStateCounter(0);
+      clearClick();
+      let ss: any[] = sentences.slice(sliderFrom - 1, sliderTo);
+      setSentences(ss);
+      setLeft(ss.length - counterState);
+      setAhead(counterState);
+      if (audioRef.current) {
+         audioRef.current.src = ss[counterState].audio;
+      }
       setPanel(1);
-      setAgain(!again);
    };
 
    const reviewToughs = () => {
@@ -171,7 +128,6 @@ const StorySentenceDict = () => {
       setAhead(counterState);
       if (audioRef.current) {
          audioRef.current.src = ss[counterState].audio;
-         audioRef.current.play();
       }
       setPanel(1);
    };
@@ -185,7 +141,6 @@ const StorySentenceDict = () => {
       setAhead(counterState);
       if (audioRef.current) {
          audioRef.current.src = ss[counterState].audio;
-         audioRef.current.play();
       }
       setPanel(1);
    };
