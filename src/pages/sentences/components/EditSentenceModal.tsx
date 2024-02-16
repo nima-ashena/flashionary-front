@@ -61,7 +61,11 @@ const EditSentenceModal = props => {
                   autoClose: 2000,
                });
                if (mode === 'simple') setRender(!render);
-               else if (mode === 'review') {
+               else if (
+                  mode === 'review' ||
+                  mode === 'replacement' ||
+                  mode === 'dict'
+               ) {
                   let ss: ISentence[] = [];
                   sentences.forEach(item => {
                      if (item._id === sentenceId) {
@@ -279,6 +283,35 @@ const EditSentenceModal = props => {
                   />
                </div>
 
+               <div className="mb-3 col-lg-6">
+                  <div className="form-check">
+                     <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={e => {
+                           setSentence({
+                              ...sentence,
+                              dictImportance: e.target.checked,
+                           });
+                        }}
+                        checked={sentence.dictImportance}
+                     />
+                     <label className="form-check-label">Dict Importance</label>
+                  </div>
+
+                  <input
+                     type="number"
+                     className="form-control"
+                     onChange={e => {
+                        setSentence({
+                           ...sentence,
+                           dictTrueGuessCount: Number(e.target.value),
+                        });
+                     }}
+                     value={sentence.dictTrueGuessCount}
+                  />
+               </div>
+
                <audio
                   className="mb-2 w-100"
                   controls
@@ -324,7 +357,7 @@ const EditSentenceModal = props => {
                         type="button"
                         className="btn btn-secondary btn-lg w-100 add-btn"
                         onClick={() => {
-                           setShowEditModal(false)
+                           setShowEditModal(false);
                         }}
                      >
                         Close

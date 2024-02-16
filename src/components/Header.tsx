@@ -155,7 +155,7 @@ const Header = () => {
                   onClick={closeSidebar}
                   className="menu-item"
                >
-                  Dict (Beta)
+                  Dict
                </Link>
                <Link
                   to={'/stories'}

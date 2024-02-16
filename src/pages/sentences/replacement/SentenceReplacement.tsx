@@ -526,6 +526,7 @@ const SentenceReplacement = () => {
 
          {counterState < sentences.length && (
             <EditSentenceModal
+               mode={'replacement'}
                sentences={sentences}
                setSentences={setSentences}
                sentenceId={sentences[counterState]._id}

@@ -41,7 +41,7 @@ const SentenceDict = () => {
 
    // Panel 2
    const [showEditModal, setShowEditModal] = useState(false);
-   const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(true);
+   const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(false);
 
    // finish modal
    const [showFinishModal, setShowFinishModal] = useState(false);
@@ -208,6 +208,7 @@ const SentenceDict = () => {
    };
 
    const goNextClick = () => {
+      setInput('')
       plusTrueSentenceApi(
          { sentenceId: sentences[counterState]._id, plusType: 'dict' },
          isOk => {
@@ -395,7 +396,7 @@ const SentenceDict = () => {
                      </div>
                   )}
                   <button
-                     className="btn btn-secondary w-100 mb-2"
+                     className="btn btn-outline-dark w-100 mb-2"
                      onClick={clearClick}
                   >
                      Clear
@@ -420,6 +421,13 @@ const SentenceDict = () => {
                      onClick={ignoreClick}
                   >
                      Ignore
+                  </button>
+
+                  <button
+                     className="btn btn-secondary w-100 mb-2"
+                     onClick={() => {setShowEditModal(true)}}
+                  >
+                     Edit
                   </button>
                </div>
             )}
@@ -535,6 +543,7 @@ const SentenceDict = () => {
 
          {counterState < sentences.length && (
             <EditSentenceModal
+               mode={'dict'}
                sentences={sentences}
                setSentences={setSentences}
                sentenceId={sentences[counterState]._id}

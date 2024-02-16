@@ -46,7 +46,7 @@ const StorySentenceDict = () => {
    const [miss, setMiss] = useState<boolean>(false);
    const [p, setP] = useState<string>('-');
    const audioRef = useRef<HTMLAudioElement>(null);
-   const [autoPlayAudio1, setAutoPlayAudio1] = useState<boolean>(true);
+   const [autoPlayAudio1, setAutoPlayAudio1] = useState<boolean>(false);
 
    // Panel 2
    const [autoPlayAudio, setAutoPlayAudio] = useState<boolean>(true);
@@ -75,7 +75,6 @@ const StorySentenceDict = () => {
          } else toast.error(result.message);
       });
    }, [again]);
-
 
    useEffect(() => {
       if (counterState === 0 || panel === 0) return;
@@ -236,6 +235,7 @@ const StorySentenceDict = () => {
    };
 
    const goNextClick = () => {
+      setInput('')
       setAhead(ahead + 1);
       setLeft(left - 1);
       setPanel(2);
@@ -435,7 +435,14 @@ const StorySentenceDict = () => {
                         {p}
                      </p>
                      {miss ? (
-                        <Badge bg="danger" style={{ height: 20 }}>
+                        <Badge
+                           bg="danger"
+                           style={{
+                              height: 30,
+                              fontSize: 15,
+                              transition: '0.3ms',
+                           }}
+                        >
                            Missed Character
                         </Badge>
                      ) : (
@@ -455,7 +462,7 @@ const StorySentenceDict = () => {
                      </div>
                   )}
                   <button
-                     className="btn btn-secondary w-100 mb-2"
+                     className="btn btn-outline-dark w-100 mb-2"
                      onClick={clearClick}
                   >
                      Clear
@@ -473,6 +480,13 @@ const StorySentenceDict = () => {
                      onClick={goNextClick}
                   >
                      Go Next!
+                  </button>
+
+                  <button
+                     className="btn btn-secondary w-100 mb-2"
+                     onClick={() => {setShowEditModal(true)}}
+                  >
+                     Edit
                   </button>
                </div>
             )}
@@ -596,7 +610,6 @@ const StorySentenceDict = () => {
                setShowEditModal={setShowEditModal}
             />
          )}
-
 
          {/* Delete Modal */}
          <Modal
