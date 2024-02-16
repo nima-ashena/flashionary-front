@@ -60,6 +60,14 @@ const Sentences = () => {
          value: '-replacementTrueGuessCount',
          name: 'Replacement TrueGuessCount - Ascending',
       },
+      {
+         value: 'dictTrueGuessCount',
+         name: 'Dict TrueGuessCount - Descending',
+      },
+      {
+         value: '-dictTrueGuessCount',
+         name: 'Dict TrueGuessCount - Ascending',
+      },
       { value: 'title', name: 'Name - Ascending' },
       { value: '-title', name: 'Name - Descending' },
    ];

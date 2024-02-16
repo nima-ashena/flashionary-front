@@ -75,11 +75,14 @@ const Sentence = (props: any) => {
             <div className={`card bg-${bgColor} text-light`} id="sentence">
                <div className="card-body text-center">
                   <p className="card-title mb-2">
-                     <span className="badge bg-info me-2">
+                     <span className="badge bg-info me-1">
                         {sentence.reviewTrueGuessCount?.toString()}
                      </span>
                      <span className="badge bg-primary me-1">
                         {sentence.replacementTrueGuessCount?.toString()}
+                     </span>
+                     <span className="badge bg-success me-1">
+                        {sentence.dictTrueGuessCount?.toString()}
                      </span>
                   </p>
                   <p

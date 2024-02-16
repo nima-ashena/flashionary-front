@@ -436,7 +436,7 @@ const SentenceReplacement = () => {
                   Go Next!
                </button>
                <button
-                  className="btn btn-danger w-100 mb-2"
+                  className="btn btn-warning w-100 mb-2"
                   onClick={ignoreClick}
                >
                   Ignore
