@@ -395,12 +395,12 @@ const SentenceDict = () => {
                            sentences[counterState].meaning}
                      </div>
                   )}
-                  <button
+                  {/* <button
                      className="btn btn-outline-dark w-100 mb-2"
                      onClick={clearClick}
                   >
                      Clear
-                  </button>
+                  </button> */}
 
                   <button
                      className="btn btn-success w-100 mb-2"

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { IVocab } from '../../../../interface/vocab.interface';
-import { Button, Form, Modal, ProgressBar } from 'react-bootstrap';
+import { Badge, Button, Form, Modal, ProgressBar } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import {
    deleteVocabApi,
@@ -36,6 +36,7 @@ const VocabDict = () => {
    const noteAudioRef = useRef<HTMLAudioElement>(null);
    const [isShowAnswerUsed, setIsShowAnswerUsed] = useState(false);
    const [hardMode, setHardMode] = useState<boolean>(false);
+   const [miss, setMiss] = useState<boolean>(false);
 
    // Panel 2
    const [showEditModal, setShowEditModal] = useState(false);
@@ -141,11 +142,15 @@ const VocabDict = () => {
    const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInput(e.target.value);
       if (hardMode) setP('Hard Mode');
-      let res = calculateAccuracy(e.target.value, vocabs[counterState].title);
+      let { accurate, isMissed } = calculateAccuracy(
+         e.target.value,
+         vocabs[counterState].title,
+      );
 
-      setAccurate(res);
-      if (!hardMode) setP(`${res}%`);
-      if (res === 100) {
+      setMiss(isMissed);
+      setAccurate(accurate);
+      if (!hardMode) setP(`${accurate}%`);
+      if (accurate === 100) {
          setInput('');
          setAhead(ahead + 1);
          setLeft(left - 1);
@@ -317,11 +322,23 @@ const VocabDict = () => {
                {!hardMode && (
                   <>
                      <ProgressBar now={accurate} label={p} />
-                     <p className="" style={{ fontSize: 28 }}>
-                        {p}
-                     </p>
+                     <div className="d-flex align-items-center justify-content-between">
+                        <p className="" style={{ fontSize: 28 }}>
+                           {p}
+                        </p>
+                        {miss ? (
+                           <Badge bg="danger" style={{ height: 20 }}>
+                              Missed Character
+                           </Badge>
+                        ) : (
+                           <Badge bg="success" style={{ height: 20 }}>
+                              Go on...
+                           </Badge>
+                        )}
+                     </div>
                   </>
                )}
+
                {vocabs[counterState]?.meaning && (
                   <div
                      className="alert text-dark"
@@ -330,12 +347,12 @@ const VocabDict = () => {
                      {vocabs[counterState] && vocabs[counterState].meaning}
                   </div>
                )}
-               <button
+               {/* <button
                   className="btn btn-secondary w-100 mb-2"
                   onClick={clearClick}
                >
                   Clear
-               </button>
+               </button> */}
                {!hardMode && (
                   <button
                      className="btn btn-success w-100 mb-2"
@@ -522,14 +539,16 @@ const VocabDict = () => {
 export default VocabDict;
 
 const calculateAccuracy = (inputValue: string, answer: string) => {
-   inputValue = inputValue.toLowerCase();
-   answer = answer.toLowerCase();
-
    let n = 0;
+   let isMissed = true;
    for (let i = 0; i < answer.length; i++) {
       if (answer[i] === inputValue[i]) {
          n++;
       }
    }
-   return Math.round((n / answer.length) * 100);
+   if (inputValue.length == n) isMissed = false;
+   return {
+      accurate: Math.round((n / answer.length) * 100),
+      isMissed,
+   };
 };
