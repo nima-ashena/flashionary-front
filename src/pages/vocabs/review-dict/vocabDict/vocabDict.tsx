@@ -155,16 +155,6 @@ const VocabDict = () => {
          setAhead(ahead + 1);
          setLeft(left - 1);
          setPanel(2);
-         if (!isShowAnswerUsed)
-            plusTrueVocabApi(
-               { vocabId: vocabs[counterState]._id, plusType: 'dict' },
-               (isOk, result) => {
-                  if (!isOk) {
-                     toast.error('Plus counter failed');
-                     console.log(result);
-                  }
-               },
-            );
          setIsShowAnswerUsed(false);
       }
    };
@@ -181,6 +171,22 @@ const VocabDict = () => {
    };
 
    const nextClick = () => {
+      if (panel !== 2) return;
+      // if (!isShowAnswerUsed)
+      plusTrueVocabApi(
+         { vocabId: vocabs[counterState]._id, plusType: 'dict' },
+         (isOk, result) => {
+            if (!isOk) {
+               toast.error('Plus counter failed');
+               console.log(result);
+            }
+         },
+      );
+      setStateCounter(counterState + 1);
+      setPanel(1);
+   };
+
+   const nextAndStudyAgainClick = () => {
       if (panel !== 2) return;
       setStateCounter(counterState + 1);
       setPanel(1);
@@ -453,6 +459,12 @@ const VocabDict = () => {
                >
                   Next
                </button>
+               <button
+                  className="btn btn-warning w-100 mb-2"
+                  onClick={nextAndStudyAgainClick}
+               >
+                  I need study again
+               </button>
                <Button
                   className="btn btn-secondary w-100 mb-2"
                   onClick={() => {
@@ -539,6 +551,9 @@ const VocabDict = () => {
 export default VocabDict;
 
 const calculateAccuracy = (inputValue: string, answer: string) => {
+   inputValue = inputValue.toLowerCase();
+   answer = answer.toLowerCase();
+
    let n = 0;
    let isMissed = true;
    for (let i = 0; i < answer.length; i++) {

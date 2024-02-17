@@ -96,10 +96,3 @@ function App() {
 
 export default App;
 
-export const setLocalStorage = data => {
-   // localStorage.setItem('AuthToken', data.token);
-   // localStorage.setItem('defaultTTSEngine', data.user.defaultTTSEngine);
-   // localStorage.setItem('username', data.user.username);
-   // localStorage.setItem('userId', data.user._id);
-   // setIsUserLogin(true);
-};
