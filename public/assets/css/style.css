@@ -5,3 +5,7 @@
 .menu-item:hover {
    color: #fff !important;
 }
+
+.hoverPointer{
+   cursor: pointer;
+}

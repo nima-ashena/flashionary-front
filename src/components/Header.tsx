@@ -1,13 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Button, Dropdown, Offcanvas } from 'react-bootstrap';
+import { Button, Dropdown, Form, Modal, Offcanvas } from 'react-bootstrap';
 import { UserContext } from '../context/common';
 
 import './style.css';
 
 const Header = () => {
    const [show, setShow] = useState(false);
+   const [hiddenModal, setHiddenModal] = useState(false);
+
+   const [darkMode, setDarkMode] = useState(false);
 
    const closeSidebar = () => setShow(false);
    const openSidebar = () => setShow(true);
@@ -23,6 +26,25 @@ const Header = () => {
       setIsUserLogin(false);
       navigate('/sign-in');
    };
+
+   useEffect(() => {
+      const isDark = localStorage.getItem('isDark')
+      if(isDark == 'true'){
+         setDarkMode(true)
+      } else if (isDark === 'false'){
+         setDarkMode(false)
+      }
+   }, [])
+
+   useEffect(() => {
+      if (darkMode) {
+         localStorage.setItem('isDark', 'true')
+         // window.location.reload()
+      } else {
+         localStorage.setItem('isDark', 'false')
+         // window.location.reload()
+      }
+   }, [darkMode]);
 
    return (
       <>
@@ -74,6 +96,7 @@ const Header = () => {
                      borderColor: 'gray',
                      borderRadius: '10px',
                   }}
+                  onClick={() => {setHiddenModal(true)}}
                >
                   <img src={`/flashionary.png`} style={{ width: 30 }} alt="" />{' '}
                </div>
@@ -162,10 +185,33 @@ const Header = () => {
                   onClick={closeSidebar}
                   className="menu-item"
                >
-                  Story 
+                  Story
                </Link>
             </Offcanvas.Body>
          </Offcanvas>
+
+         <Modal
+            show={hiddenModal}
+            onHide={() => {
+               setHiddenModal(false);
+            }}
+         >
+            <Modal.Header closeButton>
+               <Modal.Title>
+                  Toggle this check button and reload the page
+               </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+               <Form.Check
+                  type="switch"
+                  onChange={e => {
+                     setDarkMode(e.target.checked)
+                  }}
+                  checked={darkMode}
+                  label="DarkMode"
+               />
+            </Modal.Body>
+         </Modal>
       </>
    );
 };
