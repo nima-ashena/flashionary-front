@@ -18,7 +18,7 @@ const AddVocab = () => {
       phonetics: '',
       type: 'noun',
       dictionaryApi: true,
-      noteApi: false,
+      noteApi: true,
       translateApi: true,
       dictImportance: true,
       reviewImportance: true,

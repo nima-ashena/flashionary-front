@@ -114,7 +114,7 @@ const Header = () => {
                   onClick={closeSidebar}
                   className="menu-item"
                >
-                  Add Vocab
+                  Add Vocab+
                </Link>
                <Link
                   to={'/vocabs'}
