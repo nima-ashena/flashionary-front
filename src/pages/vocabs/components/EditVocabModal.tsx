@@ -330,7 +330,7 @@ const EditVocabModal = props => {
                               setShowSentencesModal(true);
                            }}
                         >
-                           Sentences
+                           Sentences ({vocab?.sentences?.length})
                         </button>
                         <button
                            type="button"
@@ -340,7 +340,7 @@ const EditVocabModal = props => {
                               setShowVocabsModal(true);
                            }}
                         >
-                           Vocabs
+                           Vocabs ({vocab?.vocabs?.length})
                         </button>
                      </div>
 

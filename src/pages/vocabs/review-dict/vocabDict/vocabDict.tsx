@@ -449,6 +449,12 @@ const VocabDict = () => {
                   controls
                   ref={audioRef}
                ></audio>
+               <p>
+                  True guess count:{' '}
+                  <span className="badge bg-info" style={{ fontSize: 16 }}>
+                     {vocabs[counterState].dictTrueGuessCount}
+                  </span>
+               </p>
                {vocabs[counterState].sentences.map(item => (
                   <SentenceItemVocab item={item} key={item._id} />
                ))}

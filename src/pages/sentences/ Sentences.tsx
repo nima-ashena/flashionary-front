@@ -181,17 +181,17 @@ const Sentences = () => {
                </div>
 
                <div>
-                  <label className="form-label">Sort By</label>
+                  <label className="form-label">User</label>
                   <select
                      className="form-select mb-3"
                      aria-label="Default select example"
-                     value={sortC}
+                     value={userC}
                      onChange={e => {
-                        setSortC(Number(e.target.value));
+                        setUserC(Number(e.target.value));
                      }}
                   >
-                     {sortValues.map((item, index) => (
-                        <option value={index}>{item.name}</option>
+                     {users.map((item, index) => (
+                        <option value={index}>{item.username}</option>
                      ))}
                   </select>
                </div>
@@ -215,17 +215,17 @@ const Sentences = () => {
                </div>
 
                <div>
-                  <label className="form-label">User</label>
+                  <label className="form-label">Sort By</label>
                   <select
                      className="form-select mb-3"
                      aria-label="Default select example"
-                     value={userC}
+                     value={sortC}
                      onChange={e => {
-                        setUserC(Number(e.target.value));
+                        setSortC(Number(e.target.value));
                      }}
                   >
-                     {users.map((item, index) => (
-                        <option value={index}>{item.username}</option>
+                     {sortValues.map((item, index) => (
+                        <option value={index}>{item.name}</option>
                      ))}
                   </select>
                </div>
