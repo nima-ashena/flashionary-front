@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASEURL } from '.';
+import { ListGroup } from 'react-bootstrap';
 
 type ApiFunction = (isOk: boolean, resultData?: any) => void;
 
@@ -34,12 +35,14 @@ export const getUsersApi = (callBack: ApiFunction) => {
 };
 
 export const signInApi = (user: any, callBack: ApiFunction) => {
+   console.log(BASEURL);
    axios
       .post(`${BASEURL}/users/sign-in`, user)
       .then(result => {
          callBack(true, result.data);
       })
       .catch(err => {
+         console.log(err);
          callBack(false, err);
       });
 };

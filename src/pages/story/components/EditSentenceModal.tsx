@@ -77,6 +77,7 @@ const EditSentenceModal = props => {
          {
             _id: sentenceId,
             TTSEngine: localStorage.getItem('defaultTTSEngine'),
+            type: 'context'
          },
          (isOk: boolean, result) => {
             if (isOk) {

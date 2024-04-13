@@ -147,7 +147,7 @@ const StorySentenceDict = () => {
    const handleModalClose = () => {
       setShowFinishModal(false);
       setPanel(0);
-      navigate('/sentences');
+      navigate('/stories');
    };
 
    const againClick = () => {

@@ -26,6 +26,7 @@ import SentenceReview from './pages/sentences/sentenceReview/sentenceReview';
 import SentenceReplacement from './pages/sentences/replacement/SentenceReplacement';
 import SentenceDict from './pages/sentences/dict/SentenceDict';
 import StorySentenceDict from './pages/story/review-dict/StorySentenceDict';
+import Categories from './pages/note/Categories';
 
 const RoutesHandle = () => {
    useEffect(() => {}, []);
@@ -76,6 +77,13 @@ const RoutesHandle = () => {
                   path="/stories/dict/:storyId"
                   element={<StorySentenceDict />}
                />
+
+               <Route
+                  path="/categories"
+                  element={<Categories />}
+               />
+
+               
 
                <Route path="/user/setting" element={<Setting />} />
                <Route path="/test" element={<Test />} />
