@@ -386,6 +386,16 @@ const SentenceDict = () => {
                      )}
                   </div>
 
+                  {sentences[counterState]?.note && (
+                     <div
+                        className="alert text-dark"
+                        style={{ backgroundColor: '#E9ECEF', direction: 'rtl' }}
+                     >
+                        {sentences[counterState] &&
+                           sentences[counterState].note}
+                     </div>
+                  )}
+
                   {sentences[counterState]?.meaning && (
                      <div
                         className="alert text-dark"
@@ -465,6 +475,7 @@ const SentenceDict = () => {
                            sentences[counterState].context}
                      </div>
                   </div>
+                  
                   {sentences[counterState].note && (
                      <div className="mb-1">
                         <audio
@@ -493,6 +504,7 @@ const SentenceDict = () => {
                         </div>
                      </div>
                   )}
+
                   {sentences[counterState].meaning && (
                      <div className="mb-1">
                         <label className="form-label">Meaning (Persian)</label>
