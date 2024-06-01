@@ -26,10 +26,10 @@ const Vocab = (props: any) => {
       }
    }, []);
    
+   const [showModal, setShowModal] = useState(false);
    const [showEditModal, setShowEditModal] = useState(false);
    const [showDeleteModal, setShowDeleteModal] = useState(false);
    const [showCloneModal, setShowCloneModal] = useState(false);
-   const [showModal, setShowModal] = useState(false);
 
    const deleteVocabClick = () => {
       setShowDeleteModal(false);
@@ -154,6 +154,8 @@ const Vocab = (props: any) => {
                         showModal={showModal}
                         setShowModal={setShowModal}
                         render={render}
+                        setRender={setRender}
+                        setShowEditModal={setShowEditModal}
                      />
 
                      {/* Delete Modal */}

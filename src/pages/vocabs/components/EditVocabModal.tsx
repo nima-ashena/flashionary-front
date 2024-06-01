@@ -65,6 +65,7 @@ const EditVocabModal = props => {
             title: vocab.title,
             note: vocab.note,
             meaning: vocab.meaning,
+            type: vocab.type,
             definition: vocab.definition,
             reviewTrueGuessCount: vocab.reviewTrueGuessCount,
             dictTrueGuessCount: vocab.dictTrueGuessCount,
@@ -189,6 +190,24 @@ const EditVocabModal = props => {
                         value={vocab.note}
                         rows={3}
                      />
+                  </div>
+                  <div className="mb-3">
+                     <label className="form-label">Type</label>
+                     <select
+                        className="form-select"
+                        aria-label="Default select example"
+                        value={vocab.type}
+                        onChange={e => {
+                           setVocab({ ...vocab, type: e.target.value });
+                        }}
+                     >
+                        <option value=""></option>
+                        <option value="noun">Noun</option>
+                        <option value="verb">Verb</option>
+                        <option value="adjective">Adjective</option>
+                        <option value="adverb">Adverb</option>
+                        <option value="nounVerb">Noun, Verb</option>
+                     </select>
                   </div>
                   <div className="mb-3">
                      <label className="form-label">Meaning (Persian)</label>
