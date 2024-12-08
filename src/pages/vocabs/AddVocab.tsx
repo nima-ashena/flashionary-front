@@ -21,7 +21,6 @@ const AddVocab = () => {
       translateApi: true,
       dictImportance: true,
       reviewImportance: true,
-      TTSEngine: localStorage.getItem('defaultTTSEngine'),
    };
 
    const [vocab, setVocab] = useState<IAddVocab>(primaryData);

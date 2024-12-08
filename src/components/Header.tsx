@@ -22,7 +22,6 @@ const Header = () => {
       localStorage.removeItem('AuthToken');
       localStorage.removeItem('userId');
       localStorage.removeItem('username');
-      localStorage.removeItem('defaultTTSEngine');
       setIsUserLogin(false);
       navigate('/sign-in');
    };
@@ -123,13 +122,13 @@ const Header = () => {
                >
                   Vocabs
                </Link>
-               <Link
+               {/* <Link
                   to={'/vocabs/groups'}
                   onClick={closeSidebar}
                   className="menu-item"
                >
                   Vocab Groups
-               </Link>
+               </Link> */}
                <Link
                   to={'/vocabs/review'}
                   onClick={closeSidebar}
@@ -166,13 +165,13 @@ const Header = () => {
                >
                   Review
                </Link>
-               <Link
+               {/* <Link
                   to={'/sentences/replacement'}
                   onClick={closeSidebar}
                   className="menu-item"
                >
                   Replacement
-               </Link>
+               </Link> */}
                <Link
                   to={'/sentences/dict'}
                   onClick={closeSidebar}

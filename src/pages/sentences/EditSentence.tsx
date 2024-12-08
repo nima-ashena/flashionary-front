@@ -156,7 +156,6 @@ const EditSentence = () => {
       syncSentenceAudioApi(
          {
             _id: sentenceId,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
          },
          (isOk: boolean, result) => {
             if (isOk) {

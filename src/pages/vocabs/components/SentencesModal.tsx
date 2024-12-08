@@ -29,7 +29,6 @@ const SentencesModal = props => {
          {
             vocabId,
             context: sentence,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
          },
          (isOk, result) => {
             if (isOk) {

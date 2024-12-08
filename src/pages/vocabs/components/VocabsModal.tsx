@@ -20,7 +20,10 @@ const VocabsModal = props => {
       setLocalRender,
    } = props;
 
-   const [addVocab, setAddVocab] = useState<IAddVocab>({ title: '', meaning: '' });
+   const [addVocab, setAddVocab] = useState<IAddVocab>({
+      title: '',
+      meaning: '',
+   });
 
    const addVocabClick = (
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -32,7 +35,7 @@ const VocabsModal = props => {
             vocabId,
             title: addVocab.title,
             meaning: addVocab.meaning,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
+
             translateApi: addVocab.translateApi,
          },
          (isOk, result) => {

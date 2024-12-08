@@ -70,7 +70,6 @@ const EditStory = () => {
             storyFlag: sentence.storyFlag,
             storyTough: sentence.storyTough,
             translateApi,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
          },
          (isOk, result) => {
             if (isOk) {
@@ -140,7 +139,6 @@ const EditStory = () => {
       syncStoryAudioApi(
          {
             _id: storyId,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
          },
          (isOk: boolean, result) => {
             if (isOk) {

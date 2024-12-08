@@ -65,7 +65,6 @@ const EditVocabModal = props => {
       syncVocabAudioApi(
          {
             _id: vocabId,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
          },
          (isOk: boolean, result) => {
             if (isOk) {

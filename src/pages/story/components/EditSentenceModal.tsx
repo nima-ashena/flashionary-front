@@ -76,8 +76,8 @@ const EditSentenceModal = props => {
       syncSentenceAudioApi(
          {
             _id: sentenceId,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
-            type: 'context'
+
+            type: 'context',
          },
          (isOk: boolean, result) => {
             if (isOk) {

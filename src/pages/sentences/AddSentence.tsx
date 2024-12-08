@@ -17,7 +17,6 @@ const AddSentence = () => {
       reviewImportance: true,
       replacementImportance: true,
       note: '',
-      TTSEngine: localStorage.getItem('defaultTTSEngine'),
       type: 'Simple',
    };
    const [sentence, setSentence] = useState<IAddSentence>(primaryData);

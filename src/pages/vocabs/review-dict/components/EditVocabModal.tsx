@@ -108,7 +108,7 @@ const EditVocabModal = props => {
       syncVocabAudioApi(
          {
             _id: vocabId,
-            TTSEngine: localStorage.getItem('defaultTTSEngine'),
+
             type,
          },
          (isOk: boolean, result) => {
@@ -291,7 +291,7 @@ const EditVocabModal = props => {
                      ref={audioRef}
                      src={`${vocab.audio}`}
                   ></audio>
-                   <div>
+                  <div>
                      <div>
                         <button
                            type="button"
