@@ -66,3 +66,23 @@ export const editUserApi = (
          callBack(false, err);
       });
 };
+
+//
+export const syncAllAudio = (callBack: ApiFunction) => {
+   axios
+      .post(
+         `${BASEURL}/users/sync-all-audio`,
+         {},
+         {
+            headers: {
+               Authorization: `Bearer ${localStorage.getItem('AuthToken')}`,
+            },
+         },
+      )
+      .then(result => {
+         callBack(true, result.data);
+      })
+      .catch(err => {
+         callBack(false, err);
+      });
+};

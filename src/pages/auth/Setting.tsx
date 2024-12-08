@@ -4,14 +4,13 @@ import { IAddSentence } from '../../interface/sentence.interface';
 import { Dropdown } from 'react-bootstrap';
 import { TTSTypes } from '../../utils/constants';
 import { IUser } from '../../interface/user';
-import { editUserApi, getUserApi } from '../../api/auth.service';
+import { editUserApi, getUserApi, syncAllAudio } from '../../api/auth.service';
 
 const Setting = () => {
    const emptyData: IUser = {
       name: '',
       email: '',
       username: '',
-      defaultTTSEngine: '',
    };
    const [userData, setUserData] = useState<IUser>(emptyData);
 
@@ -52,10 +51,10 @@ const Setting = () => {
       });
    };
 
-   const changeDefaultTTSEngineClick = (item: string) => {
-      setUserData({
-         ...userData,
-         defaultTTSEngine: item,
+   const syncAllAudioClick = () => {
+      syncAllAudio(isOk => {
+         if(isOk)
+            alert('done')
       });
    };
 
@@ -92,39 +91,16 @@ const Setting = () => {
                   value={userData.name}
                />
             </div>
-            <div className="mb-3">
-               <label className="form-check-label">
-                  Default TTS:{' '}
-                  <span style={{ fontWeight: 800 }}>
-                     {userData.defaultTTSEngine}
-                  </span>{' '}
-                  <Dropdown style={{ display: 'inline' }}>
-                     <Dropdown.Toggle
-                        variant="secondary"
-                        id="dropdown-basic"
-                     ></Dropdown.Toggle>
-                     <Dropdown.Menu>
-                        {TTSTypes.map(item => {
-                           return (
-                              <Dropdown.Item
-                                 onClick={e => {
-                                    changeDefaultTTSEngineClick(item);
-                                 }}
-                              >
-                                 {item}
-                              </Dropdown.Item>
-                           );
-                        })}
-                     </Dropdown.Menu>
-                  </Dropdown>
-               </label>
-            </div>
+
+            <button type="button" className='mb-2' onClick={syncAllAudioClick}>
+               Sync All Audio
+            </button>
 
             <button
                type="submit"
                className="btn btn-primary btn-lg w-100 add-btn mb-3"
             >
-               Edit
+               save
             </button>
          </form>
       </div>

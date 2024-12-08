@@ -4,5 +4,4 @@ export interface IUser {
    email?: string;
    username?: string;
    created_at?: Date;
-   defaultTTSEngine: string;
 }

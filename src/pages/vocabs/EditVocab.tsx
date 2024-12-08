@@ -73,8 +73,6 @@ const EditVocab = () => {
       if (vocab.definition != undefined)
          formData.append('definition', vocab.definition);
       if (vocab.example != undefined) formData.append('example', vocab.example);
-      if (vocab.type) formData.append('type', vocab.type);
-      formData.append('compoundType', vocab.compoundType);
       formData.append(
          'reviewTrueGuessCount',
          String(vocab.reviewTrueGuessCount),
@@ -147,12 +145,7 @@ const EditVocab = () => {
             if (isOk) {
                setRender(!render);
                setSentence('');
-               toast.update(id, {
-                  render: 'sentence added successfully',
-                  type: 'success',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
+               toast.dismiss(id);
             } else {
                toast.update(id, {
                   render: result.response.data.message,
@@ -200,11 +193,10 @@ const EditVocab = () => {
             if (isOk) {
                setVocab(result);
                toast.update(t, {
-                  render:
-                     'vocab audio sync done successfully, Please reload the page',
+                  render: 'Done',
                   type: 'success',
                   isLoading: false,
-                  autoClose: 2000,
+                  autoClose: 1000,
                });
             } else {
                console.log(result.message);

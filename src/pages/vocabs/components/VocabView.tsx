@@ -112,26 +112,6 @@ const VocabViewModal = props => {
                      </div>
                   </div>
                   <div className="row">
-                     <div className="mb-3 col-6">
-                        <label className="form-label">Type</label>
-                        <input
-                           type="text"
-                           className="form-control"
-                           value={vocab.type}
-                           disabled
-                        />
-                     </div>
-                     <div className="mb-3 col-6">
-                        <label className="form-label">Compound Type</label>
-                        <input
-                           type="text"
-                           className="form-control"
-                           value={vocab.compoundType}
-                           disabled
-                        />
-                     </div>
-                  </div>
-                  <div className="row">
                      <div className="mb-3 col-12">
                         <label className="form-label">Phonetics</label>
                         <input

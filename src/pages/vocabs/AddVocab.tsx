@@ -16,7 +16,6 @@ const AddVocab = () => {
       meaning: '',
       note: '',
       phonetics: '',
-      type: 'noun',
       dictionaryApi: true,
       noteApi: true,
       translateApi: true,
@@ -95,40 +94,6 @@ const AddVocab = () => {
                   }}
                   value={vocab.meaning}
                />
-            </div>
-            <div className="mb-3">
-               <label className="form-label">Type</label>
-               <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={e => {
-                     setVocab({ ...vocab, type: e.target.value });
-                  }}
-               >
-                  <option value=""></option>
-                  <option value="noun">Noun</option>
-                  <option value="verb">Verb</option>
-                  <option value="adjective">Adjective</option>
-                  <option value="adverb">Adverb</option>
-                  <option value="nounVerb">Noun, Verb</option>
-               </select>
-            </div>
-            <div className="mb-3">
-               <label className="form-label">Compound Type</label>
-               <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={e => {
-                     setVocab({
-                        ...vocab,
-                        compoundType: e.target.value,
-                     });
-                  }}
-               >
-                  {compoundTypes.map(item => (
-                     <option value={item}>{item}</option>
-                  ))}
-               </select>
             </div>
 
             <div className="d-flex justify-content-between mb-2">
