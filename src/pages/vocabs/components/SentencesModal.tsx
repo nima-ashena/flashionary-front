@@ -35,12 +35,7 @@ const SentencesModal = props => {
                setRender(!render);
                setLocalRender(!localRender);
                setSentence('');
-               toast.update(id, {
-                  render: 'sentence added successfully',
-                  type: 'success',
-                  isLoading: false,
-                  autoClose: 2000,
-               });
+               toast.dismiss(id);
             } else {
                toast.update(id, {
                   render: result.response.data.message,
