@@ -128,38 +128,6 @@ const AddSentence = () => {
                </label>
             </div>
 
-            <div className="d-flex justify-content-between mb-2">
-               <div className="form-check">
-                  <input
-                     className="form-check-input"
-                     type="checkbox"
-                     onChange={e => {
-                        setSentence({
-                           ...sentence,
-                           reviewImportance: e.target.checked,
-                        });
-                     }}
-                     checked={sentence.reviewImportance}
-                  />
-                  <label className="form-check-label">Review Importance</label>
-               </div>
-               <div className="form-check">
-                  <input
-                     className="form-check-input"
-                     type="checkbox"
-                     onChange={e => {
-                        setSentence({
-                           ...sentence,
-                           replacementImportance: e.target.checked,
-                        });
-                     }}
-                     checked={sentence.replacementImportance}
-                  />
-                  <label className="form-check-label">
-                     Replacement Importance
-                  </label>
-               </div>
-            </div>
 
             <div className="d-flex justify-content-between mb-2">
                <Form.Check

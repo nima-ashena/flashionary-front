@@ -242,40 +242,7 @@ const EditVocabModal = props => {
                         value={vocab.dictTrueGuessCount}
                      />
                   </div>
-                  <div className="d-flex justify-content-between mb-2">
-                     <div className="form-check">
-                        <input
-                           className="form-check-input"
-                           type="checkbox"
-                           onChange={e => {
-                              setVocab({
-                                 ...vocab,
-                                 reviewImportance: e.target.checked,
-                              });
-                           }}
-                           checked={vocab.reviewImportance}
-                        />
-                        <label className="form-check-label">
-                           Review Importance
-                        </label>
-                     </div>
-                     <div className="form-check">
-                        <input
-                           className="form-check-input"
-                           type="checkbox"
-                           onChange={e => {
-                              setVocab({
-                                 ...vocab,
-                                 dictImportance: e.target.checked,
-                              });
-                           }}
-                           checked={vocab.dictImportance}
-                        />
-                        <label className="form-check-label">
-                           Dict Importance
-                        </label>
-                     </div>
-                  </div>
+
                   <div className="mb-3">
                      <label className="form-label">Phonetics</label>
                      <input

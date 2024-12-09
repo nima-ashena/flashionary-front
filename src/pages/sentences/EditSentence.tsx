@@ -73,11 +73,7 @@ const EditSentence = () => {
          'replacementTrueGuessCount',
          String(sentence.replacementTrueGuessCount),
       );
-      formData.append('reviewImportance', String(sentence.reviewImportance));
-      formData.append(
-         'replacementImportance',
-         String(sentence.replacementImportance),
-      );
+
       if (file) {
          formData.append('audioFile', file, file.name);
       }
@@ -293,39 +289,6 @@ const EditSentence = () => {
                         }}
                         value={sentence.replacementTrueGuessCount}
                      />
-                  </div>
-               </div>
-
-               <div className="d-flex justify-content-between mb-2">
-                  <div className="form-check">
-                     <input
-                        className="form-check-input"
-                        type="checkbox"
-                        onChange={e => {
-                           setSentence({
-                              ...sentence,
-                              reviewImportance: e.target.checked,
-                           });
-                        }}
-                        checked={sentence.reviewImportance}
-                     />
-                     <label className="form-check-label">
-                        Review Importance
-                     </label>
-                  </div>
-                  <div className="form-check">
-                     <input
-                        className="form-check-input"
-                        type="checkbox"
-                        onChange={e => {
-                           setSentence({
-                              ...sentence,
-                              replacementImportance: e.target.checked,
-                           });
-                        }}
-                        checked={sentence.replacementImportance}
-                     />
-                     <label className="form-check-label">Replacement Importance</label>
                   </div>
                </div>
 

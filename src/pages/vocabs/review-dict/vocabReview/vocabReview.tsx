@@ -298,6 +298,15 @@ const VocabReview = () => {
                      <div>
                         <button
                            type="button"
+                           className="btn btn-success"
+                           onClick={() => {
+                              audioRef.current?.play();
+                           }}
+                        >
+                           <i className="bi bi-play" />
+                        </button>
+                        <button
+                           type="button"
                            className="btn btn-secondary mx-1"
                            onClick={() => {
                               setShowEditModal(true);
